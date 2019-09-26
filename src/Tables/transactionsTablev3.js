@@ -53,7 +53,7 @@ function getSorting(order, orderBy) {
 }
 
 const rows = [
-  { id: "date", disablePadding: true, label: "Date" },
+  { id: "transDate", disablePadding: true, label: "Date" },
   { id: "payor", disablePadding: true, label: "Payor" },
   { id: "amount", disablePadding: true, label: "Amount" },
   { id: "method", disablePadding: true, label: "Method" },
@@ -343,7 +343,7 @@ class TransactionsTable extends React.Component {
                             <Checkbox color="primary" checked={isSelected} />
                           </MuiThemeProvider>
                         </TableCell>
-                        <TableCell align="center">{n.date}</TableCell>
+                        <TableCell align="center">{n.transDate}</TableCell>
                         <TableCell align="center">{n.payor}</TableCell>
                         <TableCell align="center">{n.amount}</TableCell>
                         <TableCell align="center">{n.method}</TableCell>

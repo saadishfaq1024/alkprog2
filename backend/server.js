@@ -164,7 +164,7 @@ app.get("/gettherapists", function(req, res) {
 
 // show all active clients
 app.get("/getclients", function(req, res) {
-  var sql = "SELECT client_full_name FROM clients active = 1 ";
+  var sql = "SELECT client_full_name FROM clients WHERE active = 1 ";
   con.query(sql, function(err, rows) {
     if (err) {
       res.json({ Error: true, Message: "Error Execute Sql", err });

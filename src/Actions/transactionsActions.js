@@ -219,14 +219,12 @@ class TransactionsActions extends React.Component {
       paymentMethod: this.state.paymentMethod,
       amount: this.state.amount
     };
-    axios
-      .post("http://localhost:5000/trans/newtrans", transObj)
-      .then(response => {
-        this.setState({
-          transObj
-          //redirect: true
-        });
+    axios.post("http://localhost:5000/putTrans", transObj).then(response => {
+      this.setState({
+        transObj
+        //redirect: true
       });
+    });
   }
 
   handleErrorOpen = () => {

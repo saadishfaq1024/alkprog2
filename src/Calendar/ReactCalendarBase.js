@@ -205,9 +205,9 @@ class ReactCalendarBase extends Component {
       newRepeatEveryNumMonths: null,
       selectedDate: moment().format("YYYY-MM-DD HH:mm:ss"),
       endSelectedDate: moment().format("YYYY-MM-DD HH:mm:ss"),
-      redirect: false
+      redirect: false,
       // EXISTING EVENT
-      /*
+
       attendance: "Present",
       existingBillType: "Billable",
       existingClientType: "Individual",
@@ -218,19 +218,10 @@ class ReactCalendarBase extends Component {
       existingRepeat: "Weekly",
       existingEndRepeat: "On Date",
       existingNumOccurences: "",
-      existingCustomFreq: "",
       existingEveryNumDays: "",
       existingEveryNumWeeks: "",
       existingNumMonths: "",
-      existingCheckedRepeat: true,
-      sun: false,
-      mon: false,
-      tues: false,
-      wed: false,
-      thu: false,
-      fri: false,
-      sat: false
-      */
+      existingCheckedRepeat: true
     };
   }
 
@@ -264,9 +255,8 @@ class ReactCalendarBase extends Component {
         return axios.get("http://localhost:5000/getclients").then(response3 => {
           console.log("Got client data!");
           console.log(response3.data);
-          let clientTest = response3.data;
           this.setState({
-            clientData: clientTest
+            clientData: response3.data
           });
         });
       })

@@ -16,39 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `accounts`
---
-
-DROP TABLE IF EXISTS `accounts`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `accounts` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `account_first` varchar(45) DEFAULT NULL,
-  `account_last` varchar(45) DEFAULT NULL,
-  `client_first` varchar(45) DEFAULT NULL,
-  `client_last` varchar(45) DEFAULT NULL,
-  `account_type` varchar(45) DEFAULT NULL,
-  `phone` varchar(45) DEFAULT NULL,
-  `email` varchar(45) DEFAULT NULL,
-  `method` varchar(45) DEFAULT NULL,
-  `bal` varchar(45) DEFAULT NULL,
-  `last_pay_date` date DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `accounts`
---
-
-LOCK TABLES `accounts` WRITE;
-/*!40000 ALTER TABLE `accounts` DISABLE KEYS */;
-INSERT INTO `accounts` VALUES (1,'Mary','Smith','Joe','Smith','Family','123-456-7899','mary@mail.com','Cash','30',NULL),(2,'Jack','Johnson',NULL,NULL,'Individual','122-444-3333','jack@mail.com','Card','0',NULL);
-/*!40000 ALTER TABLE `accounts` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `clients`
 --
 
@@ -137,36 +104,33 @@ INSERT INTO `clients` VALUES (1,1,'Mr.','Billy Joe','Billy','Joe','BJ','Individu
 UNLOCK TABLES;
 
 --
--- Table structure for table `events`
+-- Table structure for table `invoices`
 --
 
-DROP TABLE IF EXISTS `events`;
+DROP TABLE IF EXISTS `invoices`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `events` (
-  `idevents` int(11) NOT NULL AUTO_INCREMENT,
-  `bill_type` varchar(45) DEFAULT NULL,
-  `client_type` varchar(45) DEFAULT NULL,
-  `client` varchar(45) DEFAULT NULL,
-  `therapist` varchar(45) DEFAULT NULL,
-  `location` varchar(45) DEFAULT NULL,
-  `category` varchar(45) DEFAULT NULL,
+CREATE TABLE `invoices` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `status` varchar(45) DEFAULT NULL,
+  `date` varchar(45) DEFAULT NULL,
+  `payor_first` varchar(45) DEFAULT NULL,
+  `payor_last` varchar(45) DEFAULT NULL,
   `start_date` date DEFAULT NULL,
-  `start_time` time DEFAULT NULL,
   `end_date` date DEFAULT NULL,
-  `end_time` time DEFAULT NULL,
-  PRIMARY KEY (`idevents`)
+  `amount` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `events`
+-- Dumping data for table `invoices`
 --
 
-LOCK TABLES `events` WRITE;
-/*!40000 ALTER TABLE `events` DISABLE KEYS */;
-INSERT INTO `events` VALUES (1,'billable','individual','john smith','harry potter','room 1','none','2019-07-12','10:00:00','2019-07-12','11:00:00'),(2,'non-billable','individual','tim adam','ron weasley','room 2','none','2019-07-13','11:00:00','2019-07-13','12:00:00');
-/*!40000 ALTER TABLE `events` ENABLE KEYS */;
+LOCK TABLES `invoices` WRITE;
+/*!40000 ALTER TABLE `invoices` DISABLE KEYS */;
+INSERT INTO `invoices` VALUES (1,'Paid',NULL,'Mary','Smith',NULL,NULL,'$120'),(2,'Paid',NULL,'Jim','Adams',NULL,NULL,'$80');
+/*!40000 ALTER TABLE `invoices` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -247,7 +211,7 @@ DROP TABLE IF EXISTS `transactions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `transactions` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `date` date DEFAULT NULL,
   `transType` varchar(45) DEFAULT NULL,
   `payor` varchar(45) DEFAULT NULL,
@@ -255,7 +219,7 @@ CREATE TABLE `transactions` (
   `method` varchar(45) DEFAULT NULL,
   `description` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -264,36 +228,8 @@ CREATE TABLE `transactions` (
 
 LOCK TABLES `transactions` WRITE;
 /*!40000 ALTER TABLE `transactions` DISABLE KEYS */;
-INSERT INTO `transactions` VALUES (1,NULL,NULL,'Mary Smith','40','Card',NULL),(2,NULL,NULL,'Jim Adams','20','Check','Check #456');
+INSERT INTO `transactions` VALUES (1,NULL,NULL,'Mary Smith','40','Card',NULL),(2,NULL,NULL,'Jim Adams','20','Check','Check #456'),(3,'2019-09-25','Discount','Jack Johnson','4','Cash','dd'),(4,'2019-09-25','Discount','Jack Johnson','44','Cash','dd'),(7,'2019-09-25','Discount','Mary Smith','4','Cash','dd'),(8,'2019-10-01','Payment','Jack Johnson','20','Cash','dddd');
 /*!40000 ALTER TABLE `transactions` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `users`
---
-
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(45) DEFAULT NULL,
-  `last_name` varchar(45) DEFAULT NULL,
-  `email` varchar(45) DEFAULT NULL,
-  `org` varchar(45) DEFAULT NULL,
-  `password` varchar(75) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users`
---
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'test','test','test@mail.com','org','pass'),(6,'first','hello','test','org','$2b$10$PZnX351hVYfhrRNE3FMsx.HFVaNaiZXJWyXP0ZlqTKbgp4CABpWUe'),(11,'e','e','e','e','$2b$10$Vk7yqsQ4uwyVfJb00sn73u5a6mgJszbqUXnyuprMiGyxtaHEcuzcu'),(12,'first','last','email','org','$2b$10$r86UYOO5T0RU9Na1lGYRtuMNC.q6UxGR/2NKdy2ePhp1KIUTDxIXe'),(13,'','','jjj','','$2b$10$NDXyMLdVWrAUOaBRuEUdBe4F6Se5E1PqM0c/A1sFB0ZR8bJlvFx3y'),(14,'first','email','last','org','$2b$10$DOYCfEpYH74TdtVfVG5KEuh2oFQ9c0wOoH7kTRXJwhUkVm6VY0kd6'),(15,'','','','','$2b$10$nZFwhhSb1t9Y4jI495DIju7Sbv9wQ6kqtBe35uJSfcN1eMxxa6pVa');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -305,4 +241,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-09-25  1:44:14
+-- Dump completed on 2019-09-26 17:57:50

@@ -46,6 +46,7 @@ const con = mysql.createConnection({
 // console.log that your server is up and running
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
+// connect to database
 con.connect(err => {
   if (err) {
     console.log("Error connecting to Db");
@@ -54,6 +55,12 @@ con.connect(err => {
   console.log("Connection established");
 });
 
+// creating a test GET route
+app.get("/express_backend", (req, res) => {
+  res.send({ express: "YOUR EXPRESS BACKEND IS CONNECTED TO0001 REACT" });
+});
+
+// show all calendar events
 app.get("/events", function(req, res) {
   var sql = "SELECT * FROM testevent";
   con.query(sql, function(err, rows) {
@@ -66,6 +73,7 @@ app.get("/events", function(req, res) {
   });
 });
 
+// show all calendar (copy) events
 app.get("/eventscopy", function(req, res) {
   var sql = "SELECT * FROM testevent";
   con.query(sql, function(err, rows) {
@@ -78,6 +86,7 @@ app.get("/eventscopy", function(req, res) {
   });
 });
 
+// show all members
 app.get("/members", function(req, res) {
   var sql = "SELECT * FROM members";
   con.query(sql, function(err, rows) {
@@ -90,6 +99,7 @@ app.get("/members", function(req, res) {
   });
 });
 
+// show active members
 app.get("/members/active", function(req, res) {
   var sql = "SELECT * FROM members WHERE active = 1";
   con.query(sql, function(err, rows) {
@@ -102,6 +112,7 @@ app.get("/members/active", function(req, res) {
   });
 });
 
+// show accounts
 app.get("/accounts", function(req, res) {
   var sql = "SELECT * FROM accounts";
   con.query(sql, function(err, rows) {
@@ -113,8 +124,10 @@ app.get("/accounts", function(req, res) {
   });
 });
 
+// show all transactions transactions
 app.get("/transactions", function(req, res) {
-  var sql = "SELECT * FROM transactions";
+  var sql =
+    "SELECT DATE_FORMAT(date, '%m/%d/%Y') as transDate, transType, payor, amount, method, description  from transactions";
   con.query(sql, function(err, rows) {
     if (err) {
       res.json({ Error: true, Message: "Error Execute Sql", err });
@@ -124,6 +137,7 @@ app.get("/transactions", function(req, res) {
   });
 });
 
+// show all invoices
 app.get("/invoices", function(req, res) {
   var sql = "SELECT * FROM invoices";
   con.query(sql, function(err, rows) {
@@ -135,9 +149,9 @@ app.get("/invoices", function(req, res) {
   });
 });
 
+// show full name of active therapists
 app.get("/gettherapists", function(req, res) {
-  var sql =
-    "SELECT member_full_name FROM members WHERE active = 1 AND role = 'therapist' ";
+  var sql = "SELECT member_full_name FROM members WHERE active = 1 ";
   con.query(sql, function(err, rows) {
     if (err) {
       res.json({ Error: true, Message: "Error Execute Sql", err });
@@ -148,8 +162,9 @@ app.get("/gettherapists", function(req, res) {
   });
 });
 
+// show all active clients
 app.get("/getclients", function(req, res) {
-  var sql = "SELECT client_full_name FROM clients ";
+  var sql = "SELECT client_full_name FROM clients active = 1 ";
   con.query(sql, function(err, rows) {
     if (err) {
       res.json({ Error: true, Message: "Error Execute Sql", err });
@@ -160,18 +175,7 @@ app.get("/getclients", function(req, res) {
   });
 });
 
-app.get("/users", function(req, res) {
-  var sql = "SELECT * FROM users";
-  con.query(sql, function(err, rows) {
-    if (err) {
-      res.json({ Error: true, Message: "Error Execute Sql", err });
-    } else {
-      // res.json({ "Error": false, "Message": "Success", "Visitors": rows });
-      res.json(rows);
-    }
-  });
-});
-
+// clients from hardcoded member
 app.get("/selectedclients", function(req, res) {
   var sql =
     "SELECT * FROM clients WHERE assi_therapist_full_name = 'Harry Potter'";
@@ -185,6 +189,7 @@ app.get("/selectedclients", function(req, res) {
   });
 });
 
+// show all clients
 app.get("/allclients", function(req, res) {
   var sql = "SELECT * FROM clients";
   con.query(sql, function(err, rows) {
@@ -197,6 +202,7 @@ app.get("/allclients", function(req, res) {
   });
 });
 
+// show all active clients
 app.get("/clients/active", function(req, res) {
   var sql = "SELECT * FROM clients WHERE active = 1";
   con.query(sql, function(err, rows) {
@@ -209,6 +215,7 @@ app.get("/clients/active", function(req, res) {
   });
 });
 
+// get id, first and last name from clients
 app.get("/clientlist", function(req, res) {
   var sql = "SELECT id, first_name, last_name FROM clients";
   con.query(sql, function(err, rows) {
@@ -221,6 +228,7 @@ app.get("/clientlist", function(req, res) {
   });
 });
 
+// get id and show payor full name
 app.get("/payors", function(req, res) {
   var sql = "SELECT id, billing_full_name FROM clients";
   con.query(sql, function(err, rows) {
@@ -233,6 +241,7 @@ app.get("/payors", function(req, res) {
   });
 });
 
+// hardcoded member information
 app.get("/memberInfo", function(req, res) {
   var sql =
     "SELECT title, first_name, last_name, role, email, phone, street_address, city, zip, location, npi, pass, confirm_pass FROM members WHERE first_name = 'Harry'";
@@ -246,6 +255,7 @@ app.get("/memberInfo", function(req, res) {
   });
 });
 
+// show basic member information
 app.get("/membersTable", function(req, res) {
   var sql = "SELECT first_name, last_name, role, email, phone FROM members";
   con.query(sql, function(err, rows) {
@@ -256,6 +266,30 @@ app.get("/membersTable", function(req, res) {
       res.json(rows);
     }
   });
+});
+
+// instert manual transaction
+app.post("/putTrans", function(req, res) {
+  //var title = req.body.title;
+  con.query(
+    "INSERT INTO transactions (date, transType, payor, amount, method, description) VALUES (?, ?, ?, ?, ?,?) ",
+    [
+      req.body.date,
+      req.body.transactionType,
+      req.body.payor,
+      req.body.amount,
+      req.body.paymentMethod,
+      req.body.description
+    ],
+    function(err, rows) {
+      if (err) {
+        res.json({ Error: true, Message: "Error Execute Sql", err });
+      } else {
+        // res.json({ "Error": false, "Message": "Success", "Visitors": rows });
+        res.json(rows);
+      }
+    }
+  );
 });
 
 // INSERT CALENDAR EVENT
@@ -337,8 +371,8 @@ app.post("/insertevent", function(req, res) {
 
   /*
   
-    In the while loop below I fill these two arrays start_dates and end_dates
-    and then use the dates in them to make insert queries whether its one appointment
+    In the while loop  these two arrays start_dates and end_dates are filled
+    and then used the dates in them to make insert queries whether its one appointment
      or multiple appointments that needs to be created
 
      The while loop runs until the required number of occourances are added or
@@ -392,8 +426,7 @@ app.post("/insertevent", function(req, res) {
       start_date_to_add = start_date_to_add.add(interval, interval_unit);
       end_date_to_add = end_date_to_add.add(interval, interval_unit);
 
-      //the code in following if block (took lot of extra time) but its perfect now
-      //its for a special case e.g. a user creates an appointment on 31st and sets a monthly repetition
+      // for a special case e.g. a user creates an appointment on 31st and sets a monthly repetition
       //using moment library 31st + 1 month -> 30th and then 30th + 1 month -> 30th (even if month has 31 days)
       //so I have checked each repitition's date and adjusted it to set the real date wheneever available
       if (interval_unit === "months") {
@@ -442,6 +475,50 @@ app.post("/insertevent", function(req, res) {
   // res.json({logs:logs,start_dates:start_dates,end_dates:end_dates,query:sql});
   con.query(sql, function(err, rows) {
     if (err) {
+      res.json({ Error: true, Message: "Error Execute Sql", err });
+    } else {
+      // res.json({ "Error": false, "Message": "Success", "Visitors": rows });
+      res.json(rows);
+    }
+  });
+});
+
+//WHERE EXISTS TABLE; Need to eventually cleanup for protection
+app.post("/putNewMember2", function(req, res) {
+  //var title = req.body.title;
+
+  var sql =
+    "INSERT INTO members (role, title, first_name, last_name, email, phone, street_address, city, zip, location, npi, pass, confirm_pass) VALUES ('" +
+    req.body.newRole +
+    "','" +
+    req.body.newTitle +
+    "','" +
+    req.body.newFirstName +
+    "','" +
+    req.body.newLastName +
+    "','" +
+    req.body.newEmail +
+    "','" +
+    req.body.newPhone +
+    "','" +
+    req.body.newStreetAddress +
+    "','" +
+    req.body.newCity +
+    "','" +
+    req.body.newZip +
+    "','" +
+    req.body.newLocation +
+    "','" +
+    req.body.newNPI +
+    "','" +
+    req.body.newPass +
+    "','" +
+    req.body.newConfirmPass +
+    "') WHERE NOT EXISTS SELECT email from members WHERE email = '" +
+    req.body.newEmail +
+    "'";
+  con.query(sql, function(err, rows) {
+    if ((req.body.newEmail = con.query("EXISTS SELECT email from members"))) {
       res.json({ Error: true, Message: "Error Execute Sql", err });
     } else {
       // res.json({ "Error": false, "Message": "Success", "Visitors": rows });

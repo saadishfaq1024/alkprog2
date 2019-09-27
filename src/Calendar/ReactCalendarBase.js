@@ -9,6 +9,8 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
+import IconButton from "@material-ui/core/IconButton";
+import NoteAddIcon from "@material-ui/icons/NoteAddOutlined";
 import {
   withStyles,
   createMuiTheme,
@@ -18,6 +20,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForeverOutlined";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import MomentUtils from "@date-io/moment";
 import {
@@ -172,7 +175,7 @@ class ReactCalendarBase extends Component {
       clientData: [],
       data: [],
       open: false,
-      openV: false,
+      openExisting: false,
       //id: 0,
       // NEW EVENT
       newBillType: "",
@@ -207,7 +210,7 @@ class ReactCalendarBase extends Component {
       endSelectedDate: moment().format("YYYY-MM-DD HH:mm:ss"),
       redirect: false,
       // EXISTING EVENT
-
+      redirectDocs: false,
       attendance: "Present",
       existingBillType: "Billable",
       existingClientType: "Individual",
@@ -430,12 +433,12 @@ class ReactCalendarBase extends Component {
 
   /* show existing event dialog box */
   handleClickOpen2 = () => {
-    this.setState({ openV: true });
+    this.setState({ openExisting: true });
   };
 
   /* close existing event dialog box */
-  handleClose2 = () => {
-    this.setState({ openV: false });
+  handleCloseExisting = () => {
+    this.setState({ openExisting: false });
   };
 
   handleChange = name => event => {
@@ -532,6 +535,10 @@ class ReactCalendarBase extends Component {
     });
   };
 
+  handleRedirectDocs = () => {
+    this.setState({ redirectDocs: true });
+  };
+
   /*
   reloadPage() {
     window.location.reload();
@@ -585,9 +592,19 @@ class ReactCalendarBase extends Component {
         {this.state.redirect ? <Redirect push to="/calendar/n" /> : null}
 
         {/* existing dialog */}
-        <Dialog open={this.state.openV} onClose={this.handleClose2}>
+        <Dialog
+          open={this.state.openExisting}
+          onClose={this.handleCloseExisting}
+        >
           <form className={classes.container} noValidate autoComplete="off">
             <DialogContent>
+              <IconButton>
+                <NoteAddIcon
+                  color="primary"
+                  fontSize="large"
+                  onClick={this.handleRedirectDocs}
+                />
+              </IconButton>
               <TextField
                 required
                 id="bill_type"
@@ -977,11 +994,14 @@ class ReactCalendarBase extends Component {
                   </MuiThemeProvider>
                 </MuiPickersUtilsProvider>
               ) : null}
+              <IconButton>
+                <DeleteForeverIcon color="secondary" fontSize="large" />
+              </IconButton>
             </DialogContent>
             <Grid container justify="flex-end" alignItems="flex-end">
               <MuiThemeProvider theme={theme2}>
                 <DialogActions>
-                  <Button onClick={this.handleClose} color="primary">
+                  <Button onClick={this.handleCloseExisting} color="primary">
                     Cancel
                   </Button>
 

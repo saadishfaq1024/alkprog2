@@ -73,6 +73,7 @@ const CustomTableCell = withStyles(theme => ({
 // Table Header
 
 class EnhancedTableHead extends React.Component {
+  static defaultProps = { order: 'asc'}
   createSortHandler = property => event => {
     this.props.onRequestSort(event, property);
   };
@@ -144,8 +145,9 @@ const styles = theme => ({
 // Table Body
 
 class TeamMembersTable extends React.Component {
+  static defaultProps = {TableSortLabel: "asc"}
   state = {
-    order: "",
+    order: "asc",
     open: false,
     orderBy: "",
     memberData: [],

@@ -239,7 +239,7 @@ class TeamMembersTableActive extends React.Component {
     return (
       <Container maxWidth="lg">
         {this.state.redirect ? (
-          <Redirect to={{pathname: "/teammembers/hideinactive/details", state: {curMemeberId: 1}}} />
+          <Redirect to={{pathname: "/teammembers/hideinactive/details"}} />
         ) : null}
         <Paper className={classes.root}>
           <div className={classes.tableWrapper}>

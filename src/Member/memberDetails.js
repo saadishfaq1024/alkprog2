@@ -281,16 +281,16 @@ class MemberDetails extends React.Component {
     axios
       .get("http://localhost:5000/members")
       .then(response => {
-        console.log("Got therapist data data!");
-        console.log(response.data);
+//        console.log("Got therapist data data!");
+//        console.log(response.data);
         this.setState({
           therapistData: response.data
         });
       })
       .then(response2 => {
         return axios.get("http://localhost:5000/allclients").then(response2 => {
-          console.log("Got client data!");
-          console.log(response2.data);
+//          console.log("Got client data!");
+//          console.log(response2.data);
           this.setState({
             clientData: response2.data
           });
@@ -303,7 +303,7 @@ class MemberDetails extends React.Component {
     if (!this.state.intervalIsSet) {
       let interval = setInterval(this.getDataFromDb, 1000);
       this.setState({ intervalIsSet: interval });
-      console.log("Data interval set!");
+//      console.log("Data interval set!");
     }
   }
 
@@ -312,7 +312,7 @@ class MemberDetails extends React.Component {
     if (this.state.intervalIsSet) {
       clearInterval(this.state.intervalIsSet);
       this.setState({ intervalIsSet: null });
-      console.log("Unmounted from client data!");
+//      console.log("Unmounted from client data!");
     }
   }
 

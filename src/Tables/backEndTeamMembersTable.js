@@ -161,8 +161,8 @@ class TeamMembersTable extends React.Component {
     axios
       .get("http://localhost:5000/members")
       .then(response => {
-        console.log("Got team member data!");
-        console.log(response.data);
+//        console.log("Got team member data!");
+//        console.log(response.data);
         this.setState({
           memberData: response.data
         });
@@ -173,7 +173,7 @@ class TeamMembersTable extends React.Component {
     if (!this.state.intervalIsSet) {
       let interval = setInterval(this.getDataFromDb, 1000);
       this.setState({ intervalIsSet: interval });
-      console.log("Team member interval set!");
+//      console.log("Team member interval set!");
     }
   }
   /*
@@ -195,7 +195,7 @@ class TeamMembersTable extends React.Component {
     if (this.state.intervalIsSet) {
       clearInterval(this.state.intervalIsSet);
       this.setState({ intervalIsSet: null });
-      console.log("Unmounted from team data!");
+//      console.log("Unmounted from team data!");
     }
   }
 
@@ -219,7 +219,7 @@ class TeamMembersTable extends React.Component {
   };
 
   //show team members details box;
-  handleClickRedirect = (memberId) => {
+  handleClickRedirect = (memberId = 0) => {
     this.setState({
       redirect: true,
       curMemeberId: memberId
@@ -293,7 +293,7 @@ class TeamMembersTable extends React.Component {
                         className={classes.row}
                         tabIndex={-1}
                         key={n.id}
-                        onClick={this.handleClickRedirect(n.id)}
+                        onClick={() => this.handleClickRedirect(n.id)}
                       >
                         <TableCell align="center">
                           {n.member_first_name}

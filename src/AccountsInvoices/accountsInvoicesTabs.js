@@ -53,7 +53,7 @@ class AccountsInvoicesTabs extends React.Component {
         </Container>
 
         {value === 0 && <AccountsActions />}
-        {value === 0 && <AccountsTablev3 />}
+        {/* {value === 0 && <AccountsTablev3 />} */}
         {value === 1 && <TransactionsActions />}
         {value === 1 && <TransactionsTablev3 />}
         {value === 2 && <InvoiceActions />}

@@ -119,9 +119,9 @@ NoteHistoryTableHead.propTypes = {
 const styles = theme => ({
   root: {
     width: "100%",
-    marginTop: theme.spacing.unit * 3,
-    //marginLeft: theme.spacing.unit * 45,
-    marginBottom: theme.spacing.unit * 10,
+    marginTop: theme.spacing(1) * 3,
+    //marginLeft: theme.spacing(1) * 45,
+    marginBottom: theme.spacing(1) * 10,
     overflowX: "auto"
   },
   table: {
@@ -141,19 +141,19 @@ const styles = theme => ({
   },
 
   textField: {
-    marginLeft: theme.spacing.unit,
-    //marginRight: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
+    //marginRight: theme.spacing(1),
     width: 200
   },
 
   textField2: {
-    marginLeft: theme.spacing.unit,
-    //marginRight: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
+    //marginRight: theme.spacing(1),
     width: 200
   },
   textField3: {
-    marginLeft: theme.spacing.unit,
-    //marginRight: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
+    //marginRight: theme.spacing(1),
     width: 400
   },
 

@@ -32,8 +32,8 @@ const styles = theme => ({
     flexWrap: "wrap"
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
     ///marginTop: theme.spacing(1),
     width: 300
   },
@@ -49,8 +49,8 @@ const styles = theme => ({
   },
 
   textFieldSession: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
     marginTop: theme.spacing(10),
     width: 300
   },
@@ -60,9 +60,9 @@ const styles = theme => ({
   },
   root: {
     width: "100%",
-    //marginLeft: theme.spacing.unit * 22,
-    // paddingTop: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit * 2
+    //marginLeft: theme.spacing(1) * 22,
+    // paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1) * 2
     //backgroundColor: red[200]
   },
   rootTitle: {
@@ -72,8 +72,8 @@ const styles = theme => ({
     backgroundColor: Cyan[800],
     color: theme.palette.getContrastText("#00838f")
 
-    //paddingTop: theme.spacing.unit,
-    //paddingBottom: theme.spacing.unit * 2
+    //paddingTop: theme.spacing(1),
+    //paddingBottom: theme.spacing(1) * 2
   },
 
   rootTitle2: {
@@ -81,8 +81,8 @@ const styles = theme => ({
     marginTop: theme.spacing(2),
     backgroundColor: "#1de9b6"
 
-    //paddingTop: theme.spacing.unit,
-    //paddingBottom: theme.spacing.unit * 2
+    //paddingTop: theme.spacing(1),
+    //paddingBottom: theme.spacing(1) * 2
   },
 
   marg: {
@@ -133,8 +133,8 @@ const styles = theme => ({
     flexWrap: "wrap"
   },
   textFieldNotes: {
-    //marginLeft: theme.spacing.unit,
-    //marginRight: theme.spacing.unit,
+    //marginLeft: theme.spacing(1),
+    //marginRight: theme.spacing(1),
     //marginBottom: theme.spacing(2),
     paddingBottom: theme.spacing(2),
     width: 938
@@ -167,7 +167,7 @@ const styles = theme => ({
   },
   root2: {
     width: 1020,
-    paddingBottom: theme.spacing.unit * 2
+    paddingBottom: theme.spacing(1) * 2
   },
 
   root3: {

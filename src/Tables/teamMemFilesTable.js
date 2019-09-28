@@ -23,9 +23,9 @@ const styles = theme => ({
   root: {
     //the width might have to change to actual number
     width: "390",
-    marginTop: theme.spacing.unit * 5,
-    //marginLeft: theme.spacing.unit * 30,
-    marginBottom: theme.spacing.unit * 10,
+    marginTop: theme.spacing(1) * 5,
+    //marginLeft: theme.spacing(1) * 30,
+    marginBottom: theme.spacing(1) * 10,
     overflowX: "auto"
   },
   state: {

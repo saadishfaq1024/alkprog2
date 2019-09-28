@@ -36,9 +36,9 @@ const styles = theme => ({
   root: {
     //flexGrow: 1,
     //backgroundColor: theme.palette.background.paper,
-    marginTop: theme.spacing.unit * 5,
-    marginLeft: theme.spacing.unit * 55,
-    marginRight: theme.spacing.unit * 55,
+    marginTop: theme.spacing(1) * 5,
+    marginLeft: theme.spacing(1) * 55,
+    marginRight: theme.spacing(1) * 55,
     width: 500
   }
 });

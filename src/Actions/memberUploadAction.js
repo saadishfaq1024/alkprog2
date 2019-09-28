@@ -17,7 +17,7 @@ import Grid from "@material-ui/core/Grid";
 const styles = theme => ({
   floatButton: {
     marginTop: theme.spacing(4),
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     /* this is text color */ color: theme.palette.getContrastText("#b2dfdb"),
     backgroundColor: "#b2dfdb",
     "&:hover": {
@@ -26,12 +26,12 @@ const styles = theme => ({
   },
 
   dialogTitle: {
-    marginBottom: theme.spacing.unit
+    marginBottom: theme.spacing(1)
   },
 
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
     width: 300
   },
   menu: {

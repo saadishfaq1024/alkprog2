@@ -118,8 +118,8 @@ EnhancedTableHead.propTypes = {
 const styles = theme => ({
   root: {
     //width: "60%",
-    marginTop: theme.spacing.unit * 3,
-    // marginLeft: theme.spacing.unit * 30,
+    marginTop: theme.spacing(1) * 3,
+    // marginLeft: theme.spacing(1) * 30,
     overflowX: "auto",
     alignItems: "center"
   },
@@ -237,7 +237,7 @@ class TeamMembersTable extends React.Component {
 
     return (
       <Container maxWidth="lg">
-        {this.state.redirect ? <Redirect to="/teammembers/details" /> : null}
+        {this.state.redirect ? <Redirect to={{pathname: "/teammembers/details", state: {curMemeberId: 1}}} /> : null}
         <Paper className={classes.root}>
           <div className={classes.tableWrapper}>
             <Dialog

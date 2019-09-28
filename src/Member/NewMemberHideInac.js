@@ -41,13 +41,13 @@ const styles = theme => ({
   colorChecked: {},
 
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
     width: 300
   },
 
   textField2: {
-    // marginLeft: theme.spacing.unit,
+    // marginLeft: theme.spacing(1),
     marginRight: theme.spacing(20),
     width: 300
   },
@@ -60,8 +60,8 @@ const styles = theme => ({
   },
 
   textFieldNotes: {
-    //marginLeft: theme.spacing.unit,
-    //marginRight: theme.spacing.unit,
+    //marginLeft: theme.spacing(1),
+    //marginRight: theme.spacing(1),
     width: 850
   },
 
@@ -75,10 +75,10 @@ const styles = theme => ({
   },
   root: {
     width: "100%",
-    //marginLeft: theme.spacing.unit * 22,
-    paddingTop: theme.spacing.unit,
+    //marginLeft: theme.spacing(1) * 22,
+    paddingTop: theme.spacing(1),
     marginTop: theme.spacing(2),
-    paddingBottom: theme.spacing.unit * 2
+    paddingBottom: theme.spacing(1) * 2
   },
 
   rootTitle: {
@@ -88,8 +88,8 @@ const styles = theme => ({
     backgroundColor: Cyan[800],
     color: theme.palette.getContrastText("#00838f")
 
-    //paddingTop: theme.spacing.unit,
-    //paddingBottom: theme.spacing.unit * 2
+    //paddingTop: theme.spacing(1),
+    //paddingBottom: theme.spacing(1) * 2
   },
 
   container2: {

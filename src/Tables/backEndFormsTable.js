@@ -142,8 +142,8 @@ FormsTableHead.propTypes = {
 const styles = theme => ({
   root: {
     //width: "60%",
-    marginTop: theme.spacing.unit * 3,
-    // marginLeft: theme.spacing.unit * 30,
+    marginTop: theme.spacing(1) * 3,
+    // marginLeft: theme.spacing(1) * 30,
     overflowX: "auto"
   },
   table: {

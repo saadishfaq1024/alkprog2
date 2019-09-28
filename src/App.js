@@ -106,7 +106,7 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing(1) * 3,
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen
@@ -213,7 +213,7 @@ class MainApp extends React.Component {
             </Link>
             <div className={classes.rightToolbar}>
               <IconButton color="inherit">
-                <Badge color="inherit">
+                <Badge color="default">
                   <MonetizationOn />
                 </Badge>
               </IconButton>

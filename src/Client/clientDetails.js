@@ -52,16 +52,16 @@ const styles = theme => ({
     height: 100,
     fontSize: 40,
     marginBottom: theme.spacing(-18)
-    //marginRight: theme.spacing.unit * 20
+    //marginRight: theme.spacing(1) * 20
   },
 
   toggle: {
-    paddingRight: theme.spacing.unit * 30
+    paddingRight: theme.spacing(1) * 30
   },
 
   marg: {
-    marginLeft: theme.spacing.unit,
-    marginBottom: theme.spacing.unit
+    marginLeft: theme.spacing(1),
+    marginBottom: theme.spacing(1)
   },
 
  
@@ -72,37 +72,37 @@ const styles = theme => ({
 
 
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    //marginBottom: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    //marginBottom: theme.spacing(1),
     width: 300
   },
 
   textField2: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    marginBottom: theme.spacing(1),
     width: 200
   },
 
   textField3: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
     width: 200
   },
 
   textFieldSession: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
     marginTop: theme.spacing(6),
     width: 300
   },
 
   textFieldNotes: {
-    //marginLeft: theme.spacing.unit,
-    //marginRight: theme.spacing.unit,
+    //marginLeft: theme.spacing(1),
+    //marginRight: theme.spacing(1),
     //marginBottom: theme.spacing(2),
     width: 938
   },
@@ -139,9 +139,9 @@ const styles = theme => ({
   root2: {
     //flexGrow: 1,
     //backgroundColor: theme.palette.background.paper,
-    //marginLeft: theme.spacing.unit * 22,
-    //marginRight: theme.spacing.unit * 22,
-    //marginTop: theme.spacing.unit * 22,
+    //marginLeft: theme.spacing(1) * 22,
+    //marginRight: theme.spacing(1) * 22,
+    //marginTop: theme.spacing(1) * 22,
     width: "100%",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: Blue[800]
@@ -203,7 +203,7 @@ const styles = theme => ({
   },
   iconVariant: {
     opacity: 0.9,
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   },
   message: {
     display: "flex",

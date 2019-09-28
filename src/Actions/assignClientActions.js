@@ -17,32 +17,32 @@ import axios from "axios";
 
 const styles = theme => ({
   root: {
-    // paddingTop: theme.spacing.unit * 2,
-    //paddingBottom: theme.spacing.unit * 2,
-    marginTop: theme.spacing.unit * 5
-    // marginLeft: theme.spacing.unit * 33.5,
+    // paddingTop: theme.spacing(1) * 2,
+    //paddingBottom: theme.spacing(1) * 2,
+    marginTop: theme.spacing(1) * 5
+    // marginLeft: theme.spacing(1) * 33.5,
     //align: "center",
     // width: "175"
   },
   button: {
-    //margin: theme.spacing.unit,
+    //margin: theme.spacing(1),
     // width: 160
   },
   leftIcon: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   },
   rightIcon: {
-    marginLeft: theme.spacing.unit
+    marginLeft: theme.spacing(1)
   },
   dialogTitle: {
-    marginBottom: theme.spacing.unit
+    marginBottom: theme.spacing(1)
   },
   iconSmall: {
     fontSize: 20
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
     width: 300
   },
   menu: {

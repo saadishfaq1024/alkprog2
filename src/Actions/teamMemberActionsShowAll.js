@@ -22,7 +22,7 @@ const styles = theme => ({
   },
 
   button: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     align: "center",
     /* this is text color */ color: theme.palette.getContrastText("#b2dfdb"),
     backgroundColor: "#b2dfdb",
@@ -32,25 +32,25 @@ const styles = theme => ({
   },
 
   leftIcon: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   },
   rightIcon: {
-    marginLeft: theme.spacing.unit
+    marginLeft: theme.spacing(1)
   },
   dialogTitle: {
-    marginBottom: theme.spacing.unit
+    marginBottom: theme.spacing(1)
   },
   iconSmall: {
     fontSize: 20
   },
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
     width: 300
   },
   textField2: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
     width: 300
   },
   menu: {

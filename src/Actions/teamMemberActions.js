@@ -18,7 +18,7 @@ const styles = theme => ({
     width: "19.5%"
   },
   button: {
-    //margin: theme.spacing.unit,
+    //margin: theme.spacing(1),
     align: "center"
   },
 
@@ -34,10 +34,10 @@ const styles = theme => ({
   },
 
   leftIcon: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   },
   rightIcon: {
-    marginLeft: theme.spacing.unit
+    marginLeft: theme.spacing(1)
   },
   iconSmall: {
     fontSize: 20

@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {withRouter} from 'react-router' 
 import {
   withStyles,
   createMuiTheme,
@@ -64,25 +65,25 @@ const styles = theme => ({
   },
 
   toggle: {
-    paddingRight: theme.spacing.unit * 30
+    paddingRight: theme.spacing(1) * 30
   },
 
   marg: {
-    marginLeft: theme.spacing.unit,
-    marginBottom: theme.spacing.unit
+    marginLeft: theme.spacing(1),
+    marginBottom: theme.spacing(1)
   },
 
   textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    marginBottom: theme.spacing(1),
     width: 300
   },
 
   textFieldTop: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    marginBottom: theme.spacing(1),
     marginTop: theme.spacing(5),
     width: 300
   },
@@ -98,21 +99,21 @@ const styles = theme => ({
     backgroundColor: Blue[800]
   },
   infoRoot: {
-    marginBottom: theme.spacing.unit * 2
+    marginBottom: theme.spacing(1) * 2
   },
 
   assignRoot: {
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2,
-    marginTop: theme.spacing.unit * 5,
-    //marginLeft: theme.spacing.unit * 33.5,
+    paddingTop: theme.spacing(1) * 2,
+    paddingBottom: theme.spacing(1) * 2,
+    marginTop: theme.spacing(1) * 5,
+    //marginLeft: theme.spacing(1) * 33.5,
     // align: "center",
     width: "14.5%"
   },
 
   floatButton: {
     marginTop: theme.spacing(4),
-    margin: theme.spacing.unit,
+    margin: theme.spacing(1),
     /* this is text color */ color: theme.palette.getContrastText("#b2dfdb"),
     backgroundColor: "#b2dfdb",
     "&:hover": {
@@ -147,7 +148,7 @@ const styles = theme => ({
   },
 
   leftIcon: {
-    // marginRight: theme.spacing.unit
+    // marginRight: theme.spacing(1)
   },
 
   formRoot: {
@@ -276,6 +277,7 @@ class MemberDetails extends React.Component {
   };
 
   componentDidMount() {
+    console.log('memberId:', this.props)
     axios
       .get("http://localhost:5000/members")
       .then(response => {
@@ -462,7 +464,7 @@ class MemberDetails extends React.Component {
                       checked={this.state.checkedA}
                       onChange={this.handleChangeChecked("checkedA")}
                       value="checkedA"
-                      marginLeft="theme.spacing.unit * 20"
+                      marginLeft="theme.spacing(1) * 20"
                       className={classes.marg}
                       color="primary"
                     />
@@ -1453,4 +1455,4 @@ MemberDetails.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(MemberDetails);
+export default withRouter(withStyles(styles)(MemberDetails));

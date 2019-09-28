@@ -667,8 +667,8 @@ class ReactCalendarBase extends Component {
                   }
                 }}
               >
-                {therapistData.map(option => (
-                  <MenuItem key={option.value} value={option.member_full_name}>
+                {therapistData.map((option, i) => (
+                  <MenuItem key={i} value={option.member_full_name}>
                     {option.member_full_name}
                   </MenuItem>
                 ))}

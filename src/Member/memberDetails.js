@@ -464,7 +464,7 @@ class MemberDetails extends React.Component {
                       checked={this.state.checkedA}
                       onChange={this.handleChangeChecked("checkedA")}
                       value="checkedA"
-                      marginLeft="theme.spacing(1) * 20"
+                      margin="theme.spacing(1) * 20"
                       className={classes.marg}
                       color="primary"
                     />
@@ -474,7 +474,7 @@ class MemberDetails extends React.Component {
               </FormGroup>
             </MuiThemeProvider>
             {/* member drop down */}
-            <Grid container row justify="space-between">
+            <Grid container justify="space-between">
               <TextField
                 id="standard-select-member"
                 select
@@ -489,8 +489,8 @@ class MemberDetails extends React.Component {
                   }
                 }}
               >
-                {therapistData.map(option => (
-                  <MenuItem key={option.value} value={option.member_full_name}>
+                {therapistData.map((option, i) => (
+                  <MenuItem key={i} value={option.member_full_name}>
                     {option.member_full_name}
                   </MenuItem>
                 ))}
@@ -521,7 +521,7 @@ class MemberDetails extends React.Component {
           <AppBar className={classes.root2} position="static">
             {/* <MuiThemeProvider theme={theme}> */}
             <Tabs
-              indicatorColor="none"
+              indicatorColor="primary"
               value={tabValue}
               onChange={this.handleChangeTab}
             >
@@ -556,8 +556,8 @@ class MemberDetails extends React.Component {
                       }
                     }}
                   >
-                    {titles.map(option => (
-                      <MenuItem key={option.value} value={option.value}>
+                    {titles.map((option, i) => (
+                      <MenuItem key={i} value={option.value}>
                         {option.label}
                       </MenuItem>
                     ))}

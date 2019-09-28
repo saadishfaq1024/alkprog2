@@ -151,7 +151,8 @@ class TeamMembersTable extends React.Component {
     memberData: [],
     page: 0,
     rowsPerPage: 10,
-    redirect: false
+    redirect: false,
+    curMemeberId: 0
   };
 
   componentDidMount() {
@@ -216,9 +217,10 @@ class TeamMembersTable extends React.Component {
   };
 
   //show team members details box;
-  handleClickRedirect = () => {
+  handleClickRedirect = (memberId) => {
     this.setState({
-      redirect: true
+      redirect: true,
+      curMemeberId: memberId
     });
   };
 
@@ -237,7 +239,7 @@ class TeamMembersTable extends React.Component {
 
     return (
       <Container maxWidth="lg">
-        {this.state.redirect ? <Redirect to={{pathname: "/teammembers/details", state: {curMemeberId: 1}}} /> : null}
+        {this.state.redirect ? <Redirect to={{pathname: "/teammembers/details", state: {curMemeberId: this.state.curMemeberId}}} /> : null}
         <Paper className={classes.root}>
           <div className={classes.tableWrapper}>
             <Dialog
@@ -289,7 +291,7 @@ class TeamMembersTable extends React.Component {
                         className={classes.row}
                         tabIndex={-1}
                         key={n.id}
-                        onClick={this.handleClickRedirect}
+                        onClick={this.handleClickRedirect(n.id)}
                       >
                         <TableCell align="center">
                           {n.member_first_name}

@@ -1,8 +1,8 @@
-const Sequelize = require("sequelize");
-const db = {};
-const sequelize = new Sequelize("dev2qa", "root", "Artm@y08", {
-  host: "localhost",
-  dialect: "mysql",
+const Sequelize = require('sequelize')
+const db = {}
+const sequelize = new Sequelize('dev2qa', 'root', '1024', {
+  host: 'localhost',
+  dialect: 'mysql',
 
   pool: {
     max: 5,
@@ -10,9 +10,9 @@ const sequelize = new Sequelize("dev2qa", "root", "Artm@y08", {
     acquire: 30000,
     idle: 10000
   }
-});
+})
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+db.sequelize = sequelize
+db.Sequelize = Sequelize
 
-module.exports = db;
+module.exports = db

@@ -31,7 +31,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Typography from "@material-ui/core/Typography";
 
-import axios from "axios";
+import API from '../utils/API'
 
 const styles = theme => ({
   root: {
@@ -661,43 +661,19 @@ class ClientDetails extends React.Component {
     });
   };
 
-  componentDidMount() {
-    axios
-      .get("http://localhost:5000/gettherapists")
-      .then(response => {
-        console.log("Got therapistdata data!");
-        console.log(response.data);
-        this.setState({
-          therapistData: response.data
-        });
-      })
-      .then(response2 => {
-        return axios.get("http://localhost:5000/allclients").then(response2 => {
-          console.log("Got client data!");
-          console.log(response2.data);
-          this.setState({
-            clientData: response2.data
-          });
-        });
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-
-    if (!this.state.intervalIsSet) {
-      let interval = setInterval(this.getDataFromDb, 1000);
-      this.setState({ intervalIsSet: interval });
-      console.log("Data interval set!");
+  async componentDidMount() {
+    try {
+      const therapistsResp = await API.get('/members/getTherapists')
+      const clientsResp = await API.get('/clients/all')
+      const therapists = therapistsResp.data.data
+      const clients = clientsResp.data.data
+      this.setState({therapistData: therapists, clientData: clients})
+    } catch (error) {
+      console.log('Client data fetching error: ', error);
     }
   }
 
-  // kills a process everytime we are done using it
   componentWillUnmount() {
-    if (this.state.intervalIsSet) {
-      clearInterval(this.state.intervalIsSet);
-      this.setState({ intervalIsSet: null });
-      console.log("Unmounted from client data!");
-    }
   }
 
   render() {
@@ -743,7 +719,7 @@ class ClientDetails extends React.Component {
             </Menu>
           </Grid>
           <Paper className={classes.root} elevation={2}>
-            <Grid container row justify="flex-start">
+            <Grid container justify="flex-start">
               <MuiThemeProvider theme={theme}>
                 <FormGroup row>
                   <FormControlLabel
@@ -764,7 +740,7 @@ class ClientDetails extends React.Component {
             </Grid>
 
             {/* client drop down */}
-            <Grid container row justify="space-between">
+            <Grid container justify="space-between">
               <TextField
                 required
                 id="newClient"
@@ -815,7 +791,7 @@ class ClientDetails extends React.Component {
 
           <AppBar className={classes.root2} position="static">
             <Tabs
-              indicatorColor="none"
+              indicatorColor="primary"
               value={tabValue}
               onChange={this.handleChangeTabs}
             >
@@ -982,7 +958,7 @@ class ClientDetails extends React.Component {
                       margin="normal"
                     />
                   ) : null}
-                  <Grid container row justify="center" alignItems="center">
+                  <Grid container justify="center" alignItems="center">
                     <TextField
                       id="standard-select-sessionType"
                       select
@@ -1049,7 +1025,7 @@ class ClientDetails extends React.Component {
                       </TextField>
                     </Grid>
                   </Grid>
-                  <Grid container row justify="center">
+                  <Grid container justify="center">
                     <MuiThemeProvider theme={theme}>
                       <TextField
                         id="standard-full-width"

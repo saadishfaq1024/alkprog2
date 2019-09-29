@@ -23,7 +23,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import MemberDetails from "../Member/memberDetails";
 import { Redirect, Link } from "react-router-dom";
 
-import axios from "axios";
+import API from '../utils/API';
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -157,46 +157,19 @@ class TeamMembersTable extends React.Component {
     curMemeberId: 0
   };
 
-  componentDidMount() {
-    axios
-      .get("http://localhost:5000/members")
-      .then(response => {
-//        console.log("Got team member data!");
-//        console.log(response.data);
-        this.setState({
-          memberData: response.data
-        });
-      })
-      .catch(function(error) {
-        console.log(error);
+  async componentDidMount() {
+    try {
+      const {data: members} = await API.get("/members")
+      this.setState({
+        memberData: members.data
       });
-    if (!this.state.intervalIsSet) {
-      let interval = setInterval(this.getDataFromDb, 1000);
-      this.setState({ intervalIsSet: interval });
-//      console.log("Team member interval set!");
+    } catch (error) {
+      console.log('Team Member List fetch error: ', error)
     }
   }
-  /*
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.memberData !== this.props.memberData) {
-      axios
-        .get("http://localhost:5000/members")
-        .then(response => {
-          this.setState({ memberData: response.data });
-          console.log("Got updated team member data!");
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-    }
-  }
-*/
+
   componentWillUnmount() {
-    if (this.state.intervalIsSet) {
-      clearInterval(this.state.intervalIsSet);
-      this.setState({ intervalIsSet: null });
-//      console.log("Unmounted from team data!");
-    }
+
   }
 
   handleRequestSort = (event, property) => {
@@ -244,36 +217,6 @@ class TeamMembersTable extends React.Component {
         {this.state.redirect ? <Redirect to={{pathname: "/teammembers/details", state: {curMemeberId: this.state.curMemeberId}}} /> : null}
         <Paper className={classes.root}>
           <div className={classes.tableWrapper}>
-            <Dialog
-              fullScreen
-              open={this.state.open}
-              onClose={this.handleClose}
-            >
-              <AppBar className={classes.appBar}>
-                <Toolbar>
-                  <IconButton
-                    color="inherit"
-                    onClick={this.handleClose}
-                    //aria-label="Close"
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                  <Typography
-                    variant="h6"
-                    color="inherit"
-                    className={classes.flex}
-                  >
-                    Team Member Details
-                  </Typography>
-                  {/*
-                  <Button color="inherit" onClick={this.handleClose}>
-                    save
-                  </Button>
-                 */}
-                </Toolbar>
-              </AppBar>
-              <MemberDetails />
-            </Dialog>
             <Table className={classes.table} aria-labelledby="tableTitle">
               <EnhancedTableHead
                 //numSelected={selected.length}

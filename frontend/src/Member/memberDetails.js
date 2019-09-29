@@ -42,7 +42,7 @@ import ErrorIcon from "@material-ui/icons/Error";
 import WarningIcon from "@material-ui/icons/Warning";
 import InfoIcon from "@material-ui/icons/Info";
 
-import axios from "axios";
+import API from "../utils/API";
 
 const styles = theme => ({
   root: {
@@ -277,43 +277,14 @@ class MemberDetails extends React.Component {
     curMemberId: 0
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     this.setState({curMemberId: this.props.location.status.curMemberId});
-    axios
-      .get("http://localhost:5000/members")
-      .then(response => {
-//        console.log("Got therapist data data!");
-//        console.log(response.data);
-        this.setState({
-          therapistData: response.data
-        });
-      })
-      .then(response2 => {
-        return axios.get("http://localhost:5000/allclients").then(response2 => {
-//          console.log("Got client data!");
-//          console.log(response2.data);
-          this.setState({
-            clientData: response2.data
-          });
-        });
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-
-    if (!this.state.intervalIsSet) {
-      let interval = setInterval(this.getDataFromDb, 1000);
-      this.setState({ intervalIsSet: interval });
-//      console.log("Data interval set!");
-    }
-  }
-
-  // kills a process everytime we are done using it
-  componentWillUnmount() {
-    if (this.state.intervalIsSet) {
-      clearInterval(this.state.intervalIsSet);
-      this.setState({ intervalIsSet: null });
-//      console.log("Unmounted from client data!");
+    try {
+      const members = await API.get('/members');
+      const clients = await API.get('/allClients');
+      this.setState({therapistData: members, clientData: clients});
+    } catch (error) {
+      console.log('Data fetching error: ', error);
     }
   }
 

@@ -1,61 +1,61 @@
-import React from "react";
-import PropTypes from "prop-types";
-import {withRouter} from 'react-router' 
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withRouter } from 'react-router'
 import {
   withStyles,
   createMuiTheme,
   MuiThemeProvider
-} from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import deepPurple from "@material-ui/core/colors/deepPurple";
-import Grid from "@material-ui/core/Grid";
-import green from "@material-ui/core/colors/green";
+} from '@material-ui/core/styles'
+import Paper from '@material-ui/core/Paper'
+import deepPurple from '@material-ui/core/colors/deepPurple'
+import Grid from '@material-ui/core/Grid'
+import green from '@material-ui/core/colors/green'
 
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
-import Switch from "@material-ui/core/Switch";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import TextField from "@material-ui/core/TextField";
-import Checkbox from "@material-ui/core/Checkbox";
-import AppBar from "@material-ui/core/AppBar";
-import Tab from "@material-ui/core/Tab";
-import Tabs from "@material-ui/core/Tabs";
-import AssignedClientsTable from "../Tables/backEndAssignedClientsTable";
-import TeamMemFilesTable from "../Tables/teamMemFilesTable";
-import MemberUploadAction from "../Actions/memberUploadAction";
-import IconButton from "@material-ui/core/IconButton";
-import Button from "@material-ui/core/Button";
-import Container from "@material-ui/core/Container";
-import Blue from "@material-ui/core/colors/blue";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import AddIcon from "@material-ui/icons/Add";
-import classNames from "classnames";
-import CloseIcon from "@material-ui/icons/Close";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import ErrorIcon from "@material-ui/icons/Error";
-import WarningIcon from "@material-ui/icons/Warning";
-import InfoIcon from "@material-ui/icons/Info";
+import FormGroup from '@material-ui/core/FormGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import FormControl from '@material-ui/core/FormControl'
+import Switch from '@material-ui/core/Switch'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import TextField from '@material-ui/core/TextField'
+import Checkbox from '@material-ui/core/Checkbox'
+import AppBar from '@material-ui/core/AppBar'
+import Tab from '@material-ui/core/Tab'
+import Tabs from '@material-ui/core/Tabs'
+import AssignedClientsTable from '../Tables/backEndAssignedClientsTable'
+import TeamMemFilesTable from '../Tables/teamMemFilesTable'
+import MemberUploadAction from '../Actions/memberUploadAction'
+import IconButton from '@material-ui/core/IconButton'
+import Button from '@material-ui/core/Button'
+import Container from '@material-ui/core/Container'
+import Blue from '@material-ui/core/colors/blue'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import AddIcon from '@material-ui/icons/Add'
+import classNames from 'classnames'
+import CloseIcon from '@material-ui/icons/Close'
+import CheckCircleIcon from '@material-ui/icons/CheckCircle'
+import ErrorIcon from '@material-ui/icons/Error'
+import WarningIcon from '@material-ui/icons/Warning'
+import InfoIcon from '@material-ui/icons/Info'
 
-import API from "../utils/API";
+import API from '../utils/API'
 
 const styles = theme => ({
   root: {
     marginTop: theme.spacing(10),
-    align: "center",
-    height: "130"
+    align: 'center',
+    height: '130'
   },
 
   memberAvatar: {
     margin: 10,
     color: theme.palette.getContrastText(Blue[800]),
     backgroundColor: Blue[800],
-    "&:hover": {
+    '&:hover': {
       backgroundColor: Blue[400]
     },
     width: 100,
@@ -94,7 +94,7 @@ const styles = theme => ({
   checked: {},
 
   root2: {
-    width: "100%",
+    width: '100%',
     borderRadius: theme.shape.borderRadius,
     backgroundColor: Blue[800]
   },
@@ -108,16 +108,16 @@ const styles = theme => ({
     marginTop: theme.spacing(1) * 5,
     //marginLeft: theme.spacing(1) * 33.5,
     // align: "center",
-    width: "14.5%"
+    width: '14.5%'
   },
 
   floatButton: {
     marginTop: theme.spacing(4),
     margin: theme.spacing(1),
-    /* this is text color */ color: theme.palette.getContrastText("#b2dfdb"),
-    backgroundColor: "#b2dfdb",
-    "&:hover": {
-      backgroundColor: "#80cbc4"
+    /* this is text color */ color: theme.palette.getContrastText('#b2dfdb'),
+    backgroundColor: '#b2dfdb',
+    '&:hover': {
+      backgroundColor: '#80cbc4'
     }
   },
 
@@ -129,10 +129,10 @@ const styles = theme => ({
     marginTop: theme.spacing(2),
     marginLeft: theme.spacing(2),
     marginBottom: theme.spacing(2),
-    /* this is text color */ color: theme.palette.getContrastText("#b2dfdb"),
-    backgroundColor: "#b2dfdb",
-    "&:hover": {
-      backgroundColor: "#80cbc4"
+    /* this is text color */ color: theme.palette.getContrastText('#b2dfdb'),
+    backgroundColor: '#b2dfdb',
+    '&:hover': {
+      backgroundColor: '#80cbc4'
     }
   },
 
@@ -140,10 +140,10 @@ const styles = theme => ({
     marginTop: theme.spacing(2),
     marginRight: theme.spacing(2),
     marginBottom: theme.spacing(2),
-    /* this is text color */ color: theme.palette.getContrastText("#b2dfdb"),
-    backgroundColor: "#b2dfdb",
-    "&:hover": {
-      backgroundColor: "#80cbc4"
+    /* this is text color */ color: theme.palette.getContrastText('#b2dfdb'),
+    backgroundColor: '#b2dfdb',
+    '&:hover': {
+      backgroundColor: '#80cbc4'
     }
   },
 
@@ -158,105 +158,105 @@ const styles = theme => ({
   formControl: {
     margin: theme.spacing(3)
   }
-});
+})
 
 const roles = [
   {
-    value: "Administrator",
-    label: "Administrator"
+    value: 'Administrator',
+    label: 'Administrator'
   },
 
   {
-    value: "Therapist",
-    label: "Therapist"
+    value: 'Therapist',
+    label: 'Therapist'
   },
 
   {
-    value: "Intern",
-    label: "Intern"
+    value: 'Intern',
+    label: 'Intern'
   }
-];
+]
 
 const titles = [
   {
-    value: "",
-    label: ""
+    value: '',
+    label: ''
   },
 
   {
-    value: "Dr.",
-    label: "Dr."
+    value: 'Dr.',
+    label: 'Dr.'
   },
 
   {
-    value: "Miss",
-    label: "Miss"
+    value: 'Miss',
+    label: 'Miss'
   },
 
   {
-    value: "Mr.",
-    label: "Mr."
+    value: 'Mr.',
+    label: 'Mr.'
   },
   {
-    value: "Mrs.",
-    label: "Mrs."
+    value: 'Mrs.',
+    label: 'Mrs.'
   },
   {
-    value: "Ms.",
-    label: "Ms."
+    value: 'Ms.',
+    label: 'Ms.'
   },
   {
-    value: "Mx.",
-    label: "Mx."
+    value: 'Mx.',
+    label: 'Mx.'
   }
-];
+]
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: "#b2dfdb" }
+    primary: { main: '#b2dfdb' }
   }
-});
+})
 
 const theme2 = createMuiTheme({
   palette: {
-    primary: { main: "#80cbc4" }
+    primary: { main: '#80cbc4' }
   }
-});
+})
 
 class MemberDetails extends React.Component {
   state = {
     checkedA: true,
-    member: "Harry Potter",
+    member: 0, // current member id
     therapistData: [],
     clientData: [],
     open: false,
-    cost: "",
-    length: "",
-    type: "",
+    cost: '',
+    length: '',
+    type: '',
     checkedAdmin: true,
     checkedThera: true,
     checkedIntern: false,
     tabValue: 0,
-    memberRole: "Administrator",
+    memberRole: 'Administrator',
     //client info
-    firstName: "Harry",
-    lastName: "Potter",
-    email: "harry@hogwarts.com",
-    title: "Mr.",
-    currentPassword: "test123",
-    confirmPassword: "test123",
-    phone: "123-456-1111",
-    address: "713 Hogwarts Lane",
-    location: "Diagon Alley",
-    npi: "731890",
-    city: "London",
-    bday: "7/31/92",
-    state: "TX",
-    zipCode: "77777",
-    multiline: "Controlled",
+    firstName: 'Harry',
+    lastName: 'Potter',
+    email: 'harry@hogwarts.com',
+    title: 'Mr.',
+    currentPassword: 'test123',
+    confirmPassword: 'test123',
+    phone: '123-456-1111',
+    address: '713 Hogwarts Lane',
+    location: 'Diagon Alley',
+    npi: '731890',
+    city: 'London',
+    bday: '7/31/92',
+    state: 'TX',
+    zipCode: '77777',
+    multiline: 'Controlled',
     deleteDialog: false,
     // assigned clients
-    client: "",
+    client: '',
     assignOpen: false,
     // privliges
     invoice: false,
@@ -273,18 +273,25 @@ class MemberDetails extends React.Component {
     kpis: true,
     viewReport: false,
     viewCalendar: true,
-    viewOwnClient: true,
-    curMemberId: 0
-  };
+    viewOwnClient: true
+  }
 
   async componentDidMount() {
-    this.setState({curMemberId: this.props.location.status.curMemberId});
     try {
-      const members = await API.get('/members');
-      const clients = await API.get('/allClients');
-      this.setState({therapistData: members, clientData: clients});
+      const membersResp = await API.get('/members')
+      const clientsResp = await API.get('/clients/all')
+      const members = membersResp.data.data
+      const clients = clientsResp.data.data
+
+      this.setState({
+        therapistData: members,
+        clientData: clients
+      })
+      this.setState({ member: this.props.location.state.curMemberId }, ()=>{
+        this.changeContentWithMemberId()
+      })
     } catch (error) {
-      console.log('Data fetching error: ', error);
+      console.log('Data fetching error: ', error)
     }
   }
 
@@ -306,8 +313,8 @@ class MemberDetails extends React.Component {
       viewReport: true,
       viewCalendar: true,
       viewOwnClient: true
-    });
-  };
+    })
+  }
 
   handleChangeCheckedTherapist = name => event => {
     this.setState({
@@ -327,8 +334,8 @@ class MemberDetails extends React.Component {
       viewReport: false,
       viewCalendar: true,
       viewOwnClient: true
-    });
-  };
+    })
+  }
 
   handleChangeCheckedIntern = name => event => {
     this.setState({
@@ -348,51 +355,93 @@ class MemberDetails extends React.Component {
       viewReport: false,
       viewCalendar: true,
       viewOwnClient: true
-    });
-  };
+    })
+  }
 
   handleClickAvatar = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
+    this.setState({ anchorEl: event.currentTarget })
+  }
 
   handleCloseAvatar = () => {
-    this.setState({ anchorEl: null });
-  };
+    this.setState({ anchorEl: null })
+  }
 
   /* change of team member dropdown */
   handleChangeValue = name => event => {
-    this.setState({ [name]: event.target.value });
-  };
+    console.log('name ' + name, event.target.value)
+    this.setState({ [name]: event.target.value }, () => {
+      if (name === 'member') this.changeContentWithMemberId()
+    })
+  }
 
+  changeContentWithMemberId() {
+    const member = this.state.therapistData.find(
+      ({ id }) => id === this.state.member
+    )
+    if (member) {
+      const {
+        id,
+        title,
+        member_full_name,
+        member_first_name,
+        member_last_name,
+        email,
+        phone,
+        street_address,
+        city,
+        zip,
+        location,
+        bday,
+        npi,
+        pass,
+        notes,
+        role
+      } = member
+      this.setState({
+        memberRole: role,
+        firstName: member_first_name,
+        lastName: member_last_name,
+        email: email,
+        title: title,
+        currentPassword: pass,
+        confirmPassword: pass,
+        phone: phone,
+        address: street_address,
+        npi: npi,
+        city: city,
+        zipCode: zip
+      })
+    }
+  }
   // change of check boxes
   handleChangeChecked = name => event => {
-    this.setState({ [name]: event.target.checked });
-  };
+    this.setState({ [name]: event.target.checked })
+  }
 
   handleChangeTab = (event, tabValue) => {
-    this.setState({ tabValue });
-  };
+    this.setState({ tabValue })
+  }
 
   //show client details box;
   handleClickClientOpen = () => {
-    this.setState({ assignOpen: true });
-  };
+    this.setState({ assignOpen: true })
+  }
 
   handleClientClose = () => {
-    this.setState({ assignOpen: false });
-  };
+    this.setState({ assignOpen: false })
+  }
 
   handleDeleteDialogOpen = () => {
-    this.setState({ deleteDialog: true });
-  };
+    this.setState({ deleteDialog: true })
+  }
 
   handleDeleteDialogClose = () => {
-    this.setState({ deleteDialog: false });
-  };
+    this.setState({ deleteDialog: false })
+  }
 
   render() {
-    const { classes } = this.props;
-    const { anchorEl, tabValue, clientData, therapistData } = this.state;
+    const { classes } = this.props
+    const { anchorEl, tabValue, clientData, therapistData } = this.state
 
     return (
       <div>
@@ -409,7 +458,7 @@ class MemberDetails extends React.Component {
             <Menu
               id="simple-menu"
               anchorEl={anchorEl}
-              anchorOrigin={{ vertical: "center", horizontal: "center" }}
+              anchorOrigin={{ vertical: 'center', horizontal: 'center' }}
               keepMounted
               open={Boolean(anchorEl)}
               onClose={this.handleCloseAvatar}
@@ -434,7 +483,7 @@ class MemberDetails extends React.Component {
                   control={
                     <Switch
                       checked={this.state.checkedA}
-                      onChange={this.handleChangeChecked("checkedA")}
+                      onChange={this.handleChangeChecked('checkedA')}
                       value="checkedA"
                       margin="theme.spacing(1) * 20"
                       className={classes.marg}
@@ -454,15 +503,15 @@ class MemberDetails extends React.Component {
                 variant="outlined"
                 className={classes.textField}
                 value={this.state.member}
-                onChange={this.handleChangeValue("member")}
+                onChange={this.handleChangeValue('member')}
                 SelectProps={{
                   MenuProps: {
                     className: classes.menu
                   }
                 }}
               >
-                {therapistData.map((option, i) => (
-                  <MenuItem key={i} value={option.member_full_name}>
+                {therapistData.map(option => (
+                  <MenuItem key={option.id} value={option.id}>
                     {option.member_full_name}
                   </MenuItem>
                 ))}
@@ -474,7 +523,7 @@ class MemberDetails extends React.Component {
                 variant="outlined"
                 className={classes.textField}
                 value={this.state.memberRole}
-                onChange={this.handleChangeValue("memberRole")}
+                onChange={this.handleChangeValue('memberRole')}
                 SelectProps={{
                   MenuProps: {
                     className: classes.menu
@@ -521,7 +570,7 @@ class MemberDetails extends React.Component {
                     variant="outlined"
                     className={classes.textFieldTop}
                     value={this.state.title}
-                    onChange={this.handleChangeValue("title")}
+                    onChange={this.handleChangeValue('title')}
                     SelectProps={{
                       MenuProps: {
                         className: classes.menu
@@ -542,7 +591,7 @@ class MemberDetails extends React.Component {
                       variant="outlined"
                       className={classes.textFieldTop}
                       value={this.state.firstName}
-                      onChange={this.handleChangeValue("firstName")}
+                      onChange={this.handleChangeValue('firstName')}
                       margin="normal"
                     />
                   </MuiThemeProvider>
@@ -554,7 +603,7 @@ class MemberDetails extends React.Component {
                     variant="outlined"
                     className={classes.textFieldTop}
                     value={this.state.lastName}
-                    onChange={this.handleChangeValue("lastName")}
+                    onChange={this.handleChangeValue('lastName')}
                     margin="normal"
                   />
 
@@ -565,7 +614,7 @@ class MemberDetails extends React.Component {
                     label="Email"
                     className={classes.textField}
                     value={this.state.email}
-                    onChange={this.handleChangeValue("email")}
+                    onChange={this.handleChangeValue('email')}
                     margin="normal"
                   />
 
@@ -577,7 +626,7 @@ class MemberDetails extends React.Component {
                     className={classes.textField}
                     type="password"
                     value={this.state.currentPassword}
-                    onChange={this.handleChangeValue("currentPassword")}
+                    onChange={this.handleChangeValue('currentPassword')}
                     //autoComplete="current-password"
                     margin="normal"
                   />
@@ -590,7 +639,7 @@ class MemberDetails extends React.Component {
                     className={classes.textField}
                     type="password"
                     value={this.state.confirmPassword}
-                    onChange={this.handleChangeValue("confirmPassword")}
+                    onChange={this.handleChangeValue('confirmPassword')}
                     //autoComplete="current-password"
                     margin="normal"
                   />
@@ -601,7 +650,7 @@ class MemberDetails extends React.Component {
                     label="Address"
                     className={classes.textField}
                     value={this.state.address}
-                    onChange={this.handleChangeValue("address")}
+                    onChange={this.handleChangeValue('address')}
                     margin="normal"
                   />
 
@@ -611,7 +660,7 @@ class MemberDetails extends React.Component {
                     label="City"
                     className={classes.textField}
                     value={this.state.city}
-                    onChange={this.handleChangeValue("city")}
+                    onChange={this.handleChangeValue('city')}
                     margin="normal"
                   />
 
@@ -621,7 +670,7 @@ class MemberDetails extends React.Component {
                     label="State"
                     className={classes.textField}
                     value={this.state.state}
-                    onChange={this.handleChangeValue("state")}
+                    onChange={this.handleChangeValue('state')}
                     margin="normal"
                   />
 
@@ -631,7 +680,7 @@ class MemberDetails extends React.Component {
                     label="Zip Code"
                     className={classes.textField}
                     value={this.state.zipCode}
-                    onChange={this.handleChangeValue("zipCode")}
+                    onChange={this.handleChangeValue('zipCode')}
                     margin="normal"
                   />
 
@@ -641,7 +690,7 @@ class MemberDetails extends React.Component {
                     label="Phone Number"
                     className={classes.textField}
                     value={this.state.phone}
-                    onChange={this.handleChangeValue("phone")}
+                    onChange={this.handleChangeValue('phone')}
                     margin="normal"
                   />
 
@@ -651,7 +700,7 @@ class MemberDetails extends React.Component {
                     label="Birthday"
                     className={classes.textField}
                     value={this.state.bday}
-                    onChange={this.handleChangeValue("bday")}
+                    onChange={this.handleChangeValue('bday')}
                     margin="normal"
                   />
 
@@ -661,7 +710,7 @@ class MemberDetails extends React.Component {
                     label="NPI Number"
                     className={classes.textField}
                     value={this.state.npi}
-                    onChange={this.handleChangeValue("npi")}
+                    onChange={this.handleChangeValue('npi')}
                     margin="normal"
                   />
 
@@ -671,7 +720,7 @@ class MemberDetails extends React.Component {
                     label="Primary Location"
                     className={classes.textField}
                     value={this.state.location}
-                    onChange={this.handleChangeValue("location")}
+                    onChange={this.handleChangeValue('location')}
                     margin="normal"
                   />
 
@@ -759,7 +808,7 @@ class MemberDetails extends React.Component {
                       margin="normal"
                       className={classes.textField}
                       value={this.state.client}
-                      onChange={this.handleChangeValue("client")}
+                      onChange={this.handleChangeValue('client')}
                       SelectProps={{
                         MenuProps: {
                           className: classes.menu
@@ -768,7 +817,7 @@ class MemberDetails extends React.Component {
                     >
                       {clientData.map(option => (
                         <MenuItem
-                          key={option.value}
+                          key={option.id}
                           value={option.client_full_name}
                         >
                           {option.client_full_name}
@@ -796,7 +845,7 @@ class MemberDetails extends React.Component {
           {tabValue === 3 && <TeamMemFilesTable />}
           {tabValue === 4 && (
             <Paper className={classes.infoRoot2} elevation={2}>
-              {this.state.memberRole === "Administrator" ? (
+              {this.state.memberRole === 'Administrator' ? (
                 <Grid
                   container
                   // direction="column"
@@ -818,7 +867,7 @@ class MemberDetails extends React.Component {
                               className={classes.formRoot2}
                               color="primary"
                               checked={this.state.invoice}
-                              onChange={this.handleChangeChecked("invoice")}
+                              onChange={this.handleChangeChecked('invoice')}
                               value="invoice"
                             />
                           }
@@ -831,7 +880,7 @@ class MemberDetails extends React.Component {
                               disabled
                               color="primary"
                               checked={this.state.allCalendar}
-                              onChange={this.handleChangeChecked("allCalendar")}
+                              onChange={this.handleChangeChecked('allCalendar')}
                               value="allCalendar"
                             />
                           }
@@ -843,7 +892,7 @@ class MemberDetails extends React.Component {
                               disabled
                               color="primary"
                               checked={this.state.viewClient}
-                              onChange={this.handleChangeChecked("viewClient")}
+                              onChange={this.handleChangeChecked('viewClient')}
                               value="viewClient"
                             />
                           }
@@ -857,7 +906,7 @@ class MemberDetails extends React.Component {
                               color="primary"
                               checked={this.state.editOtherSched}
                               onChange={this.handleChangeChecked(
-                                "editOtherSched"
+                                'editOtherSched'
                               )}
                               value="editOtherSched"
                             />
@@ -871,7 +920,7 @@ class MemberDetails extends React.Component {
                               color="primary"
                               checked={this.state.viewOtherSched}
                               onChange={this.handleChangeChecked(
-                                "viewOtherSched"
+                                'viewOtherSched'
                               )}
                               value="viewOtherSched"
                             />
@@ -886,7 +935,7 @@ class MemberDetails extends React.Component {
                               color="primary"
                               checked={this.state.editOtherInfo}
                               onChange={this.handleChangeChecked(
-                                "editOtherInfo"
+                                'editOtherInfo'
                               )}
                               value="editOtherInfo"
                             />
@@ -901,7 +950,7 @@ class MemberDetails extends React.Component {
                               color="primary"
                               checked={this.state.viewOtherInfo}
                               onChange={this.handleChangeChecked(
-                                "viewOtherInfo"
+                                'viewOtherInfo'
                               )}
                               value="viewOtherInfo"
                             />
@@ -920,7 +969,7 @@ class MemberDetails extends React.Component {
                             <Switch
                               disabled
                               checked={this.state.addClient}
-                              onChange={this.handleChangeChecked("addClient")}
+                              onChange={this.handleChangeChecked('addClient')}
                               value="addClient"
                             />
                           }
@@ -933,7 +982,7 @@ class MemberDetails extends React.Component {
                               disabled
                               checked={this.state.recordAttendance}
                               onChange={this.handleChangeChecked(
-                                "recordAttendance"
+                                'recordAttendance'
                               )}
                               value="recordAttendance"
                             />
@@ -946,7 +995,7 @@ class MemberDetails extends React.Component {
                             <Switch
                               disabled
                               checked={this.state.payment}
-                              onChange={this.handleChangeChecked("payment")}
+                              onChange={this.handleChangeChecked('payment')}
                               value="payment"
                             />
                           }
@@ -958,7 +1007,7 @@ class MemberDetails extends React.Component {
                             <Switch
                               disabled
                               checked={this.state.viewNote}
-                              onChange={this.handleChangeChecked("viewNote")}
+                              onChange={this.handleChangeChecked('viewNote')}
                               value="viewNote"
                             />
                           }
@@ -971,7 +1020,7 @@ class MemberDetails extends React.Component {
                               disabled
                               color="primary"
                               checked={this.state.viewReport}
-                              onChange={this.handleChangeChecked("viewReport")}
+                              onChange={this.handleChangeChecked('viewReport')}
                               value="jason"
                             />
                           }
@@ -983,7 +1032,7 @@ class MemberDetails extends React.Component {
                               disabled
                               checked={this.state.viewCalendar}
                               onChange={this.handleChangeChecked(
-                                "viewCalendar"
+                                'viewCalendar'
                               )}
                               value="viewCalendar"
                             />
@@ -996,7 +1045,7 @@ class MemberDetails extends React.Component {
                               disabled
                               checked={this.state.viewOwnClient}
                               onChange={this.handleChangeChecked(
-                                "viewOwnClient"
+                                'viewOwnClient'
                               )}
                               value="viewOwnClient"
                             />
@@ -1009,7 +1058,7 @@ class MemberDetails extends React.Component {
                 </Grid>
               ) : null}
 
-              {this.state.memberRole === "Therapist" ? (
+              {this.state.memberRole === 'Therapist' ? (
                 <Grid
                   container
                   // direction="column"
@@ -1030,7 +1079,7 @@ class MemberDetails extends React.Component {
                               className={classes.formRoot2}
                               color="primary"
                               checked={this.state.invoice}
-                              onChange={this.handleChangeChecked("invoice")}
+                              onChange={this.handleChangeChecked('invoice')}
                               value="invoice"
                             />
                           }
@@ -1042,7 +1091,7 @@ class MemberDetails extends React.Component {
                             <Switch
                               color="primary"
                               checked={this.state.allCalendar}
-                              onChange={this.handleChangeChecked("allCalendar")}
+                              onChange={this.handleChangeChecked('allCalendar')}
                               value="allCalendar"
                             />
                           }
@@ -1054,7 +1103,7 @@ class MemberDetails extends React.Component {
                             <Switch
                               color="primary"
                               checked={this.state.viewClient}
-                              onChange={this.handleChangeChecked("viewClient")}
+                              onChange={this.handleChangeChecked('viewClient')}
                               value="viewClient"
                             />
                           }
@@ -1067,7 +1116,7 @@ class MemberDetails extends React.Component {
                               color="primary"
                               checked={this.state.editOtherSched}
                               onChange={this.handleChangeChecked(
-                                "editOtherSched"
+                                'editOtherSched'
                               )}
                               value="editOtherSched"
                             />
@@ -1080,7 +1129,7 @@ class MemberDetails extends React.Component {
                               color="primary"
                               checked={this.state.viewOtherSched}
                               onChange={this.handleChangeChecked(
-                                "viewOtherSched"
+                                'viewOtherSched'
                               )}
                               value="viewOtherSched"
                             />
@@ -1094,7 +1143,7 @@ class MemberDetails extends React.Component {
                               color="primary"
                               checked={this.state.editOtherInfo}
                               onChange={this.handleChangeChecked(
-                                "editOtherInfo"
+                                'editOtherInfo'
                               )}
                               value="editOtherInfo"
                             />
@@ -1108,7 +1157,7 @@ class MemberDetails extends React.Component {
                               color="primary"
                               checked={this.state.viewOtherInfo}
                               onChange={this.handleChangeChecked(
-                                "viewOtherInfo"
+                                'viewOtherInfo'
                               )}
                               value="viewOtherInfo"
                             />
@@ -1127,7 +1176,7 @@ class MemberDetails extends React.Component {
                             <Switch
                               disabled
                               checked={this.state.addClient}
-                              onChange={this.handleChangeChecked("addClient")}
+                              onChange={this.handleChangeChecked('addClient')}
                               value="addClient"
                             />
                           }
@@ -1140,7 +1189,7 @@ class MemberDetails extends React.Component {
                               disabled
                               checked={this.state.recordAttendance}
                               onChange={this.handleChangeChecked(
-                                "recordAttendance"
+                                'recordAttendance'
                               )}
                               value="recordAttendance"
                             />
@@ -1153,7 +1202,7 @@ class MemberDetails extends React.Component {
                             <Switch
                               disabled
                               checked={this.state.viewNote}
-                              onChange={this.handleChangeChecked("viewNote")}
+                              onChange={this.handleChangeChecked('viewNote')}
                               value="viewNote"
                             />
                           }
@@ -1165,7 +1214,7 @@ class MemberDetails extends React.Component {
                             <Switch
                               disabled
                               checked={this.state.payment}
-                              onChange={this.handleChangeChecked("payment")}
+                              onChange={this.handleChangeChecked('payment')}
                               value="payment"
                             />
                           }
@@ -1177,7 +1226,7 @@ class MemberDetails extends React.Component {
                             <Switch
                               color="primary"
                               checked={this.state.viewReport}
-                              onChange={this.handleChangeChecked("viewReport")}
+                              onChange={this.handleChangeChecked('viewReport')}
                               value="jason"
                             />
                           }
@@ -1189,7 +1238,7 @@ class MemberDetails extends React.Component {
                               disabled
                               checked={this.state.viewCalendar}
                               onChange={this.handleChangeChecked(
-                                "viewCalendar"
+                                'viewCalendar'
                               )}
                               value="viewCalendar"
                             />
@@ -1202,7 +1251,7 @@ class MemberDetails extends React.Component {
                               disabled
                               checked={this.state.viewOwnClient}
                               onChange={this.handleChangeChecked(
-                                "viewOwnClient"
+                                'viewOwnClient'
                               )}
                               value="viewOwnClient"
                             />
@@ -1215,7 +1264,7 @@ class MemberDetails extends React.Component {
                 </Grid>
               ) : null}
 
-              {this.state.memberRole === "Intern" ? (
+              {this.state.memberRole === 'Intern' ? (
                 <Grid
                   container
                   // direction="column"
@@ -1236,7 +1285,7 @@ class MemberDetails extends React.Component {
                               className={classes.formRoot2}
                               color="primary"
                               checked={this.state.invoice}
-                              onChange={this.handleChangeChecked("invoice")}
+                              onChange={this.handleChangeChecked('invoice')}
                               value="invoice"
                             />
                           }
@@ -1248,7 +1297,7 @@ class MemberDetails extends React.Component {
                             <Switch
                               color="primary"
                               checked={this.state.allCalendar}
-                              onChange={this.handleChangeChecked("allCalendar")}
+                              onChange={this.handleChangeChecked('allCalendar')}
                               value="allCalendar"
                             />
                           }
@@ -1259,7 +1308,7 @@ class MemberDetails extends React.Component {
                           control={
                             <Switch
                               checked={this.state.payment}
-                              onChange={this.handleChangeChecked("payment")}
+                              onChange={this.handleChangeChecked('payment')}
                               value="payment"
                             />
                           }
@@ -1271,7 +1320,7 @@ class MemberDetails extends React.Component {
                               color="primary"
                               checked={this.state.editOtherSched}
                               onChange={this.handleChangeChecked(
-                                "editOtherSched"
+                                'editOtherSched'
                               )}
                               value="editOtherSched"
                             />
@@ -1284,7 +1333,7 @@ class MemberDetails extends React.Component {
                               color="primary"
                               checked={this.state.viewOtherSched}
                               onChange={this.handleChangeChecked(
-                                "viewOtherSched"
+                                'viewOtherSched'
                               )}
                               value="viewOtherSched"
                             />
@@ -1298,7 +1347,7 @@ class MemberDetails extends React.Component {
                               color="primary"
                               checked={this.state.editOtherInfo}
                               onChange={this.handleChangeChecked(
-                                "editOtherInfo"
+                                'editOtherInfo'
                               )}
                               value="editOtherInfo"
                             />
@@ -1312,7 +1361,7 @@ class MemberDetails extends React.Component {
                               color="primary"
                               checked={this.state.viewOtherInfo}
                               onChange={this.handleChangeChecked(
-                                "viewOtherInfo"
+                                'viewOtherInfo'
                               )}
                               value="viewOtherInfo"
                             />
@@ -1330,7 +1379,7 @@ class MemberDetails extends React.Component {
                           control={
                             <Switch
                               checked={this.state.addClient}
-                              onChange={this.handleChangeChecked("addClient")}
+                              onChange={this.handleChangeChecked('addClient')}
                               value="addClient"
                             />
                           }
@@ -1342,7 +1391,7 @@ class MemberDetails extends React.Component {
                             <Switch
                               checked={this.state.recordAttendance}
                               onChange={this.handleChangeChecked(
-                                "recordAttendance"
+                                'recordAttendance'
                               )}
                               value="recordAttendance"
                             />
@@ -1354,7 +1403,7 @@ class MemberDetails extends React.Component {
                           control={
                             <Switch
                               checked={this.state.viewNote}
-                              onChange={this.handleChangeChecked("viewNote")}
+                              onChange={this.handleChangeChecked('viewNote')}
                               value="viewNote"
                             />
                           }
@@ -1366,7 +1415,7 @@ class MemberDetails extends React.Component {
                             <Switch
                               color="primary"
                               checked={this.state.viewClient}
-                              onChange={this.handleChangeChecked("viewClient")}
+                              onChange={this.handleChangeChecked('viewClient')}
                               value="viewClient"
                             />
                           }
@@ -1378,7 +1427,7 @@ class MemberDetails extends React.Component {
                             <Switch
                               color="primary"
                               checked={this.state.viewReport}
-                              onChange={this.handleChangeChecked("viewReport")}
+                              onChange={this.handleChangeChecked('viewReport')}
                               value="jason"
                             />
                           }
@@ -1390,7 +1439,7 @@ class MemberDetails extends React.Component {
                               disabled
                               checked={this.state.viewCalendar}
                               onChange={this.handleChangeChecked(
-                                "viewCalendar"
+                                'viewCalendar'
                               )}
                               value="viewCalendar"
                             />
@@ -1403,7 +1452,7 @@ class MemberDetails extends React.Component {
                               disabled
                               checked={this.state.viewOwnClient}
                               onChange={this.handleChangeChecked(
-                                "viewOwnClient"
+                                'viewOwnClient'
                               )}
                               value="viewOwnClient"
                             />
@@ -1419,12 +1468,12 @@ class MemberDetails extends React.Component {
           )}
         </Container>
       </div>
-    );
+    )
   }
 }
 
 MemberDetails.propTypes = {
   classes: PropTypes.object.isRequired
-};
+}
 
-export default withRouter(withStyles(styles)(MemberDetails));
+export default withRouter(withStyles(styles)(MemberDetails))

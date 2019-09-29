@@ -1,63 +1,63 @@
-import React from "react";
-import classNames from "classnames";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TablePagination from "@material-ui/core/TablePagination";
-import TableRow from "@material-ui/core/TableRow";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
-import IconButton from "@material-ui/core/IconButton";
+import React from 'react'
+import classNames from 'classnames'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableHead from '@material-ui/core/TableHead'
+import TablePagination from '@material-ui/core/TablePagination'
+import TableRow from '@material-ui/core/TableRow'
+import TableSortLabel from '@material-ui/core/TableSortLabel'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import Paper from '@material-ui/core/Paper'
+import IconButton from '@material-ui/core/IconButton'
 
-import Cyan from "@material-ui/core/colors/cyan";
+import Cyan from '@material-ui/core/colors/cyan'
 
-import Container from "@material-ui/core/Container";
-import Dialog from "@material-ui/core/Dialog";
-import AppBar from "@material-ui/core/AppBar";
-import CloseIcon from "@material-ui/icons/Close";
-import MemberDetails from "../Member/memberDetails";
-import { Redirect, Link } from "react-router-dom";
+import Container from '@material-ui/core/Container'
+import Dialog from '@material-ui/core/Dialog'
+import AppBar from '@material-ui/core/AppBar'
+import CloseIcon from '@material-ui/icons/Close'
+import MemberDetails from '../Member/memberDetails'
+import { Redirect, Link } from 'react-router-dom'
 
-import API from '../utils/API';
+import API from '../utils/API'
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
-    return -1;
+    return -1
   }
   if (b[orderBy] > a[orderBy]) {
-    return 1;
+    return 1
   }
-  return 0;
+  return 0
 }
 
 function stableSort(array, cmp) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
+  const stabilizedThis = array.map((el, index) => [el, index])
   stabilizedThis.sort((a, b) => {
-    const order = cmp(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map(el => el[0]);
+    const order = cmp(a[0], b[0])
+    if (order !== 0) return order
+    return a[1] - b[1]
+  })
+  return stabilizedThis.map(el => el[0])
 }
 
 function getSorting(order, orderBy) {
-  return order === "desc"
+  return order === 'desc'
     ? (a, b) => desc(a, b, orderBy)
-    : (a, b) => -desc(a, b, orderBy);
+    : (a, b) => -desc(a, b, orderBy)
 }
 
 const rows = [
-  { id: "member_first_name", disablePadding: true, label: "First" },
-  { id: "member_last_name", disablePadding: true, label: "Last" },
-  { id: "role", disablePadding: true, label: "Role" },
-  { id: "email", label: "Email" },
-  { id: "phone", disablePadding: true, label: "Phone" }
-];
+  { id: 'member_first_name', disablePadding: true, label: 'First' },
+  { id: 'member_last_name', disablePadding: true, label: 'Last' },
+  { id: 'role', disablePadding: true, label: 'Role' },
+  { id: 'email', label: 'Email' },
+  { id: 'phone', disablePadding: true, label: 'Phone' }
+]
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -68,18 +68,18 @@ const CustomTableCell = withStyles(theme => ({
   body: {
     fontSize: 12
   }
-}))(TableCell);
+}))(TableCell)
 
 // Table Header
 
 class EnhancedTableHead extends React.Component {
-  static defaultProps = { order: 'asc'}
+  static defaultProps = { order: 'asc' }
   createSortHandler = property => event => {
-    this.props.onRequestSort(event, property);
-  };
+    this.props.onRequestSort(event, property)
+  }
 
   render() {
-    const { order, orderBy } = this.props;
+    const { order, orderBy } = this.props
 
     return (
       <TableHead>
@@ -88,7 +88,7 @@ class EnhancedTableHead extends React.Component {
             row => (
               <CustomTableCell
                 key={row.id}
-                padding={row.disablePadding ? "none" : "default"}
+                padding={row.disablePadding ? 'none' : 'default'}
                 align="center"
                 sortDirection={orderBy === row.id ? order : false}
               >
@@ -105,7 +105,7 @@ class EnhancedTableHead extends React.Component {
           )}
         </TableRow>
       </TableHead>
-    );
+    )
   }
 }
 
@@ -114,18 +114,18 @@ EnhancedTableHead.propTypes = {
   order: PropTypes.string.isRequired,
   orderBy: PropTypes.string.isRequired
   //rowCount: PropTypes.number.isRequired,
-};
+}
 
 const styles = theme => ({
   root: {
     //width: "60%",
     marginTop: theme.spacing(1) * 3,
     // marginLeft: theme.spacing(1) * 30,
-    overflowX: "auto",
-    alignItems: "center"
+    overflowX: 'auto',
+    alignItems: 'center'
   },
   appBar: {
-    position: "relative",
+    position: 'relative',
     backgroundColor: Cyan[800]
   },
 
@@ -133,88 +133,93 @@ const styles = theme => ({
     //minWidth: 1020,
   },
   tableWrapper: {
-    overflowX: "auto"
+    overflowX: 'auto'
   },
   row: {
-    "&:nth-of-type(odd)": {
+    '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.background.default
     }
   }
-});
+})
 
 // Table Body
 
 class TeamMembersTable extends React.Component {
-  static defaultProps = {TableSortLabel: "asc"}
+  static defaultProps = { TableSortLabel: 'asc' }
   state = {
-    order: "asc",
+    order: 'asc',
     open: false,
-    orderBy: "",
+    orderBy: '',
     memberData: [],
     page: 0,
     rowsPerPage: 10,
     redirect: false,
     curMemeberId: 0
-  };
+  }
 
   async componentDidMount() {
     try {
-      const {data: members} = await API.get("/members")
+      const { data: members } = await API.get('/members')
       this.setState({
         memberData: members.data
-      });
+      })
     } catch (error) {
       console.log('Team Member List fetch error: ', error)
     }
   }
 
-  componentWillUnmount() {
-
-  }
+  componentWillUnmount() {}
 
   handleRequestSort = (event, property) => {
-    const orderBy = property;
-    let order = "desc";
+    const orderBy = property
+    let order = 'desc'
 
-    if (this.state.orderBy === property && this.state.order === "desc") {
-      order = "asc";
+    if (this.state.orderBy === property && this.state.order === 'desc') {
+      order = 'asc'
     }
 
-    this.setState({ order, orderBy });
-  };
+    this.setState({ order, orderBy })
+  }
 
   handleChangePage = (event, page) => {
-    this.setState({ page });
-  };
+    this.setState({ page })
+  }
 
   handleChangeRowsPerPage = event => {
-    this.setState({ rowsPerPage: event.target.value });
-  };
+    this.setState({ rowsPerPage: event.target.value })
+  }
 
   //show team members details box;
   handleClickRedirect = (memberId = 0) => {
     this.setState({
       redirect: true,
       curMemeberId: memberId
-    });
-  };
+    })
+  }
 
   handleClose = () => {
-    this.setState({ open: false });
-  };
+    this.setState({ open: false })
+  }
 
   // isSelected = id => this.state.selected.indexOf(id) !== -1;
 
   render() {
-    const { classes } = this.props;
-    const { memberData, order, orderBy, rowsPerPage, page } = this.state;
+    const { classes } = this.props
+    const { memberData, order, orderBy, rowsPerPage, page } = this.state
     const emptyRows =
       rowsPerPage -
-      Math.min(rowsPerPage, memberData.length - page * rowsPerPage);
+      Math.min(rowsPerPage, memberData.length - page * rowsPerPage)
 
     return (
       <Container maxWidth="lg">
-        {this.state.redirect ? <Redirect to={{pathname: "/teammembers/details", state: {curMemeberId: this.state.curMemeberId}}} /> : null}
+        {this.state.redirect ? (
+          <Redirect
+            to={{
+              pathname: '/teammembers/details',
+              state: { curMemberId: this.state.curMemeberId }
+            }}
+          />
+        ) : null}
         <Paper className={classes.root}>
           <div className={classes.tableWrapper}>
             <Table className={classes.table} aria-labelledby="tableTitle">
@@ -250,7 +255,7 @@ class TeamMembersTable extends React.Component {
                         <TableCell align="center">{n.phone}</TableCell>
                         {/* <TableCell align="center">{n.clients}</TableCell> */}
                       </TableRow>
-                    );
+                    )
                   })}
                 {emptyRows > 0 && (
                   <TableRow style={{ height: 49 * emptyRows }}>
@@ -267,22 +272,22 @@ class TeamMembersTable extends React.Component {
             rowsPerPage={rowsPerPage}
             page={page}
             backIconButtonProps={{
-              "aria-label": "Previous Page"
+              'aria-label': 'Previous Page'
             }}
             nextIconButtonProps={{
-              "aria-label": "Next Page"
+              'aria-label': 'Next Page'
             }}
             onChangePage={this.handleChangePage}
             onChangeRowsPerPage={this.handleChangeRowsPerPage}
           />
         </Paper>
       </Container>
-    );
+    )
   }
 }
 
 TeamMembersTable.propTypes = {
   classes: PropTypes.object.isRequired
-};
+}
 
-export default withStyles(styles)(TeamMembersTable);
+export default withStyles(styles)(TeamMembersTable)

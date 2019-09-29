@@ -4,6 +4,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import bookRoutes from './server/routes/BookRoutes';
 import memberRoutes from './server/routes/MemberRoutes';
+import clientRoutes from './server/routes/ClientRoutes';
 
 config.config();
 
@@ -22,6 +23,7 @@ const port = process.env.PORT || 5000;
 
 app.use('/books', bookRoutes);
 app.use('/members', memberRoutes)
+app.use('/clients', clientRoutes)
 
 // when a random route is inputed
 app.get('*', (req, res) => res.status(200).send({

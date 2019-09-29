@@ -165,8 +165,8 @@ function Transition(props) {
 
 class AssignedClients extends React.Component {
   state = {
-    order: "",
-    //open: false,
+    order: "asc",
+    open: false,
     orderBy: "",
     selectedClientData: [],
     selectedIndex: null,
@@ -249,38 +249,6 @@ class AssignedClients extends React.Component {
       <Container maxWidth="lg">
         <Paper className={classes.root}>
           <div className={classes.tableWrapper}>
-            <Dialog
-              fullScreen
-              open={this.state.open}
-              onClose={this.handleClose}
-              TransitionComponent={Transition}
-            >
-              <AppBar className={classes.appBar}>
-                <Toolbar>
-                  <IconButton
-                    color="inherit"
-                    onClick={this.handleClose}
-                    //aria-label="Close"
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                  <Typography
-                    variant="h6"
-                    color="inherit"
-                    className={classes.flex}
-                  >
-                    Client Details
-                  </Typography>
-                  {/*
-                  <Button color="inherit" onClick={this.handleClose}>
-                    save
-                  </Button>
-                 */}
-                </Toolbar>
-              </AppBar>
-              <ClientDetails />
-            </Dialog>
-
             <Table /* className={classes.table} */ aria-labelledby="tableTitle">
               <AssignedClientsHead
                 //numSelected={selected.length}

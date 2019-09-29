@@ -188,6 +188,7 @@ class AssignedClients extends React.Component {
   componentWillUnmount() {}
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.memberId === this.props.memberId) return
     this.setState({
       selectedClientData: nextProps.clients.filter(
         client => client.id === this.props.memberId

@@ -371,7 +371,6 @@ class MemberDetails extends React.Component {
 
   /* change of team member dropdown */
   handleChangeValue = name => event => {
-    console.log('name ' + name, event.target.value)
     this.setState({ [name]: event.target.value }, () => {
       if (name === 'member') this.changeContentWithMemberId()
     })

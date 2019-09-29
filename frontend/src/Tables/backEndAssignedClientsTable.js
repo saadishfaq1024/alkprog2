@@ -1,35 +1,36 @@
-import React from "react";
-import classNames from "classnames";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TablePagination from "@material-ui/core/TablePagination";
-import TableRow from "@material-ui/core/TableRow";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
-import Checkbox from "@material-ui/core/Checkbox";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
-import DeleteIcon from "@material-ui/icons/Delete";
-import FilterListIcon from "@material-ui/icons/FilterList";
-import { lighten } from "@material-ui/core/styles/colorManipulator";
-import { lightBlue } from "@material-ui/core/colors";
-import Cyan from "@material-ui/core/colors/cyan";
-import Container from "@material-ui/core/Container";
-import Slide from "@material-ui/core/Slide";
-import Dialog from "@material-ui/core/Dialog";
-import AppBar from "@material-ui/core/AppBar";
-import Button from "@material-ui/core/Button";
-import CloseIcon from "@material-ui/icons/Close";
-import ClientDetails from "../Client/clientDetails";
-import { Switch, Link, Route, withRouter, Redirect } from "react-router-dom";
+import React from 'react'
+import classNames from 'classnames'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableHead from '@material-ui/core/TableHead'
+import TablePagination from '@material-ui/core/TablePagination'
+import TableRow from '@material-ui/core/TableRow'
+import TableSortLabel from '@material-ui/core/TableSortLabel'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+import Paper from '@material-ui/core/Paper'
+import Checkbox from '@material-ui/core/Checkbox'
+import IconButton from '@material-ui/core/IconButton'
+import Tooltip from '@material-ui/core/Tooltip'
+import DeleteIcon from '@material-ui/icons/Delete'
+import FilterListIcon from '@material-ui/icons/FilterList'
+import { lighten } from '@material-ui/core/styles/colorManipulator'
+import { lightBlue } from '@material-ui/core/colors'
+import Cyan from '@material-ui/core/colors/cyan'
+import Container from '@material-ui/core/Container'
+import Slide from '@material-ui/core/Slide'
+import Dialog from '@material-ui/core/Dialog'
+import AppBar from '@material-ui/core/AppBar'
+import Button from '@material-ui/core/Button'
+import CloseIcon from '@material-ui/icons/Close'
+import ClientDetails from '../Client/clientDetails'
+import { Switch, Link, Route, withRouter, Redirect } from 'react-router-dom'
 
-import axios from "axios";
+import API from '../utils/API'
+
 /*
 let counter = 0;
 function createData(name, role, email, phone, clients) {
@@ -39,38 +40,38 @@ function createData(name, role, email, phone, clients) {
 */
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
-    return -1;
+    return -1
   }
   if (b[orderBy] > a[orderBy]) {
-    return 1;
+    return 1
   }
-  return 0;
+  return 0
 }
 
 function stableSort(array, cmp) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
+  const stabilizedThis = array.map((el, index) => [el, index])
   stabilizedThis.sort((a, b) => {
-    const order = cmp(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map(el => el[0]);
+    const order = cmp(a[0], b[0])
+    if (order !== 0) return order
+    return a[1] - b[1]
+  })
+  return stabilizedThis.map(el => el[0])
 }
 
 function getSorting(order, orderBy) {
-  return order === "desc"
+  return order === 'desc'
     ? (a, b) => desc(a, b, orderBy)
-    : (a, b) => -desc(a, b, orderBy);
+    : (a, b) => -desc(a, b, orderBy)
 }
 
 const rows = [
-  { id: "client_first_name", label: "First" },
-  { id: "client_last_name", label: "Last" },
-  { id: "phone", label: "Phone" },
-  { id: "email", label: "Email" },
-  { id: "facility", label: "Facility" }
+  { id: 'client_first_name', label: 'First' },
+  { id: 'client_last_name', label: 'Last' },
+  { id: 'phone', label: 'Phone' },
+  { id: 'email', label: 'Email' },
+  { id: 'facility', label: 'Facility' }
   // { id: "clients", label: "Clients" }
-];
+]
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -82,15 +83,15 @@ const CustomTableCell = withStyles(theme => ({
   body: {
     fontSize: 12
   }
-}))(TableCell);
+}))(TableCell)
 
 class AssignedClientsHead extends React.Component {
   createSortHandler = property => event => {
-    this.props.onRequestSort(event, property);
-  };
+    this.props.onRequestSort(event, property)
+  }
 
   render() {
-    const { order, orderBy } = this.props;
+    const { order, orderBy } = this.props
 
     return (
       <TableHead>
@@ -115,7 +116,7 @@ class AssignedClientsHead extends React.Component {
           )}
         </TableRow>
       </TableHead>
-    );
+    )
   }
 }
 
@@ -124,7 +125,7 @@ AssignedClientsHead.propTypes = {
   order: PropTypes.string.isRequired,
   orderBy: PropTypes.string.isRequired
   //rowCount: PropTypes.number.isRequired,
-};
+}
 
 const styles = theme => ({
   root: {
@@ -132,118 +133,114 @@ const styles = theme => ({
     marginTop: theme.spacing(1) * 3,
     marginBottom: theme.spacing(2),
     // marginLeft: theme.spacing(1) * 30,
-    overflowX: "auto"
+    overflowX: 'auto'
   },
   table: {
     //minWidth: 1020,
   },
   tableWrapper: {
-    overflowX: "auto"
+    overflowX: 'auto'
   },
   row: {
-    "&:nth-of-type(odd)": {
+    '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.background.default
     }
   },
   appBar: {
-    position: "relative",
+    position: 'relative',
     backgroundColor: Cyan[800]
   },
   flex: {
     flex: 1
   }
-});
+})
 
 const navStyle = {
-  color: "black",
-  textDecoration: "none"
-};
+  color: 'black',
+  textDecoration: 'none'
+}
 
 function Transition(props) {
-  return <Slide direction="up" {...props} />;
+  return <Slide direction="up" {...props} />
 }
 
 class AssignedClients extends React.Component {
   state = {
-    order: "asc",
+    order: 'asc',
     open: false,
-    orderBy: "",
+    orderBy: '',
     selectedClientData: [],
     selectedIndex: null,
     page: 0,
-    rowsPerPage: 5
-  };
-
-  componentDidMount() {
-    axios
-      .get("http://localhost:5000/selectedclients")
-      .then(response => {
-        console.log("Got client data!");
-        console.log(response.data);
-        this.setState({
-          selectedClientData: response.data
-        });
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-    if (!this.state.intervalIsSet) {
-      let interval = setInterval(this.getDataFromDb, 1000);
-      this.setState({ intervalIsSet: interval });
-      console.log("Client interval set!");
-    }
+    rowsPerPage: 5,
+    memberId: this.props.memberId,
+    clientData: this.props.clients
   }
 
-  componentWillUnmount() {
-    if (this.state.intervalIsSet) {
-      clearInterval(this.state.intervalIsSet);
-      this.setState({ intervalIsSet: null });
-      console.log("Unmounted from client data!");
-    }
+  componentDidMount() {
+    this.setState({
+      selectedClientData: this.props.clients.filter(
+        client => client.id === this.props.memberId
+      )
+    })
+  }
+
+  componentWillUnmount() {}
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      selectedClientData: nextProps.clients.filter(
+        client => client.id === this.props.memberId
+      )
+    })
+  }
+
+  updateContent = memberId => {
+    this.setState({ memberId }, () => {
+      this.setState({
+        selectedClientData: this.props.clients.filter(
+          client => client.id === this.props.memberId
+        )
+      })
+    })
   }
 
   handleRequestSort = (event, property) => {
-    const orderBy = property;
-    let order = "desc";
+    const orderBy = property
+    let order = 'desc'
 
-    if (this.state.orderBy === property && this.state.order === "desc") {
-      order = "asc";
+    if (this.state.orderBy === property && this.state.order === 'desc') {
+      order = 'asc'
     }
 
-    this.setState({ order, orderBy });
-  };
+    this.setState({ order, orderBy })
+  }
 
   handleChangePage = (event, page) => {
-    this.setState({ page });
-  };
+    this.setState({ page })
+  }
 
   handleChangeRowsPerPage = event => {
-    this.setState({ rowsPerPage: event.target.value });
-  };
+    this.setState({ rowsPerPage: event.target.value })
+  }
 
   //show client details box;
   handleClickOpen = () => {
-    this.setState({ open: true });
-  };
+    this.setState({ open: true })
+  }
 
   handleClose = () => {
-    this.setState({ open: false });
-  };
+    this.setState({ open: false })
+  }
 
   // isSelected = id => this.state.selected.indexOf(id) !== -1;
 
   render() {
-    const { classes } = this.props;
-    const {
-      selectedClientData,
-      order,
-      orderBy,
-      rowsPerPage,
-      page
-    } = this.state;
+    const { classes } = this.props
+    const { selectedClientData, order, orderBy, rowsPerPage, page } = this.state
     const emptyRows =
       rowsPerPage -
-      Math.min(rowsPerPage, selectedClientData.length - page * rowsPerPage);
+      Math.min(rowsPerPage, selectedClientData.length - page * rowsPerPage)
 
     return (
       <Container maxWidth="lg">
@@ -281,7 +278,7 @@ class AssignedClients extends React.Component {
                         <TableCell align="center">{n.facility}</TableCell>
                         {/* <TableCell align="center">{n.clients}</TableCell> */}
                       </TableRow>
-                    );
+                    )
                   })}
                 {emptyRows > 0 && (
                   <TableRow style={{ height: 49 * emptyRows }}>
@@ -298,22 +295,22 @@ class AssignedClients extends React.Component {
             rowsPerPage={rowsPerPage}
             page={page}
             backIconButtonProps={{
-              "aria-label": "Previous Page"
+              'aria-label': 'Previous Page'
             }}
             nextIconButtonProps={{
-              "aria-label": "Next Page"
+              'aria-label': 'Next Page'
             }}
             onChangePage={this.handleChangePage}
             onChangeRowsPerPage={this.handleChangeRowsPerPage}
           />
         </Paper>
       </Container>
-    );
+    )
   }
 }
 
 AssignedClients.propTypes = {
   classes: PropTypes.object.isRequired
-};
+}
 
-export default withStyles(styles)(AssignedClients);
+export default withStyles(styles)(AssignedClients)

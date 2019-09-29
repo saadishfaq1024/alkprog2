@@ -224,6 +224,9 @@ const theme2 = createMuiTheme({
 })
 
 class MemberDetails extends React.Component {
+  constructor(props) {
+    super(props)
+  }
   state = {
     checkedA: true,
     member: 0, // current member id
@@ -442,7 +445,6 @@ class MemberDetails extends React.Component {
   render() {
     const { classes } = this.props
     const { anchorEl, tabValue, clientData, therapistData } = this.state
-
     return (
       <div>
         <Container maxWidth="lg">
@@ -839,7 +841,7 @@ class MemberDetails extends React.Component {
               </Dialog>
             </Grid>
           )}
-          {tabValue === 1 && <AssignedClientsTable />}
+          {tabValue === 1 && <AssignedClientsTable clients={this.state.clientData} memberId={this.state.member} />}
           {tabValue === 2 && <Paper>Message History</Paper>}
           {tabValue === 3 && <MemberUploadAction />}
           {tabValue === 3 && <TeamMemFilesTable />}

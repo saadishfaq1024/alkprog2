@@ -273,11 +273,12 @@ class MemberDetails extends React.Component {
     kpis: true,
     viewReport: false,
     viewCalendar: true,
-    viewOwnClient: true
+    viewOwnClient: true,
+    curMemberId: 0
   };
 
   componentDidMount() {
-    console.log('memberId:', this.props)
+    this.setState({curMemberId: this.props.location.status.curMemberId});
     axios
       .get("http://localhost:5000/members")
       .then(response => {

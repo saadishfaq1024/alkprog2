@@ -9,7 +9,7 @@ class MemberService {
     }
   }
 
-  static async getTherapist() {
+  static async getTherapists() {
     try {
       return await database.Members.findAll({ where: { role: 'Therapist' } })
     } catch (error) {

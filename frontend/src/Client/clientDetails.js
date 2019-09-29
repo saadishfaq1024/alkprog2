@@ -1,4 +1,5 @@
 import React from "react";
+import {withRouter} from 'react-router'
 import PropTypes from "prop-types";
 import {
   withStyles,
@@ -497,7 +498,7 @@ class ClientDetails extends React.Component {
    activeGoal7: false,
    activeGoal8: false,
    activeGoal9: false,
-   activeGoal10: false
+   activeGoal10: false,
   };
 
   handleClickAvatar = event => {
@@ -514,7 +515,9 @@ class ClientDetails extends React.Component {
 
   /* change of client dropdown */
   handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
+    this.setState({ [name]: event.target.value }, () => {
+      if (name === 'client') this.changeContentWithClientId()
+    });
   };
 
   handleChangeTabs = (event, tabValue) => {
@@ -527,10 +530,6 @@ class ClientDetails extends React.Component {
 
   handleDeleteDialogClose = () => {
     this.setState({ deleteDialog: false });
-  };
-
-  handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
   };
 
   handleChangeChecked = name => event => {
@@ -667,9 +666,116 @@ class ClientDetails extends React.Component {
       const clientsResp = await API.get('/clients/all')
       const therapists = therapistsResp.data.data
       const clients = clientsResp.data.data
-      this.setState({therapistData: therapists, clientData: clients})
+      this.setState({therapistData: therapists, clientData: clients, client: this.props.location.state.curClientId}, () => {
+        this.changeContentWithClientId()
+      })
     } catch (error) {
       console.log('Client data fetching error: ', error);
+    }
+  }
+
+  changeContentWithClientId() {
+    const client = this.state.clientData.find(
+      ({ id }) => id === this.state.client
+    )
+    if (client) {
+      const {
+        id,
+        client_type,
+        client_full_name,
+        client_first_name,
+        client_last_name,
+        email,
+        title,
+        assi_therapist_full_name,
+        assi_therapist_last,
+        facility,
+        session_length,
+        session_cost,
+        session_type,
+        password,
+        phone,
+        street_address,
+        bday,
+        city,
+        zip,
+        state,
+        notes,
+        // Contact tab
+        contact_first_name,
+        contact_last_name,
+        contact_email,
+        contact_street_address,
+        contact_phone,
+        contact_city,
+        contact_state,
+        contact_zip,
+        // Payor tab
+        billing_first_name,
+        billing_last_name,
+        name_on_card,
+        card_num,
+        payment_type,
+        billing_phone,
+        billing_street_address,
+        billing_city,
+        billing_zip,
+        billing_state,
+        cvv,
+        card_exp_date,
+        card_type        
+      } = client
+
+      this.setState({
+        clientType: client_type,
+        // CLIENT INFO TAB
+        clientFirstName: client_first_name,
+        clientFacility: facility,
+        clientLastName: client_last_name,
+        clientEmail: email,
+        clientTitle: title,
+        clientTherapist: assi_therapist_full_name,
+        sessionLength: session_length,
+        sessionCost: session_cost,
+        sessionType: session_type,
+        clientCurrentPassword: password,
+        clientConfirmPassword: password,
+        clientPhone: phone,
+        clientStreetAddress: street_address,
+        clientBday: bday,
+        clientCity: city,
+        clientZipCode: zip,
+        clientState: state,
+        clientNotes: notes,
+        multiline: "Controlled",
+        deleteDialog: false,
+        // CONTACT TAB
+        contactFirstName: contact_first_name,
+        contactLastName: contact_last_name,
+        contactEmail: contact_email,
+        contactAddress: contact_street_address,
+        contactTitle: title,
+        contactPhone: contact_phone,
+        contactCity: contact_city,
+        contactState: contact_state,
+        contactZip: contact_zip,
+        // multiline: "Controlled"
+        // PAYOR TAB
+        billingFirstName: billing_first_name,
+        billingLastName: billing_last_name,
+        nameOnCard: name_on_card,
+        cardNum: card_num,
+        payorEmail: email,
+        paymentType: payment_type,
+        billingPhone: billing_phone,
+        billingAddress: billing_street_address,
+        billingCity: billing_city,
+        billingZip: billing_zip,
+        billingState: billing_state,
+        cvv: cvv,
+        expDate: card_exp_date,
+        cardType: card_type,
+      })
     }
   }
 
@@ -759,7 +865,7 @@ class ClientDetails extends React.Component {
                 }}
               >
                 {clientData.map(option => (
-                  <MenuItem key={option.value} value={option.client_full_name}>
+                  <MenuItem key={option.id} value={option.id}>
                     {option.client_full_name}
                   </MenuItem>
                 ))}
@@ -780,8 +886,8 @@ class ClientDetails extends React.Component {
                   }
                 }}
               >
-                {clientTypes.map(option => (
-                  <MenuItem key={option.value} value={option.value}>
+                {clientTypes.map((option, i) => (
+                  <MenuItem key={i} value={option.value}>
                     {option.label}
                   </MenuItem>
                 ))}
@@ -1016,7 +1122,7 @@ class ClientDetails extends React.Component {
                       >
                         {therapistData.map(option => (
                           <MenuItem
-                            key={option.value}
+                            key={option.id}
                             value={option.member_full_name}
                           >
                             {option.member_full_name}
@@ -1100,7 +1206,7 @@ class ClientDetails extends React.Component {
             <form className={classes.container} noValidate autoComplete="off">
               <Paper className={classes.infoRoot} elevation={2}>
                 {/*  Contact 1 */}
-                <Grid container row justify="center" alignItems="center">
+                <Grid container justify="center" alignItems="center">
                   <MuiThemeProvider theme={theme}>
                     <TextField
                       id="standard-select-contactTitle"
@@ -1199,7 +1305,7 @@ class ClientDetails extends React.Component {
                     onChange={this.handleChange("contact2ndPhone")}
                     margin="normal"
                   />
-                  <Grid container row justify="center">
+                  <Grid container justify="center">
                     <TextField
                       required
                       id="standard-contactEmail"
@@ -1260,7 +1366,7 @@ class ClientDetails extends React.Component {
           {tabValue === 2 && (
             <form className={classes.container} noValidate autoComplete="off">
               <Paper className={classes.infoRoot} elevation={2}>
-                <Grid container row justify="space-between">
+                <Grid container justify="space-between">
                   <MuiThemeProvider theme={theme}>
                     <FormGroup className={classes.marg} row>
                       <FormControlLabel
@@ -2419,4 +2525,4 @@ ClientDetails.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(ClientDetails);
+export default withRouter(withStyles(styles)(ClientDetails));

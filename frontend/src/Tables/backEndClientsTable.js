@@ -159,7 +159,8 @@ class ClientsTable extends React.Component {
     selectedIndex: null,
     page: 0,
     rowsPerPage: 10,
-    redirect: false
+    redirect: false,
+    curClientId: 0
   }
 
   async componentDidMount() {
@@ -192,8 +193,8 @@ class ClientsTable extends React.Component {
   }
 
   //redirect to client details;
-  handleClickRedirect = () => {
-    this.setState({ redirect: true })
+  handleClickRedirect = (clientId = 0) => {
+    this.setState({ redirect: true, curClientId: clientId })
   }
 
   handleClose = () => {
@@ -211,7 +212,14 @@ class ClientsTable extends React.Component {
 
     return (
       <Container maxWidth="lg">
-        {this.state.redirect ? <Redirect to="/clients/details" /> : null}
+        {this.state.redirect ? (
+          <Redirect
+            to={{
+              pathname: '/clients/details',
+              state: { curClientId: this.state.curClientId }
+            }}
+          />
+        ) : null}
         <Paper className={classes.root}>
           <div className={classes.tableWrapper}>
             <Table /* className={classes.table} */ aria-labelledby="tableTitle">
@@ -233,7 +241,7 @@ class ClientsTable extends React.Component {
                         className={classes.row}
                         tabIndex={-1}
                         key={n.id}
-                        onClick={this.handleClickRedirect}
+                        onClick={() => this.handleClickRedirect(n.id)}
                       >
                         <TableCell align="center">
                           {n.client_first_name}

@@ -189,22 +189,19 @@ class AssignedClients extends React.Component {
   }
 
   updateSelectedClientData() {
-    this.setState({
-      selectedClientData: this.props.clients.filter(
-        client =>
-          client.assi_therapist_full_name === this.props.therapistFullName
-      )
-    })
+    this.setState(
+      {
+        selectedClientData: this.props.clients.filter(
+          client =>
+            client.assi_therapist_full_name === this.props.therapistFullName
+        )
+      },
+      () => {
+        console.log('thera', this.props.therapistFullName)
+        console.log('sele', this.state.clientData)
+      }
+    )
   }
-  // updateContent = memberId => {
-  //   this.setState({ memberId }, () => {
-  //     this.setState({
-  //       selectedClientData: this.props.clients.filter(
-  //         client => client.id === this.props.memberId
-  //       )
-  //     })
-  //   })
-  // }
 
   handleRequestSort = (event, property) => {
     const orderBy = property

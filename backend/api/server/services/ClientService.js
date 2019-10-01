@@ -1,9 +1,11 @@
-import database from '../src/models'
+import { query } from './connection'
 
 class ClientService {
   static async getAllClients() {
+    const sql = 'SELECT * FROM clients'
+
     try {
-      return await database.Clients.findAll()
+      return await query(sql)
     } catch (error) {
       throw error
     }

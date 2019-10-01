@@ -242,6 +242,7 @@ class MemberDetails extends React.Component {
     tabValue: 0,
     memberRole: 'Administrator',
     //client info
+    fullName: '',
     firstName: 'Harry',
     lastName: 'Potter',
     email: 'harry@hogwarts.com',
@@ -290,7 +291,7 @@ class MemberDetails extends React.Component {
         therapistData: members,
         clientData: clients
       })
-      this.setState({ member: this.props.location.state.curMemberId }, ()=>{
+      this.setState({ member: this.props.location.state.curMemberId }, () => {
         this.changeContentWithMemberId()
       })
     } catch (error) {
@@ -401,6 +402,7 @@ class MemberDetails extends React.Component {
       } = member
       this.setState({
         memberRole: role,
+        fullName: member_full_name,
         firstName: member_first_name,
         lastName: member_last_name,
         email: email,
@@ -840,7 +842,12 @@ class MemberDetails extends React.Component {
               </Dialog>
             </Grid>
           )}
-          {tabValue === 1 && <AssignedClientsTable clients={this.state.clientData} memberId={this.state.member} />}
+          {tabValue === 1 && (
+            <AssignedClientsTable
+              clients={this.state.clientData}
+              therapistFullName={this.state.fullName}
+            />
+          )}
           {tabValue === 2 && <Paper>Message History</Paper>}
           {tabValue === 3 && <MemberUploadAction />}
           {tabValue === 3 && <TeamMemFilesTable />}

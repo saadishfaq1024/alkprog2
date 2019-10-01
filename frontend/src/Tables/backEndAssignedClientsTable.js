@@ -173,38 +173,35 @@ class AssignedClients extends React.Component {
     selectedIndex: null,
     page: 0,
     rowsPerPage: 5,
-    memberId: this.props.memberId,
+    therapistFullName: this.props.therapistFullName,
     clientData: this.props.clients
   }
 
-  componentDidMount() {
-    this.setState({
-      selectedClientData: this.props.clients.filter(
-        client => client.id === this.props.memberId
-      )
-    })
-  }
+  componentDidMount() {}
 
   componentWillUnmount() {}
 
   componentDidUpdate(prevProps) {
-    if (this.props.memberId !== prevProps.memberId)
+    console.log(this.props.therapistFullName)
+    console.log('clients', this.state.clientData)
+    if (this.props.therapistFullName !== prevProps.therapistFullName)
       this.setState({
         selectedClientData: this.props.clients.filter(
-          client => client.id === this.props.memberId
+          client =>
+            client.assi_therapist_full_name === this.props.therapistFullName
         )
       })
   }
 
-  updateContent = memberId => {
-    this.setState({ memberId }, () => {
-      this.setState({
-        selectedClientData: this.props.clients.filter(
-          client => client.id === this.props.memberId
-        )
-      })
-    })
-  }
+  // updateContent = memberId => {
+  //   this.setState({ memberId }, () => {
+  //     this.setState({
+  //       selectedClientData: this.props.clients.filter(
+  //         client => client.id === this.props.memberId
+  //       )
+  //     })
+  //   })
+  // }
 
   handleRequestSort = (event, property) => {
     const orderBy = property

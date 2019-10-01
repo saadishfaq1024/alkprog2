@@ -177,22 +177,25 @@ class AssignedClients extends React.Component {
     clientData: this.props.clients
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.updateSelectedClientData()
+  }
 
   componentWillUnmount() {}
 
   componentDidUpdate(prevProps) {
-    console.log(this.props.therapistFullName)
-    console.log('clients', this.state.clientData)
     if (this.props.therapistFullName !== prevProps.therapistFullName)
-      this.setState({
-        selectedClientData: this.props.clients.filter(
-          client =>
-            client.assi_therapist_full_name === this.props.therapistFullName
-        )
-      })
+      this.updateSelectedClientData()
   }
 
+  updateSelectedClientData() {
+    this.setState({
+      selectedClientData: this.props.clients.filter(
+        client =>
+          client.assi_therapist_full_name === this.props.therapistFullName
+      )
+    })
+  }
   // updateContent = memberId => {
   //   this.setState({ memberId }, () => {
   //     this.setState({

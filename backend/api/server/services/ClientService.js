@@ -12,18 +12,10 @@ class ClientService {
   }
 
   static async deleteOne(id) {
-    try {
-      const oneToDelete = await database.Clients.findOne({
-        where: { id: Number(id) }
-      })
+    const sql = `DELETE FROM clients WHERE id = ${id}`
 
-      if (oneToDelete) {
-        const deletedOne = await database.Clients.destroy({
-          where: { id: Number(id) }
-        })
-        return deletedOne
-      }
-      return null
+    try {
+      return await query(sql)
     } catch (error) {
       throw error
     }

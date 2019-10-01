@@ -452,6 +452,7 @@ class ClientDetails extends React.Component {
     contactCity: "Plano",
     contactState: "TX",
     contactZip: "75023",
+    contact2ndPhone: '',
     // multiline: "Controlled"
     // PAYOR TAB
     billingFirstName: "Jack",
@@ -468,6 +469,7 @@ class ClientDetails extends React.Component {
     cvv: "000",
     expDate: "03/17",
     cardType: "Visa",
+
     sameAsContact: false,
     // GOALS TAB
    // add goals
@@ -801,6 +803,7 @@ class ClientDetails extends React.Component {
         contact_city,
         contact_state,
         contact_zip,
+        contact_secondary_phone,
         // Payor tab
         billing_first_name,
         billing_last_name,
@@ -824,7 +827,7 @@ class ClientDetails extends React.Component {
         clientFacility: facility,
         clientLastName: client_last_name,
         clientEmail: email,
-        clientTitle: title,
+        clientTitle: title || '',
         clientTherapist: assi_therapist_full_name,
         sessionLength: session_length,
         sessionCost: session_cost,
@@ -845,17 +848,18 @@ class ClientDetails extends React.Component {
         contactLastName: contact_last_name,
         contactEmail: contact_email,
         contactAddress: contact_street_address,
-        contactTitle: title,
+        contactTitle: title || '',
         contactPhone: contact_phone,
         contactCity: contact_city,
         contactState: contact_state,
         contactZip: contact_zip,
+        contact2ndPhone: contact_secondary_phone || '',
         // multiline: "Controlled"
         // PAYOR TAB
         billingFirstName: billing_first_name,
         billingLastName: billing_last_name,
-        nameOnCard: name_on_card,
-        cardNum: card_num,
+        nameOnCard: name_on_card || '',
+        cardNum: card_num || '',
         payorEmail: email,
         paymentType: payment_type,
         billingPhone: billing_phone,
@@ -863,9 +867,9 @@ class ClientDetails extends React.Component {
         billingCity: billing_city,
         billingZip: billing_zip,
         billingState: billing_state,
-        cvv: cvv,
-        expDate: card_exp_date,
-        cardType: card_type,
+        cvv: cvv || '',
+        expDate: card_exp_date || '',
+        cardType: card_type || '',
       })
     }
   }
@@ -893,7 +897,7 @@ class ClientDetails extends React.Component {
             <Menu
               id="simple-menu"
               anchorEl={anchorEl}
-              anchorOrigin={{ vertical: "center", horizontal: "center" }}
+              // anchorOrigin={{ vertical: "center", horizontal: "center" }}
               keepMounted
               open={Boolean(anchorEl)}
               onClose={this.handleCloseAvatar}
@@ -1211,7 +1215,8 @@ class ClientDetails extends React.Component {
                           }
                         }}
                       >
-                        {therapistData.map(option => (
+                        {
+                          therapistData.map(option => (
                           <MenuItem
                             key={option.id}
                             value={option.member_full_name}
@@ -1562,8 +1567,8 @@ class ClientDetails extends React.Component {
                       }
                     }}
                   >
-                    {cardTypes.map(option => (
-                      <MenuItem key={option.value} value={option.value}>
+                    {cardTypes.map((option, i) => (
+                      <MenuItem key={i} value={option.value}>
                         {option.label}
                       </MenuItem>
                     ))}

@@ -362,11 +362,12 @@ class ReactCalendarBase extends Component {
       const clientsResp = await API.get('/clients/all')
       const cal_events =
         eventsResp.data.data.map(event => {
+          const { title, start, end, ...resource } = event
           return {
-            title: event.title,
-            start: event.start,
-            end: event.end,
-            resource: event.id
+            title,
+            start,
+            end,
+            resource
           }
         }) || []
       const therapistData = therapistsResp.data.data || []
@@ -398,7 +399,11 @@ class ReactCalendarBase extends Component {
     API.delete(`/events/${this.state.eventId}`)
       .then(resp => {
         this.handleCloseExisting()
-        this.updateContent()
+        this.setState(state => ({
+          cal_events: state.cal_events.filter(
+            event => event.resource.id !== this.state.eventId
+          )
+        }))
       })
       .catch(error => {
         console.log('ee', error)
@@ -459,7 +464,26 @@ class ReactCalendarBase extends Component {
 
   /* show existing event dialog box */
   handleClickOpen2 = event => {
-    this.setState({ openExisting: true, eventId: event.resource })
+    const {
+      id,
+      bill_type,
+      client,
+      therapist,
+      start,
+      end,
+      location,
+      category
+    } = event.resource
+
+    this.setState({
+      openExisting: true,
+      eventId: id,
+      existingBillType: bill_type,
+      existingClient: client,
+      existingTherapist: therapist,
+      existingLocation: location,
+      existingCategory: category
+    })
   }
 
   /* close existing event dialog box */
@@ -647,7 +671,7 @@ class ReactCalendarBase extends Component {
               >
                 {newBillTypes.map(option => (
                   <MenuItem key={option.value} value={option.value}>
-                    {option.label}
+                    {option.value}
                   </MenuItem>
                 ))}
               </TextField>

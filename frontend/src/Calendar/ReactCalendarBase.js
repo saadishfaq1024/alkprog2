@@ -230,6 +230,8 @@ class ReactCalendarBase extends Component {
       existingTherapist: 'Harry Potter',
       existingLocation: 'Main Building',
       existingCategory: 'None',
+      existingStart: '',
+      existingEnd: '',
       existingRepeat: 'Weekly',
       existingEndRepeat: 'On Date',
       existingNumOccurences: '',
@@ -469,12 +471,9 @@ class ReactCalendarBase extends Component {
       bill_type,
       client,
       therapist,
-      start,
-      end,
       location,
       category
     } = event.resource
-
     this.setState({
       openExisting: true,
       eventId: id,
@@ -482,7 +481,9 @@ class ReactCalendarBase extends Component {
       existingClient: client,
       existingTherapist: therapist,
       existingLocation: location,
-      existingCategory: category
+      existingCategory: category,
+      existingStart: event.start,
+      existingEnd: event.end
     })
   }
 
@@ -766,8 +767,10 @@ class ReactCalendarBase extends Component {
                         margin="normal"
                         className={classes.textField2}
                         label="Date picker"
-                        value={selectedDate}
-                        onChange={this.handleDateChangeStart}
+                        value={this.state.existingStart}
+                        onChange={date =>
+                          this.setState({ existingStart: date })
+                        }
                       />
 
                       <TimePicker
@@ -775,8 +778,10 @@ class ReactCalendarBase extends Component {
                         inputVariant="outlined"
                         className={classes.textField2}
                         label="Time picker"
-                        value={selectedDate}
-                        onChange={this.handleDateChangeStart}
+                        value={this.state.existingStart}
+                        onChange={date =>
+                          this.setState({ existingStart: date })
+                        }
                       />
                     </MuiThemeProvider>
                   </Grid>
@@ -790,16 +795,16 @@ class ReactCalendarBase extends Component {
                       inputVariant="outlined"
                       label="Date picker"
                       className={classes.textField2}
-                      value={endSelectedDate}
-                      onChange={this.handleDateChangeEnd}
+                      value={this.state.existingEnd}
+                      onChange={date => this.setState({ existingStart: date })}
                     />
                     <TimePicker
                       inputVariant="outlined"
                       margin="normal"
                       label="Time picker"
                       className={classes.textField2}
-                      value={endSelectedDate}
-                      onChange={this.handleDateChangeEnd}
+                      value={this.state.existingEnd}
+                      onChange={date => this.setState({ existingStart: date })}
                     />
                   </MuiThemeProvider>
                 </Grid>

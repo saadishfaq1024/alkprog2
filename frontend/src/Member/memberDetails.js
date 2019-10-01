@@ -240,6 +240,7 @@ class MemberDetails extends React.Component {
     checkedThera: true,
     checkedIntern: false,
     tabValue: 0,
+    deleteDialog: false,
     memberRole: 'Administrator',
     //client info
     fullName: '',
@@ -298,6 +299,14 @@ class MemberDetails extends React.Component {
       console.log('Data fetching error: ', error)
     }
   }
+
+  handleDeleteDialogOpen = () => {
+    this.setState({ deleteDialog: true })
+  }
+
+  handleDeleteDialogClose = () => {
+    this.setState({ deleteDialog: false });
+  };
 
   handleChangeCheckedAdmin = name => event => {
     this.setState({

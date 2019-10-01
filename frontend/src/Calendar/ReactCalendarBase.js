@@ -1,52 +1,60 @@
-import React, { Component } from "react";
+import React, { Component } from 'react'
+import { withRouter } from 'react-router'
+
 //import BigCalendar from "react-big-calendar";
-import Calendar from "react-big-calendar";
-import moment from "moment";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import MenuItem from "@material-ui/core/MenuItem";
-import TextField from "@material-ui/core/TextField";
-import IconButton from "@material-ui/core/IconButton";
-import NoteAddIcon from "@material-ui/icons/NoteAddOutlined";
+import Calendar from 'react-big-calendar'
+import moment from 'moment'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import Button from '@material-ui/core/Button'
+import Grid from '@material-ui/core/Grid'
+import MenuItem from '@material-ui/core/MenuItem'
+import TextField from '@material-ui/core/TextField'
+import IconButton from '@material-ui/core/IconButton'
+import NoteAddIcon from '@material-ui/icons/NoteAddOutlined'
 import {
   withStyles,
   createMuiTheme,
   MuiThemeProvider
-} from "@material-ui/core/styles";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormLabel from "@material-ui/core/FormLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForeverOutlined";
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import MomentUtils from "@date-io/moment";
+} from '@material-ui/core/styles'
+import FormGroup from '@material-ui/core/FormGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import FormLabel from '@material-ui/core/FormLabel'
+import Checkbox from '@material-ui/core/Checkbox'
+import DeleteForeverIcon from '@material-ui/icons/DeleteForeverOutlined'
+import 'react-big-calendar/lib/css/react-big-calendar.css'
+import MomentUtils from '@date-io/moment'
 import {
   MuiPickersUtilsProvider,
   DatePicker,
   TimePicker
-} from "@material-ui/pickers";
-import Container from "@material-ui/core/Container";
+} from '@material-ui/pickers'
+import Container from '@material-ui/core/Container'
 
-import { Redirect, Link } from "react-router-dom";
+import { Redirect, Link } from 'react-router-dom'
 
-import axios from "axios";
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
+// Snackbar
+import Snackbar from '@material-ui/core/Snackbar'
+import MySnackbarContentWrapper from '../common/MySnackbarContentWrapper'
 
-const localizer = Calendar.momentLocalizer(moment);
-const propTypes = {};
-moment().toDate();
+import API from '../utils/API'
+
+const localizer = Calendar.momentLocalizer(moment)
+const propTypes = {}
+moment().toDate()
 
 const styles = theme => ({
   root: {
     paddingTop: theme.spacing(10),
-    height: "100%"
+    height: '100%'
     // width: "90%"
   },
   container: {
-    display: "flex",
-    flexWrap: "wrap"
+    display: 'flex',
+    flexWrap: 'wrap'
   },
   textField: {
     marginLeft: theme.spacing(1),
@@ -65,58 +73,58 @@ const styles = theme => ({
     //width: 200
   },
   root3: {
-    width: "100%"
+    width: '100%'
   }
-});
+})
 
 const navStyle = {
-  color: "black",
-  textDecoration: "none"
-};
+  color: 'black',
+  textDecoration: 'none'
+}
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: "#b2dfdb" }
+    primary: { main: '#b2dfdb' }
   }
-});
+})
 
 const theme2 = createMuiTheme({
   palette: {
-    primary: { main: "#00838f" }
+    primary: { main: '#00838f' }
   }
-});
+})
 
 const newBillTypes = [
   {
-    value: "Billable",
-    label: "Billable"
+    value: 'Billable',
+    label: 'Billable'
   },
 
   {
-    value: "Non-billable",
-    label: "Non-billable"
+    value: 'Non-billable',
+    label: 'Non-billable'
   }
-];
+]
 
 const repeatOptions = [
   {
-    value: "Daily",
-    label: "Daily"
+    value: 'Daily',
+    label: 'Daily'
   },
 
   {
-    value: "Weekly",
-    label: "Weekly"
+    value: 'Weekly',
+    label: 'Weekly'
   },
   {
-    value: "Monthly",
-    label: "Monthly"
+    value: 'Monthly',
+    label: 'Monthly'
   },
   {
-    value: "Custom",
-    label: "Custom"
+    value: 'Custom',
+    label: 'Custom'
   }
-];
+]
 
 const repeatEndOptions = [
   /* {
@@ -125,24 +133,24 @@ const repeatEndOptions = [
   },
 */
   {
-    value: "After",
-    label: "After"
+    value: 'After',
+    label: 'After'
   },
   {
-    value: "On Date",
-    label: "On Date"
+    value: 'On Date',
+    label: 'On Date'
   }
-];
+]
 
 const customFreqOptions = [
   {
-    value: "Specific Days",
-    label: "Specific Days"
+    value: 'Specific Days',
+    label: 'Specific Days'
   },
 
   {
-    value: "Every x days",
-    label: "Every x days"
+    value: 'Every x days',
+    label: 'Every x days'
   }
   /*
   {
@@ -154,20 +162,24 @@ const customFreqOptions = [
     label: "Monthly"
   }
   */
-];
+]
 
 const categories = [
   {
-    value: "None",
-    label: "None"
+    value: 'None',
+    label: 'None'
   }
-];
+]
 
 class ReactCalendarBase extends Component {
   constructor(...args) {
-    super(...args);
+    super(...args)
 
     this.state = {
+      eventId: 0,
+      deleteDialog: false,
+      deleteSuccessSnackbarOpen: false,
+      deleteFailureSnackbarOpen: false,
       cal_events: [
         //State is updated via componentDidMount
       ],
@@ -178,18 +190,18 @@ class ReactCalendarBase extends Component {
       openExisting: false,
       //id: 0,
       // NEW EVENT
-      newBillType: "",
+      newBillType: '',
       //newClientType: "",
-      newClient: "",
-      newTherapist: "",
-      newLocation: "",
-      newCategory: "",
-      newStartDate: "",
-      newStartTime: "",
-      newEndDate: "",
-      newEndTime: "",
-      information: "",
-      intervalIsSet: "",
+      newClient: '',
+      newTherapist: '',
+      newLocation: '',
+      newCategory: '',
+      newStartDate: '',
+      newStartTime: '',
+      newEndDate: '',
+      newEndTime: '',
+      information: '',
+      intervalIsSet: '',
       checkedRepeat: false,
       repeatOption: null,
       newEndRepeat: null,
@@ -206,83 +218,39 @@ class ReactCalendarBase extends Component {
       newRepeatEveryNumDays: null,
       newRepeatEveryNumWeeks: null,
       newRepeatEveryNumMonths: null,
-      selectedDate: moment().format("YYYY-MM-DD HH:mm:ss"),
-      endSelectedDate: moment().format("YYYY-MM-DD HH:mm:ss"),
+      selectedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
+      endSelectedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
       redirect: false,
       // EXISTING EVENT
       redirectDocs: false,
-      attendance: "Present",
-      existingBillType: "Billable",
-      existingClientType: "Individual",
-      existingClient: "John Smith",
-      existingTherapist: "Harry Potter",
-      existingLocation: "Main Building",
-      existingCategory: "None",
-      existingRepeat: "Weekly",
-      existingEndRepeat: "On Date",
-      existingNumOccurences: "",
-      existingEveryNumDays: "",
-      existingEveryNumWeeks: "",
-      existingNumMonths: "",
+      attendance: 'Present',
+      existingBillType: 'Billable',
+      existingClientType: 'Individual',
+      existingClient: 'John Smith',
+      existingTherapist: 'Harry Potter',
+      existingLocation: 'Main Building',
+      existingCategory: 'None',
+      existingRepeat: 'Weekly',
+      existingEndRepeat: 'On Date',
+      existingNumOccurences: '',
+      existingEveryNumDays: '',
+      existingEveryNumWeeks: '',
+      existingNumMonths: '',
       existingCheckedRepeat: true
-    };
+    }
   }
 
   convertDate = date => {
-    return moment.utc(date).toDate();
-  };
+    return moment.utc(date).toDate()
+  }
 
-  componentDidMount() {
-    axios
-      .get("http://localhost:5000/events")
-      .then(response => {
-        console.log("Got event data!");
-        console.log(response.data);
-        let appointments = response.data;
-        this.setState({
-          cal_events: appointments
-        });
-      })
-      .then(response2 => {
-        return axios
-          .get("http://localhost:5000/gettherapists") // this is not using the sequelize method
-          .then(response2 => {
-            console.log("Got therapist data!");
-            console.log(response2.data);
-            this.setState({
-              therapistData: response2.data
-            });
-          });
-      })
-      .then(response3 => {
-        return axios.get("http://localhost:5000/getclients").then(response3 => {
-          console.log("Got client data!");
-          console.log(response3.data);
-          this.setState({
-            clientData: response3.data
-          });
-        });
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-
-    if (!this.state.intervalIsSet) {
-      let interval = setInterval(this.getDataFromDb, 1000);
-      this.setState({ intervalIsSet: interval });
-      console.log("Data interval set!");
-    }
+  async componentDidMount() {
+    await this.updateContent()
   }
 
   // never let a process live forever
   // always kill a process everytime we are done using it
-  componentWillUnmount() {
-    if (this.state.intervalIsSet) {
-      clearInterval(this.state.intervalIsSet);
-      this.setState({ intervalIsSet: null });
-      console.log("Unmounted from events!");
-    }
-  }
+  componentWillUnmount() {}
 
   onSubmit(e) {
     //experiment keeping preventDefault
@@ -313,69 +281,68 @@ class ReactCalendarBase extends Component {
       thu: this.state.thu,
       fri: this.state.fri,
       sat: this.state.sat
-    };
-    console.log("submitobj", obj);
+    }
+    console.log('submitobj', obj)
 
     //Here I have just added some basic validation messages for fields that are needed for repeat appointments
     //I guess you will add validations in your form later on
     if (obj.checkedRepeat) {
       if (!obj.repeatOption) {
-        alert('Please select "Repeat Option"');
+        alert('Please select "Repeat Option"')
       } else if (!obj.newEndRepeat) {
-        alert('Please select "End Repeat"');
-      } else if (obj.newEndRepeat === "After" && !obj.existingNumOccurences) {
-        alert('Please enter "Occurances"');
+        alert('Please select "End Repeat"')
+      } else if (obj.newEndRepeat === 'After' && !obj.existingNumOccurences) {
+        alert('Please enter "Occurances"')
       } else if (
-        obj.newEndRepeat === "On Date" &&
+        obj.newEndRepeat === 'On Date' &&
         !obj.selectedDateOccurenceEnd
       ) {
-        alert('Please select "End On"');
-      } else if (obj.repeatOption === "Custom" && !obj.newCustomFreq) {
-        alert('Please select "Custom Frequency"');
+        alert('Please select "End On"')
+      } else if (obj.repeatOption === 'Custom' && !obj.newCustomFreq) {
+        alert('Please select "Custom Frequency"')
       } else {
-        axios
-          .post("http://localhost:5000/insertevent", obj)
+        API.post('/event/insert', obj)
           // .then(res => console.log(res.data));
           .then(response => {
             this.setState({
               obj,
               open: false,
               redirect: true
-            });
-          });
+            })
+          })
       }
     } else {
-      axios.post("http://localhost:5000/insertevent", obj).then(response => {
+      API.post('/event/insert', obj).then(response => {
         this.setState({
           obj,
           open: false,
           redirect: true
-        });
-      });
+        })
+      })
       //.then(res => console.log(res.data));
     }
     /* this will clear everything after saving+closing */
 
     this.setState({
-      newBillType: "",
+      newBillType: '',
       //newClientType: "",
-      newClient: "",
-      newTherapist: "",
-      newLocation: "",
-      newCategory: "",
-      selectedDate: moment().format("YYYY-MM-DD HH:mm:ss"),
+      newClient: '',
+      newTherapist: '',
+      newLocation: '',
+      newCategory: '',
+      selectedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
       endSelectedDate: moment()
         // .add(2, "days")
-        .format("YYYY-MM-DD HH:mm:ss"),
+        .format('YYYY-MM-DD HH:mm:ss'),
       checkedRepeat: false,
-      repeatOption: "",
-      newEndRepeat: "",
-      existingNumOccurences: "",
-      selectedDateOccurenceEnd: moment().format("YYYY-MM-DD HH:mm:ss"),
-      newCustomFreq: "",
-      newRepeatEveryNumDays: "",
-      newRepeatEveryNumWeeks: "",
-      newRepeatEveryNumMonths: "",
+      repeatOption: '',
+      newEndRepeat: '',
+      existingNumOccurences: '',
+      selectedDateOccurenceEnd: moment().format('YYYY-MM-DD HH:mm:ss'),
+      newCustomFreq: '',
+      newRepeatEveryNumDays: '',
+      newRepeatEveryNumWeeks: '',
+      newRepeatEveryNumMonths: '',
       sun: false,
       mon: false,
       tues: false,
@@ -385,28 +352,87 @@ class ReactCalendarBase extends Component {
       sat: false
       // redirect: true,
       // open: false
-    });
+    })
+  }
+
+  async updateContent() {
+    try {
+      const eventsResp = await API.get('/events')
+      const therapistsResp = await API.get('/members/getTherapists')
+      const clientsResp = await API.get('/clients/all')
+      const cal_events =
+        eventsResp.data.data.map(event => {
+          return {
+            title: event.title,
+            start: event.start,
+            end: event.end,
+            resource: event.id
+          }
+        }) || []
+      const therapistData = therapistsResp.data.data || []
+      const clientData = clientsResp.data.data || []
+
+      this.setState(
+        {
+          cal_events,
+          therapistData,
+          clientData
+        },
+        () => {
+          // this.changeContentWithClientId()
+        }
+      )
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  handleDeleteDialogOpen = () => {
+    this.setState({ deleteDialog: true })
+  }
+
+  handleDeleteDialogClose = () => {
+    this.setState({ deleteDialog: false })
+  }
+
+  handleDelete = () => {
+    API.delete(`/events/${this.state.eventId}`)
+      .then(resp => {
+        this.handleCloseExisting()
+        this.updateContent()
+      })
+      .catch(error => {
+        console.log('ee', error)
+        this.setState({
+          deleteFailureSnackbarOpen: true,
+          deleteClientErrorMsg: error
+        })
+      })
+    this.handleDeleteDialogClose()
+  }
+
+  handleSnackbarClose = () => {
+    this.setState({ deleteFailureSnackbarOpen: false })
   }
 
   /* show new event dialog box */
   handleClickOpen = () => {
     this.setState({
       open: true
-    });
-  };
+    })
+  }
 
   /* close new event dialog box */
   handleClose = () => {
     this.setState({
       open: false,
       //this will set the values to blank once the window is closed
-      newBillType: "",
-      newClientType: "",
-      title: "",
-      newClient: "",
-      newTherapist: "",
-      newLocation: "",
-      newCategory: "",
+      newBillType: '',
+      newClientType: '',
+      title: '',
+      newClient: '',
+      newTherapist: '',
+      newLocation: '',
+      newCategory: '',
       checkedRepeat: false,
       repeatOption: null,
       newEndRepeat: null,
@@ -424,22 +450,22 @@ class ReactCalendarBase extends Component {
       newRepeatEveryNumWeeks: null,
       newRepeatEveryNumMonths: null,
       newCustomFreq: null,
-      selectedDate: moment().format("YYYY-MM-DD HH:mm:ss"),
+      selectedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
       endSelectedDate: moment()
-        .add(1, "hour")
-        .format("YYYY-MM-DD HH:mm:ss")
-    });
-  };
+        .add(1, 'hour')
+        .format('YYYY-MM-DD HH:mm:ss')
+    })
+  }
 
   /* show existing event dialog box */
-  handleClickOpen2 = () => {
-    this.setState({ openExisting: true });
-  };
+  handleClickOpen2 = event => {
+    this.setState({ openExisting: true, eventId: event.resource })
+  }
 
   /* close existing event dialog box */
   handleCloseExisting = () => {
-    this.setState({ openExisting: false });
-  };
+    this.setState({ openExisting: false })
+  }
 
   handleChange = name => event => {
     this.setState({
@@ -452,8 +478,8 @@ class ReactCalendarBase extends Component {
       thu: false,
       fri: false,
       sat: false
-    });
-  };
+    })
+  }
 
   handleChange2 = name => event => {
     this.setState({
@@ -466,8 +492,8 @@ class ReactCalendarBase extends Component {
       thu: false,
       fri: false,
       sat: false */
-    });
-  };
+    })
+  }
 
   handleChangeCustom = name => event => {
     this.setState({
@@ -479,12 +505,12 @@ class ReactCalendarBase extends Component {
       thu: false,
       fri: false,
       sat: false
-    });
-  };
+    })
+  }
 
   handleChangeCheck = name => event => {
-    this.setState({ [name]: event.target.checked });
-  };
+    this.setState({ [name]: event.target.checked })
+  }
 
   handleChangeCheck2 = name => event => {
     this.setState({
@@ -516,28 +542,28 @@ class ReactCalendarBase extends Component {
       contactCity3: null,
       contactState3: null,
       contactZip3: null */
-    });
-  };
+    })
+  }
 
   //printState = () => console.log(this.state)
 
   handleDateChangeStart = date => {
-    this.setState({ selectedDate: date.format("YYYY-MM-DD HH:mm:ss") });
-  };
+    this.setState({ selectedDate: date.format('YYYY-MM-DD HH:mm:ss') })
+  }
 
   handleDateChangeEnd = date => {
-    this.setState({ endSelectedDate: date.format("YYYY-MM-DD HH:mm:ss") });
-  };
+    this.setState({ endSelectedDate: date.format('YYYY-MM-DD HH:mm:ss') })
+  }
 
   handleDateOccurenceChange = date => {
     this.setState({
-      selectedDateOccurenceEnd: date.format("YYYY-MM-DD HH:mm:ss")
-    });
-  };
+      selectedDateOccurenceEnd: date.format('YYYY-MM-DD HH:mm:ss')
+    })
+  }
 
   handleRedirectDocs = () => {
-    this.setState({ redirectDocs: true });
-  };
+    this.setState({ redirectDocs: true })
+  }
 
   /*
   reloadPage() {
@@ -553,7 +579,7 @@ class ReactCalendarBase extends Component {
   */
 
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props
     //const classes = withStyles();
     const {
       cal_events,
@@ -561,7 +587,7 @@ class ReactCalendarBase extends Component {
       clientData,
       selectedDate,
       endSelectedDate
-    } = this.state;
+    } = this.state
     /*
     if (this.state.redirect) {
       return <Redirect to="/calendar/a" />;
@@ -578,7 +604,7 @@ class ReactCalendarBase extends Component {
             endAccessor={cal_events => new Date(cal_events.end)}
             localizer={localizer}
             events={cal_events}
-            views={["month", "week", "day"]}
+            views={['month', 'week', 'day']}
             defaultDate={new Date()}
             defaultView="month"
             onSelectEvent={this.handleClickOpen2}
@@ -598,12 +624,8 @@ class ReactCalendarBase extends Component {
         >
           <form className={classes.container} noValidate autoComplete="off">
             <DialogContent>
-              <IconButton>
-                <NoteAddIcon
-                  color="primary"
-                  fontSize="large"
-                  onClick={this.handleRedirectDocs}
-                />
+              <IconButton onClick={this.handleRedirectDocs}>
+                <NoteAddIcon color="primary" fontSize="large" />
               </IconButton>
               <TextField
                 required
@@ -637,7 +659,7 @@ class ReactCalendarBase extends Component {
                 label="Client"
                 className={classes.textField}
                 value={this.state.existingClient}
-                onChange={this.handleChange("existingClient")}
+                onChange={this.handleChange('existingClient')}
                 margin="normal"
                 variant="outlined"
                 SelectProps={{
@@ -647,7 +669,7 @@ class ReactCalendarBase extends Component {
                 }}
               >
                 {clientData.map(option => (
-                  <MenuItem key={option.value} value={option.client_full_name}>
+                  <MenuItem key={option.id} value={option.client_full_name}>
                     {option.client_full_name}
                   </MenuItem>
                 ))}
@@ -660,7 +682,7 @@ class ReactCalendarBase extends Component {
                 margin="normal"
                 className={classes.textField}
                 value={this.state.existingTherapist}
-                onChange={this.handleChange("existingTherapist")}
+                onChange={this.handleChange('existingTherapist')}
                 SelectProps={{
                   MenuProps: {
                     className: classes.menu
@@ -713,7 +735,7 @@ class ReactCalendarBase extends Component {
               </TextField>
               <MuiThemeProvider theme={theme}>
                 <MuiPickersUtilsProvider utils={MomentUtils}>
-                  <Grid container row>
+                  <Grid container>
                     <MuiThemeProvider theme={theme2}>
                       <DatePicker
                         inputVariant="outlined"
@@ -737,7 +759,7 @@ class ReactCalendarBase extends Component {
                 </MuiPickersUtilsProvider>
               </MuiThemeProvider>
               <MuiPickersUtilsProvider utils={MomentUtils}>
-                <Grid container row>
+                <Grid container>
                   <MuiThemeProvider theme={theme2}>
                     <DatePicker
                       margin="normal"
@@ -765,7 +787,7 @@ class ReactCalendarBase extends Component {
                       control={
                         <Checkbox
                           checked={this.state.checkedRepeat}
-                          onChange={this.handleChangeCheck2("checkedRepeat")}
+                          onChange={this.handleChangeCheck2('checkedRepeat')}
                           value="checkedRepeat"
                           color="primary"
                         />
@@ -783,7 +805,7 @@ class ReactCalendarBase extends Component {
                   variant="outlined"
                   className={classes.textField}
                   value={this.state.repeatOption}
-                  onChange={this.handleChange("repeatOption")}
+                  onChange={this.handleChange('repeatOption')}
                   SelectProps={{
                     MenuProps: {
                       className: classes.menu
@@ -798,7 +820,7 @@ class ReactCalendarBase extends Component {
                 </TextField>
               ) : null}
 
-              {this.state.repeatOption === "Custom" ? (
+              {this.state.repeatOption === 'Custom' ? (
                 <TextField
                   id="standard-select-client"
                   select
@@ -807,7 +829,7 @@ class ReactCalendarBase extends Component {
                   margin="normal"
                   className={classes.textField}
                   value={this.state.newCustomFreq}
-                  onChange={this.handleChangeCustom("newCustomFreq")}
+                  onChange={this.handleChangeCustom('newCustomFreq')}
                   SelectProps={{
                     MenuProps: {
                       className: classes.menu
@@ -822,7 +844,7 @@ class ReactCalendarBase extends Component {
                 </TextField>
               ) : null}
 
-              {this.state.newCustomFreq === "Specific Days" ? (
+              {this.state.newCustomFreq === 'Specific Days' ? (
                 <MuiThemeProvider theme={theme}>
                   <FormGroup row>
                     <FormLabel component="legend">Every</FormLabel>
@@ -830,7 +852,7 @@ class ReactCalendarBase extends Component {
                       control={
                         <Checkbox
                           checked={this.state.sun}
-                          onChange={this.handleChangeCheck("sun")}
+                          onChange={this.handleChangeCheck('sun')}
                           value="sun"
                           color="primary"
                         />
@@ -841,7 +863,7 @@ class ReactCalendarBase extends Component {
                       control={
                         <Checkbox
                           checked={this.state.mon}
-                          onChange={this.handleChangeCheck("mon")}
+                          onChange={this.handleChangeCheck('mon')}
                           value="mon"
                           color="primary"
                         />
@@ -852,7 +874,7 @@ class ReactCalendarBase extends Component {
                       control={
                         <Checkbox
                           checked={this.state.tues}
-                          onChange={this.handleChangeCheck("tues")}
+                          onChange={this.handleChangeCheck('tues')}
                           value="tues"
                           color="primary"
                         />
@@ -863,7 +885,7 @@ class ReactCalendarBase extends Component {
                       control={
                         <Checkbox
                           checked={this.state.wed}
-                          onChange={this.handleChangeCheck("wed")}
+                          onChange={this.handleChangeCheck('wed')}
                           value="wed"
                           color="primary"
                         />
@@ -874,7 +896,7 @@ class ReactCalendarBase extends Component {
                       control={
                         <Checkbox
                           checked={this.state.thu}
-                          onChange={this.handleChangeCheck("thu")}
+                          onChange={this.handleChangeCheck('thu')}
                           value="thu"
                           color="primary"
                         />
@@ -885,7 +907,7 @@ class ReactCalendarBase extends Component {
                       control={
                         <Checkbox
                           checked={this.state.fri}
-                          onChange={this.handleChangeCheck("fri")}
+                          onChange={this.handleChangeCheck('fri')}
                           value="fri"
                           color="primary"
                         />
@@ -896,7 +918,7 @@ class ReactCalendarBase extends Component {
                       control={
                         <Checkbox
                           checked={this.state.sat}
-                          onChange={this.handleChangeCheck("sat")}
+                          onChange={this.handleChangeCheck('sat')}
                           value="sat"
                           color="primary"
                         />
@@ -907,38 +929,38 @@ class ReactCalendarBase extends Component {
                 </MuiThemeProvider>
               ) : null}
 
-              {this.state.newCustomFreq === "Every x days" ? (
+              {this.state.newCustomFreq === 'Every x days' ? (
                 <TextField
                   id="standard-newNumOccurences"
                   label="Every Number of Days"
                   variant="outlined"
                   className={classes.textField2}
                   value={this.state.newRepeatEveryNumDays}
-                  onChange={this.handleChangeCustom("newRepeatEveryNumDays")}
+                  onChange={this.handleChangeCustom('newRepeatEveryNumDays')}
                   margin="normal"
                 />
               ) : null}
 
-              {this.state.existingCustomFreq === "Weekly" ? (
+              {this.state.existingCustomFreq === 'Weekly' ? (
                 <TextField
                   id="standard-newNumOccurences"
                   label="Every Number of Weeks"
                   variant="outlined"
                   className={classes.textField2}
                   value={this.state.newRepeatEveryNumWeeks}
-                  onChange={this.handleChangeCustom("newRepeatEveryNumWeeks")}
+                  onChange={this.handleChangeCustom('newRepeatEveryNumWeeks')}
                   margin="normal"
                 />
               ) : null}
 
-              {this.state.existingCustomFreq === "Monthly" ? (
+              {this.state.existingCustomFreq === 'Monthly' ? (
                 <TextField
                   id="standard-newNumOccurences"
                   label="Every Number of Months"
                   variant="outlined"
                   className={classes.textField2}
                   value={this.state.newRepeatEveryNumMonths}
-                  onChange={this.handleChangeCustom("newRepeatEveryNumMonths")}
+                  onChange={this.handleChangeCustom('newRepeatEveryNumMonths')}
                   margin="normal"
                 />
               ) : null}
@@ -952,7 +974,7 @@ class ReactCalendarBase extends Component {
                   margin="normal"
                   className={classes.textField2}
                   value={this.state.newEndRepeat}
-                  onChange={this.handleChange2("newEndRepeat")}
+                  onChange={this.handleChange2('newEndRepeat')}
                   SelectProps={{
                     MenuProps: {
                       className: classes.menu
@@ -967,19 +989,19 @@ class ReactCalendarBase extends Component {
                 </TextField>
               ) : null}
 
-              {this.state.newEndRepeat === "After" ? (
+              {this.state.newEndRepeat === 'After' ? (
                 <TextField
                   id="standard-newNumOccurences"
                   label="Occurences"
                   variant="outlined"
                   className={classes.textField2}
                   value={this.state.newNumOccurences}
-                  onChange={this.handleChange2("existingNumOccurences")}
+                  onChange={this.handleChange2('existingNumOccurences')}
                   margin="normal"
                 />
               ) : null}
 
-              {this.state.newEndRepeat === "On Date" ? (
+              {this.state.newEndRepeat === 'On Date' ? (
                 <MuiPickersUtilsProvider utils={MomentUtils}>
                   <MuiThemeProvider theme={theme2}>
                     <DatePicker
@@ -994,9 +1016,43 @@ class ReactCalendarBase extends Component {
                   </MuiThemeProvider>
                 </MuiPickersUtilsProvider>
               ) : null}
-              <IconButton>
+              <IconButton onClick={this.handleDeleteDialogOpen}>
                 <DeleteForeverIcon color="secondary" fontSize="large" />
               </IconButton>
+              <Snackbar
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right'
+                }}
+                open={this.state.deleteFailureSnackbarOpen}
+                onClose={this.handleSnackbarClose}
+                autoHideDuration={3000}
+              >
+                <MySnackbarContentWrapper
+                  variant="error"
+                  className={classes.margin}
+                  message={`Something went wrong while removing client: ${this.state.deleteClientErrorMsg}`}
+                />
+              </Snackbar>
+              <Dialog
+                open={this.state.deleteDialog}
+                onClose={this.handleDeleteDialogClose}
+              >
+                <DialogTitle>
+                  Are you sure you want to delete this appointment?
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Once this appointment has been deleted, it cannot be undone.
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={this.handleDeleteDialogClose}>No</Button>
+                  <Button onClick={this.handleDelete} autoFocus>
+                    Yes
+                  </Button>
+                </DialogActions>
+              </Dialog>
             </DialogContent>
             <Grid container justify="flex-end" alignItems="flex-end">
               <MuiThemeProvider theme={theme2}>
@@ -1045,7 +1101,7 @@ class ReactCalendarBase extends Component {
                 label="Client"
                 className={classes.textField}
                 value={this.state.newClient}
-                onChange={this.handleChange("newClient")}
+                onChange={this.handleChange('newClient')}
                 margin="normal"
                 variant="outlined"
                 SelectProps={{
@@ -1055,7 +1111,7 @@ class ReactCalendarBase extends Component {
                 }}
               >
                 {clientData.map(option => (
-                  <MenuItem key={option.value} value={option.client_full_name}>
+                  <MenuItem key={option.id} value={option.client_full_name}>
                     {option.client_full_name}
                   </MenuItem>
                 ))}
@@ -1068,7 +1124,7 @@ class ReactCalendarBase extends Component {
                 margin="normal"
                 className={classes.textField}
                 value={this.state.newTherapist}
-                onChange={this.handleChange("newTherapist")}
+                onChange={this.handleChange('newTherapist')}
                 SelectProps={{
                   MenuProps: {
                     className: classes.menu
@@ -1076,7 +1132,7 @@ class ReactCalendarBase extends Component {
                 }}
               >
                 {therapistData.map(option => (
-                  <MenuItem key={option.value} value={option.member_full_name}>
+                  <MenuItem key={option.id} value={option.member_full_name}>
                     {option.member_full_name}
                   </MenuItem>
                 ))}
@@ -1169,7 +1225,7 @@ class ReactCalendarBase extends Component {
                       control={
                         <Checkbox
                           checked={this.state.checkedRepeat}
-                          onChange={this.handleChangeCheck2("checkedRepeat")}
+                          onChange={this.handleChangeCheck2('checkedRepeat')}
                           value="checkedRepeat"
                           color="primary"
                         />
@@ -1187,7 +1243,7 @@ class ReactCalendarBase extends Component {
                   variant="outlined"
                   className={classes.textField}
                   value={this.state.repeatOption}
-                  onChange={this.handleChange("repeatOption")}
+                  onChange={this.handleChange('repeatOption')}
                   SelectProps={{
                     MenuProps: {
                       className: classes.menu
@@ -1202,7 +1258,7 @@ class ReactCalendarBase extends Component {
                 </TextField>
               ) : null}
 
-              {this.state.repeatOption === "Custom" ? (
+              {this.state.repeatOption === 'Custom' ? (
                 <TextField
                   id="standard-select-client"
                   select
@@ -1211,7 +1267,7 @@ class ReactCalendarBase extends Component {
                   margin="normal"
                   className={classes.textField}
                   value={this.state.newCustomFreq}
-                  onChange={this.handleChangeCustom("newCustomFreq")}
+                  onChange={this.handleChangeCustom('newCustomFreq')}
                   SelectProps={{
                     MenuProps: {
                       className: classes.menu
@@ -1226,7 +1282,7 @@ class ReactCalendarBase extends Component {
                 </TextField>
               ) : null}
 
-              {this.state.newCustomFreq === "Specific Days" ? (
+              {this.state.newCustomFreq === 'Specific Days' ? (
                 <MuiThemeProvider theme={theme}>
                   <FormGroup row>
                     <FormLabel component="legend">Every</FormLabel>
@@ -1234,7 +1290,7 @@ class ReactCalendarBase extends Component {
                       control={
                         <Checkbox
                           checked={this.state.sun}
-                          onChange={this.handleChangeCheck("sun")}
+                          onChange={this.handleChangeCheck('sun')}
                           value="sun"
                           color="primary"
                         />
@@ -1245,7 +1301,7 @@ class ReactCalendarBase extends Component {
                       control={
                         <Checkbox
                           checked={this.state.mon}
-                          onChange={this.handleChangeCheck("mon")}
+                          onChange={this.handleChangeCheck('mon')}
                           value="mon"
                           color="primary"
                         />
@@ -1256,7 +1312,7 @@ class ReactCalendarBase extends Component {
                       control={
                         <Checkbox
                           checked={this.state.tues}
-                          onChange={this.handleChangeCheck("tues")}
+                          onChange={this.handleChangeCheck('tues')}
                           value="tues"
                           color="primary"
                         />
@@ -1267,7 +1323,7 @@ class ReactCalendarBase extends Component {
                       control={
                         <Checkbox
                           checked={this.state.wed}
-                          onChange={this.handleChangeCheck("wed")}
+                          onChange={this.handleChangeCheck('wed')}
                           value="wed"
                           color="primary"
                         />
@@ -1278,7 +1334,7 @@ class ReactCalendarBase extends Component {
                       control={
                         <Checkbox
                           checked={this.state.thu}
-                          onChange={this.handleChangeCheck("thu")}
+                          onChange={this.handleChangeCheck('thu')}
                           value="thu"
                           color="primary"
                         />
@@ -1289,7 +1345,7 @@ class ReactCalendarBase extends Component {
                       control={
                         <Checkbox
                           checked={this.state.fri}
-                          onChange={this.handleChangeCheck("fri")}
+                          onChange={this.handleChangeCheck('fri')}
                           value="fri"
                           color="primary"
                         />
@@ -1300,7 +1356,7 @@ class ReactCalendarBase extends Component {
                       control={
                         <Checkbox
                           checked={this.state.sat}
-                          onChange={this.handleChangeCheck("sat")}
+                          onChange={this.handleChangeCheck('sat')}
                           value="sat"
                           color="primary"
                         />
@@ -1311,38 +1367,38 @@ class ReactCalendarBase extends Component {
                 </MuiThemeProvider>
               ) : null}
 
-              {this.state.newCustomFreq === "Every x days" ? (
+              {this.state.newCustomFreq === 'Every x days' ? (
                 <TextField
                   id="standard-newNumOccurences"
                   label="Every Number of Days"
                   variant="outlined"
                   className={classes.textField2}
                   value={this.state.newRepeatEveryNumDays}
-                  onChange={this.handleChangeCustom("newRepeatEveryNumDays")}
+                  onChange={this.handleChangeCustom('newRepeatEveryNumDays')}
                   margin="normal"
                 />
               ) : null}
 
-              {this.state.existingCustomFreq === "Weekly" ? (
+              {this.state.existingCustomFreq === 'Weekly' ? (
                 <TextField
                   id="standard-newNumOccurences"
                   label="Every Number of Weeks"
                   variant="outlined"
                   className={classes.textField2}
                   value={this.state.newRepeatEveryNumWeeks}
-                  onChange={this.handleChangeCustom("newRepeatEveryNumWeeks")}
+                  onChange={this.handleChangeCustom('newRepeatEveryNumWeeks')}
                   margin="normal"
                 />
               ) : null}
 
-              {this.state.existingCustomFreq === "Monthly" ? (
+              {this.state.existingCustomFreq === 'Monthly' ? (
                 <TextField
                   id="standard-newNumOccurences"
                   label="Every Number of Months"
                   variant="outlined"
                   className={classes.textField2}
                   value={this.state.newRepeatEveryNumMonths}
-                  onChange={this.handleChangeCustom("newRepeatEveryNumMonths")}
+                  onChange={this.handleChangeCustom('newRepeatEveryNumMonths')}
                   margin="normal"
                 />
               ) : null}
@@ -1356,7 +1412,7 @@ class ReactCalendarBase extends Component {
                   margin="normal"
                   className={classes.textField2}
                   value={this.state.newEndRepeat}
-                  onChange={this.handleChange2("newEndRepeat")}
+                  onChange={this.handleChange2('newEndRepeat')}
                   SelectProps={{
                     MenuProps: {
                       className: classes.menu
@@ -1371,19 +1427,19 @@ class ReactCalendarBase extends Component {
                 </TextField>
               ) : null}
 
-              {this.state.newEndRepeat === "After" ? (
+              {this.state.newEndRepeat === 'After' ? (
                 <TextField
                   id="standard-newNumOccurences"
                   label="Occurences"
                   variant="outlined"
                   className={classes.textField2}
                   value={this.state.newNumOccurences}
-                  onChange={this.handleChange2("existingNumOccurences")}
+                  onChange={this.handleChange2('existingNumOccurences')}
                   margin="normal"
                 />
               ) : null}
 
-              {this.state.newEndRepeat === "On Date" ? (
+              {this.state.newEndRepeat === 'On Date' ? (
                 <MuiPickersUtilsProvider utils={MomentUtils}>
                   <MuiThemeProvider theme={theme2}>
                     <DatePicker
@@ -1419,7 +1475,7 @@ class ReactCalendarBase extends Component {
                         this.state.selectedDate,
                         this.state.endSelectedDate
                         /* any other notable recurring ones will eventually be submitted */
-                      );
+                      )
                       //this.reloadPage();
                     }}
                     color="primary"
@@ -1438,10 +1494,10 @@ class ReactCalendarBase extends Component {
           </form>
         </Dialog>
       </div>
-    );
+    )
   }
 }
 
-ReactCalendarBase.propTypes = propTypes;
+ReactCalendarBase.propTypes = propTypes
 
-export default withStyles(styles)(ReactCalendarBase);
+export default withRouter(withStyles(styles)(ReactCalendarBase))

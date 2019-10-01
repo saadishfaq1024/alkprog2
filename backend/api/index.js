@@ -3,6 +3,7 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import memberRoutes from './server/routes/MemberRoutes'
 import clientRoutes from './server/routes/ClientRoutes'
+import eventRoutes from './server/routes/EventRoutes'
 
 config.config()
 
@@ -26,6 +27,7 @@ const port = process.env.PORT || 5000
 
 app.use('/members', memberRoutes)
 app.use('/clients', clientRoutes)
+app.use('/events', eventRoutes)
 
 // when a random route is inputed
 app.get('*', (req, res) =>

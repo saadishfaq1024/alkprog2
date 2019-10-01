@@ -413,6 +413,7 @@ class ClientDetails extends React.Component {
     selectedIndex: null,
     checkedA: true,
     client: "Jaren Jones",
+    clientInitials: 'JJ',
     open: false,
     cost: "",
     length: "",
@@ -778,6 +779,7 @@ class ClientDetails extends React.Component {
         client_full_name,
         client_first_name,
         client_last_name,
+        client_initials,
         email,
         title,
         assi_therapist_full_name,
@@ -822,6 +824,7 @@ class ClientDetails extends React.Component {
 
       this.setState({
         clientType: client_type,
+        clientInitials: client_initials,
         // CLIENT INFO TAB
         clientFirstName: client_first_name,
         clientFacility: facility,
@@ -892,7 +895,7 @@ class ClientDetails extends React.Component {
               className={classes.clientAvatar}
               onClick={this.handleClickAvatar}
             >
-              JJ
+              {this.state.clientInitials}
             </IconButton>
             <Menu
               id="simple-menu"

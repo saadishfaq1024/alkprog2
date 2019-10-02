@@ -180,6 +180,10 @@ const styles = theme => ({
     }
   },
 
+  checkBoxPadding: {
+    paddingBottom: theme.spacing(2)
+  },
+
   goalButton: {
     marginTop: theme.spacing(2),
     marginLeft: theme.spacing(2),
@@ -373,6 +377,7 @@ class ClientDetails extends React.Component {
     multiline: "Controlled",
     deleteDialog: false,
     // CONTACT TAB
+    // first contact
     contactFirstName: "Jaren",
     contactLastName: "Jones",
     contactEmail: "jjones@mail.com",
@@ -382,7 +387,32 @@ class ClientDetails extends React.Component {
     contactCity: "Plano",
     contactState: "TX",
     contactZip: "75023",
-    contact2ndPhone: '',
+    contact2ndPhone: "",
+    // second contact
+    checkedContact2: false,
+    contactFirstName2: null,
+    contactLastName2: null,
+    contactEmail2: null,
+    contactCheckedRecEmails2: null,
+    contactTitle2: null,
+    contactPhone2: null,
+    contact2ndPhone2: null,
+    contactAddress2: null,
+    contactCity2: null,
+    contactState2: null,
+    contactZip2: null,
+    // third contact
+    checkedContact3: false,
+    contactFirstName3: null,
+    contactLastName3: null,
+    contactEmail3: null,
+    contactCheckedRecEmails3: null,
+    contactTitle3: null,
+    contactPhone3: null,
+    contact2ndPhone3: null,
+    contactAddress3: null,
+    contactCity3: null,
+    contactState3: null,
     // multiline: "Controlled"
     // PAYOR TAB
     billingFirstName: "Jack",
@@ -559,6 +589,58 @@ class ClientDetails extends React.Component {
   
   handleChangeChecked = name => event => {
     this.setState({ [name]: event.target.checked });
+  };
+
+  //action for contact 2 checkbox
+  handleChangeCheck2 = name => event => {
+    this.setState({
+      [name]: event.target.checked,
+      //this will set the values to blank once contact 3 is checked
+      contactFirstName2: null,
+      contactLastName2: null,
+      contactEmail2: null,
+      contactCheckedRecEmails2: null,
+      contactTitle2: null,
+      contactPhone2: null,
+      contact2ndPhone2: null,
+      contactAddress2: null,
+      contactCity2: null,
+      contactState2: null,
+      contactZip2: null,
+
+      // contact 3,
+      checkedContact3: false,
+      contactFirstName3: null,
+      contactLastName3: null,
+      contactEmail3: null,
+      contactCheckedRecEmails3: null,
+      contactTitle3: null,
+      contactPhone3: null,
+      contact2ndPhone3: null,
+      contactAddress3: null,
+      contactCity3: null,
+      contactState3: null,
+      contactZip3: null
+    });
+  };
+
+  // action for contact 3 checkbox
+  handleChangeCheck3 = name => event => {
+    this.setState({
+      [name]: event.target.checked,
+      //this will set the values to blank once contact 3 is checked
+      contactFirstName3: null,
+      contactLastName3: null,
+      contactEmail3: null,
+      contactCheckedRecEmails3: null,
+      contactTitle3: null,
+      contactPhone3: null,
+      contact2ndPhone3: null,
+      contactAddress3: null,
+      contactCity3: null,
+      contactState3: null,
+      contactZip3: null
+    });
   };
 
   handleGoalActive = name => event => {
@@ -1383,6 +1465,360 @@ class ClientDetails extends React.Component {
                       </FormGroup>
                     </MuiThemeProvider>
                   </Grid>
+                  <Container>
+                    <FormGroup className={classes.checkBoxPadding} row>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            color="primary"
+                            checked={this.state.checkedContact2}
+                            onChange={this.handleChangeCheck2(
+                              "checkedContact2"
+                            )}
+                            classes={{
+                              root: classes.checkedRoot,
+                              checked: classes.checked
+                            }}
+                            value="checkedContact2"
+                          />
+                        }
+                        label="Add second contact"
+                      />
+                    </FormGroup>
+                  </Container>
+                  {/* Contact 2 */}
+                  {this.state.checkedContact2 ? (
+                    <TextField
+                      id="standard-select-contactTitle2"
+                      select
+                      label="Title"
+                      margin="normal"
+                      variant="outlined"
+                      className={classes.textField}
+                      value={this.state.contactTitle2}
+                      onChange={this.handleChange("contactTitle2")}
+                      SelectProps={{
+                        MenuProps: {
+                          className: classes.menu
+                        }
+                      }}
+                    >
+                      {titles.map(option => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  ) : null}
+
+                  {this.state.checkedContact2 ? (
+                    <TextField
+                      required
+                      id="standard-contactFirstName2"
+                      label="First Name"
+                      variant="outlined"
+                      className={classes.textField}
+                      value={this.state.contactFirstName2}
+                      onChange={this.handleChange("contactFirstName2")}
+                      margin="normal"
+                    />
+                  ) : null}
+                  {this.state.checkedContact2 ? (
+                    <TextField
+                      required
+                      id="standard-lastNamename2"
+                      label="Last Name"
+                      variant="outlined"
+                      className={classes.textField}
+                      value={this.state.contactLastName2}
+                      onChange={this.handleChange("contactLastName2")}
+                      margin="normal"
+                    />
+                  ) : null}
+
+                  {this.state.checkedContact2 ? (
+                    <TextField
+                      id="standard-contactAddress2"
+                      variant="outlined"
+                      label="Street Address"
+                      className={classes.textField}
+                      value={this.state.contactAddress2}
+                      onChange={this.handleChange("contactAddress2")}
+                      margin="normal"
+                    />
+                  ) : null}
+                  {this.state.checkedContact2 ? (
+                    <TextField
+                      id="standard-contactCity-2"
+                      variant="outlined"
+                      label="City"
+                      className={classes.textField}
+                      value={this.state.contactCity2}
+                      onChange={this.handleChange("contactCity2")}
+                      margin="normal"
+                    />
+                  ) : null}
+
+                  {this.state.checkedContact2 ? (
+                    <TextField
+                      id="standard-state2"
+                      variant="outlined"
+                      label="State"
+                      className={classes.textField}
+                      value={this.state.contactState2}
+                      onChange={this.handleChange("contactState2")}
+                      margin="normal"
+                    />
+                  ) : null}
+                  {this.state.checkedContact2 ? (
+                    <TextField
+                      id="standard-contactZip2"
+                      variant="outlined"
+                      label="Zip Code"
+                      className={classes.textField}
+                      value={this.state.contactZip2}
+                      onChange={this.handleChange("contactZip2")}
+                      margin="normal"
+                    />
+                  ) : null}
+
+                  {this.state.checkedContact2 ? (
+                    <TextField
+                      id="standard-contactPhone2"
+                      variant="outlined"
+                      label="Phone Number"
+                      className={classes.textField}
+                      value={this.state.contactPhone2}
+                      onChange={this.handleChange("contactPhone2")}
+                      margin="normal"
+                    />
+                  ) : null}
+
+                  {this.state.checkedContact2 ? (
+                    <TextField
+                      id="standard-contactPhone2"
+                      variant="outlined"
+                      label="Secondary Phone Number"
+                      className={classes.textField}
+                      value={this.state.contact2ndPhone2}
+                      onChange={this.handleChange("contact2ndPhone2")}
+                      margin="normal"
+                    />
+                  ) : null}
+
+                  {this.state.checkedContact2 ? (
+                    <TextField
+                      required
+                      id="standard-contactEmail2"
+                      variant="outlined"
+                      label="Email"
+                      className={classes.textFieldAlign}
+                      value={this.state.contactEmail2}
+                      onChange={this.handleChange("contactEmail2")}
+                      margin="normal"
+                    />
+                  ) : null}
+
+                  {this.state.checkedContact2 ? (
+                    <FormGroup className={classes.alignCheck} row>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            color="primary"
+                            checked={this.state.contactCheckedRecEmails2}
+                            onChange={this.handleChangeChecked(
+                              "contactCheckedRecEmails2"
+                            )}
+                            classes={{
+                              root: classes.checkedRoot,
+                              checked: classes.checked
+                            }}
+                            value="contactCheckedRecEmails2"
+                          />
+                        }
+                        label="Receive email notifcations"
+                      />
+                    </FormGroup>
+                  ) : null}
+
+                  {this.state.checkedContact2 ? (
+                    <Container>
+                      <FormGroup className={classes.checkBoxPadding} row>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              color="primary"
+                              checked={this.state.checkedContact3}
+                              onChange={this.handleChangeCheck3(
+                                "checkedContact3"
+                              )}
+                              classes={{
+                                root: classes.checkedRoot,
+                                checked: classes.checked
+                              }}
+                              value="checkedContact3"
+                            />
+                          }
+                          label="Add third contact"
+                        />
+                      </FormGroup>
+                    </Container>
+                  ) : null}
+                  {/* Contact 3 */}
+
+                  {this.state.checkedContact3 ? (
+                    <TextField
+                      id="standard-select-contactTitle3"
+                      select
+                      label="Title"
+                      margin="normal"
+                      variant="outlined"
+                      className={classes.textField}
+                      value={this.state.contactTitle3}
+                      onChange={this.handleChange("contactTitle3")}
+                      SelectProps={{
+                        MenuProps: {
+                          className: classes.menu
+                        }
+                      }}
+                    >
+                      {titles.map(option => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  ) : null}
+
+                  {this.state.checkedContact3 ? (
+                    <TextField
+                      required
+                      id="standard-contactFirstName3"
+                      label="First Name"
+                      variant="outlined"
+                      className={classes.textField}
+                      value={this.state.contactFirstName3}
+                      onChange={this.handleChange("contactFirstName3")}
+                      margin="normal"
+                    />
+                  ) : null}
+                  {this.state.checkedContact3 ? (
+                    <TextField
+                      required
+                      id="standard-lastNamename3"
+                      label="Last Name"
+                      variant="outlined"
+                      className={classes.textField}
+                      value={this.state.contactLastName3}
+                      onChange={this.handleChange("contactLastName3")}
+                      margin="normal"
+                    />
+                  ) : null}
+
+                  {this.state.checkedContact3 ? (
+                    <TextField
+                      id="standard-contactAddress3"
+                      variant="outlined"
+                      label="Street Address"
+                      className={classes.textField}
+                      value={this.state.contactAddress3}
+                      onChange={this.handleChange("contactAddress3")}
+                      margin="normal"
+                    />
+                  ) : null}
+                  {this.state.checkedContact3 ? (
+                    <TextField
+                      id="standard-contactCity-3"
+                      variant="outlined"
+                      label="City"
+                      className={classes.textField}
+                      value={this.state.contactCity3}
+                      onChange={this.handleChange("contactCity3")}
+                      margin="normal"
+                    />
+                  ) : null}
+
+                  {this.state.checkedContact3 ? (
+                    <TextField
+                      id="standard-state3"
+                      variant="outlined"
+                      label="State"
+                      className={classes.textField}
+                      value={this.state.contactState3}
+                      onChange={this.handleChange("contactState3")}
+                      margin="normal"
+                    />
+                  ) : null}
+                  {this.state.checkedContact3 ? (
+                    <TextField
+                      id="standard-contactZip3"
+                      variant="outlined"
+                      label="Zip Code"
+                      className={classes.textField}
+                      value={this.state.contactZip3}
+                      onChange={this.handleChange("contactZip3")}
+                      margin="normal"
+                    />
+                  ) : null}
+
+                  {this.state.checkedContact3 ? (
+                    <TextField
+                      id="standard-contactPhone3"
+                      variant="outlined"
+                      label="Phone Number"
+                      className={classes.textField}
+                      value={this.state.contactPhone3}
+                      onChange={this.handleChange("contactPhone3")}
+                      margin="normal"
+                    />
+                  ) : null}
+
+                  {this.state.checkedContact3 ? (
+                    <TextField
+                      id="standard-contactPhone3"
+                      variant="outlined"
+                      label="Secondary Phone Number"
+                      className={classes.textField}
+                      value={this.state.contact2ndPhone3}
+                      onChange={this.handleChange("contact2ndPhone3")}
+                      margin="normal"
+                    />
+                  ) : null}
+
+                  {this.state.checkedContact3 ? (
+                    <TextField
+                      required
+                      id="standard-contactEmail3"
+                      variant="outlined"
+                      label="Email"
+                      className={classes.textFieldAlign}
+                      value={this.state.contactEmail3}
+                      onChange={this.handleChange("contactEmail3")}
+                      margin="normal"
+                    />
+                  ) : null}
+
+                  {this.state.checkedContact3 ? (
+                    <FormGroup className={classes.alignCheck} row>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            color="primary"
+                            checked={this.state.contactCheckedRecEmails3}
+                            onChange={this.handleChangeChecked(
+                              "contactCheckedRecEmails3"
+                            )}
+                            classes={{
+                              root: classes.checkedRoot,
+                              checked: classes.checked
+                            }}
+                            value="contactCheckedRecEmails3"
+                          />
+                        }
+                        label="Receive email notifcations"
+                      />
+                    </FormGroup>
+                  ) : null}
                 </Grid>
                 <Grid container direction="row" justify="space-between">
                   {/*

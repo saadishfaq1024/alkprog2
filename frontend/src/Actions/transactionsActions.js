@@ -1,52 +1,53 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react'
+import PropTypes from 'prop-types'
 import {
   withStyles,
   createMuiTheme,
   MuiThemeProvider
-} from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import classNames from "classnames";
-import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
-import Search from "@material-ui/icons/Search";
-import DateRange from "@material-ui/icons/DateRange";
-import MenuItem from "@material-ui/core/MenuItem";
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import moment from "moment";
-import MomentUtils from "@date-io/moment";
-import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Container from "@material-ui/core/Container";
+} from '@material-ui/core/styles'
+import Paper from '@material-ui/core/Paper'
+import classNames from 'classnames'
+import Button from '@material-ui/core/Button'
+import AddIcon from '@material-ui/icons/Add'
+import Search from '@material-ui/icons/Search'
+import DateRange from '@material-ui/icons/DateRange'
+import MenuItem from '@material-ui/core/MenuItem'
+import TextField from '@material-ui/core/TextField'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
+import moment from 'moment'
+import MomentUtils from '@date-io/moment'
+import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers'
+import InputAdornment from '@material-ui/core/InputAdornment'
+import Container from '@material-ui/core/Container'
 
-import Grid from "@material-ui/core/Grid";
-import { Redirect } from "react-router-dom";
+import Grid from '@material-ui/core/Grid'
+import { Redirect } from 'react-router-dom'
 
-import axios from "axios";
+import API from '../utils/API'
+import { async } from 'q'
 
-moment().toDate();
+moment().toDate()
 
 const styles = theme => ({
   root: {
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(1),
     marginTop: theme.spacing(1),
-    align: "center"
+    align: 'center'
     // width: "31%"
   },
 
   button: {
     margin: theme.spacing(1),
-    align: "center",
-    /* this is text color */ color: theme.palette.getContrastText("#b2dfdb"),
-    backgroundColor: "#b2dfdb",
-    "&:hover": {
-      backgroundColor: "#80cbc4"
+    align: 'center',
+    /* this is text color */ color: theme.palette.getContrastText('#b2dfdb'),
+    backgroundColor: '#b2dfdb',
+    '&:hover': {
+      backgroundColor: '#80cbc4'
     }
   },
 
@@ -70,69 +71,69 @@ const styles = theme => ({
   menu: {
     width: 200
   }
-});
+})
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: "#b2dfdb" }
+    primary: { main: '#b2dfdb' }
   }
-});
+})
 
 const theme2 = createMuiTheme({
   palette: {
-    primary: { main: "#00838f" }
+    primary: { main: '#00838f' }
   }
-});
+})
 
 const transactionType = [
   {
-    value: "Charge",
-    label: "Charge"
+    value: 'Charge',
+    label: 'Charge'
   },
 
   {
-    value: "Discount",
-    label: "Discount"
+    value: 'Discount',
+    label: 'Discount'
   },
 
   {
-    value: "Payment",
-    label: "Payment"
+    value: 'Payment',
+    label: 'Payment'
   },
 
   {
-    value: "Refund",
-    label: "Refund"
+    value: 'Refund',
+    label: 'Refund'
   }
-];
+]
 
 const paymentMethod = [
   {
-    value: "Card",
-    label: "Card"
+    value: 'Card',
+    label: 'Card'
   },
 
   {
-    value: "Cash",
-    label: "Cash"
+    value: 'Cash',
+    label: 'Cash'
   },
   {
-    value: "Check",
-    label: "Check"
+    value: 'Check',
+    label: 'Check'
   }
-];
+]
 
 const payors = [
   {
-    value: "Mary Smith",
-    label: "Mary Smith"
+    value: 'Mary Smith',
+    label: 'Mary Smith'
   },
 
   {
-    value: "Jack Johnson",
-    label: "Jack Johnson"
+    value: 'Jack Johnson',
+    label: 'Jack Johnson'
   }
-];
+]
 
 class TransactionsActions extends React.Component {
   state = {
@@ -141,102 +142,87 @@ class TransactionsActions extends React.Component {
     openError: false,
     openDateRange: false,
     redirect: false,
-    payor: "",
+    payor: '',
     payorData: [],
-    date: moment().format("YYYY-MM-DD" /* HH:mm:ss */),
-    description: "",
-    transactionType: "",
-    paymentMethod: "",
-    amount: ""
-  };
+    date: moment().format('YYYY-MM-DD' /* HH:mm:ss */),
+    description: '',
+    transactionType: '',
+    paymentMethod: '',
+    amount: ''
+  }
 
   /* change of team member dropdown */
   handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
-  };
+    this.setState({ [name]: event.target.value })
+  }
 
   /* show transactions diaglog box */
   handleClickOpenTransactions = () => {
-    this.setState({ openTransactions: true });
-  };
+    this.setState({ openTransactions: true })
+  }
 
   /* close transactions diaglog box */
   handleCloseTransactions = () => {
-    this.setState({ openTransactions: false });
-  };
+    this.setState({ openTransactions: false })
+  }
 
   /* show date range diaglog box */
   handleClickOpenDateRange = () => {
-    this.setState({ openDateRange: true });
-  };
+    this.setState({ openDateRange: true })
+  }
 
   /* close date range diaglog box */
   handleCloseDateRange = () => {
-    this.setState({ openDateRange: false });
-  };
+    this.setState({ openDateRange: false })
+  }
 
   handleDateChange = date => {
-    this.setState({ date: date.format("YYYY-MM-DD") });
-  };
-
-  componentDidMount() {
-    axios
-      .get("http://localhost:5000/payors")
-      .then(response => {
-        console.log("Got payor data!");
-        console.log(response.data);
-        this.setState({
-          payorData: response.data
-        });
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-    if (!this.state.intervalIsSet) {
-      let interval = setInterval(this.getDataFromDb, 1000);
-      this.setState({ intervalIsSet: interval });
-      console.log("Payor interval set!");
-    }
+    this.setState({ date: date.format('YYYY-MM-DD') })
   }
 
-  componentWillUnmount() {
-    if (this.state.intervalIsSet) {
-      clearInterval(this.state.intervalIsSet);
-      this.setState({ intervalIsSet: null });
-      console.log("Unmounted from payor data!");
-    }
+  async componentDidMount() {
+    await this.updateContent()
   }
 
-  onSubmit() {
+  componentWillUnmount() {}
+
+  async updateContent() {
+    try {
+      const payorsResp = await API.get('/clients/payors')
+      const payorData = payorsResp.data.data
+
+      this.setState({ payorData })
+    } catch (error) {
+      console.log('While fetching transaction we got an error: ', error)
+    }
+  }
+  onSubmit = e => {
     //experiment keeping preventDefault
-    //e.preventDefault();
+    e.preventDefault()
 
     const transObj = {
       payor: this.state.payor,
       date: this.state.date,
       description: this.state.description,
-      transactionType: this.state.transactionType,
-      paymentMethod: this.state.paymentMethod,
+      transType: this.state.transactionType,
+      method: this.state.paymentMethod,
       amount: this.state.amount
-    };
-    axios.post("http://localhost:5000/putTrans", transObj).then(response => {
-      this.setState({
-        transObj
-        //redirect: true
-      });
-    });
+    }
+    API.post('accounts/transactions', transObj).then(async response => {
+      await this.updateContent()
+    })
   }
 
   handleErrorOpen = () => {
-    this.setState({ openError: true });
-  };
+    this.setState({ openError: true })
+  }
 
   handleErrorClose = () => {
-    this.setState({ openError: false });
-  };
+    this.setState({ openError: false })
+  }
 
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props
 
     return (
       <div>
@@ -291,7 +277,7 @@ class TransactionsActions extends React.Component {
                       margin="normal"
                       className={classes.textField}
                       value={this.state.transactionType}
-                      onChange={this.handleChange("transactionType")}
+                      onChange={this.handleChange('transactionType')}
                       SelectProps={{
                         MenuProps: {
                           className: classes.menu
@@ -313,7 +299,7 @@ class TransactionsActions extends React.Component {
                       margin="normal"
                       className={classes.textField}
                       value={this.state.paymentMethod}
-                      onChange={this.handleChange("paymentMethod")}
+                      onChange={this.handleChange('paymentMethod')}
                       SelectProps={{
                         MenuProps: {
                           className: classes.menu
@@ -336,7 +322,7 @@ class TransactionsActions extends React.Component {
                       type="search"
                       className={classes.textField}
                       value={this.state.payor}
-                      onChange={this.handleChange("payor")}
+                      onChange={this.handleChange('payor')}
                       SelectProps={{
                         MenuProps: {
                           className: classes.menu
@@ -357,7 +343,7 @@ class TransactionsActions extends React.Component {
                         variant="outlined"
                         className={classes.textField}
                         value={this.state.amount}
-                        onChange={this.handleChange("amount")}
+                        onChange={this.handleChange('amount')}
                         margin="normal"
                         InputProps={{
                           startAdornment: (
@@ -367,7 +353,7 @@ class TransactionsActions extends React.Component {
                       />
                     </MuiThemeProvider>
                     <MuiPickersUtilsProvider utils={MomentUtils}>
-                      <Grid container row>
+                      <Grid container>
                         <MuiThemeProvider theme={theme2}>
                           <DatePicker
                             required
@@ -387,7 +373,7 @@ class TransactionsActions extends React.Component {
                       variant="outlined"
                       className={classes.textField}
                       value={this.state.description}
-                      onChange={this.handleChange("description")}
+                      onChange={this.handleChange('description')}
                       margin="normal"
                     />
                   </DialogContent>
@@ -399,19 +385,7 @@ class TransactionsActions extends React.Component {
                       >
                         Cancel
                       </Button>
-                      <Button
-                        color="primary"
-                        onClick={() => {
-                          this.onSubmit(
-                            this.state.payor,
-                            this.state.date,
-                            this.state.description,
-                            this.state.transactionType,
-                            this.state.paymentMethod,
-                            this.state.amount
-                          );
-                        }}
-                      >
+                      <Button color="primary" onClick={this.onSubmit}>
                         Add
                       </Button>
                     </DialogActions>
@@ -498,12 +472,12 @@ class TransactionsActions extends React.Component {
           </Container>
         </Grid>
       </div>
-    );
+    )
   }
 }
 
 TransactionsActions.propTypes = {
   classes: PropTypes.object.isRequired
-};
+}
 
-export default withStyles(styles)(TransactionsActions);
+export default withStyles(styles)(TransactionsActions)

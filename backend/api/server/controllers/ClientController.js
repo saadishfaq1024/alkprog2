@@ -7,11 +7,25 @@ class ClientController {
   static async getAllClients(req, res) {
     try {
       const allClients = await ClientService.getAllClients()
-      console.log('aa', allClients)
       if (allClients.length > 0) {
         util.setSuccess(200, 'Clients retrieved', allClients)
       } else {
         util.setSuccess(200, 'No Client found')
+      }
+      return util.send(res)
+    } catch (error) {
+      util.setError(400, error)
+      return util.send(res)
+    }
+  }
+
+  static async getAllPayors(req, res) {
+    try {
+      const records = await ClientService.getAllPayors()
+      if (records.length > 0) {
+        util.setSuccess(200, 'Payors retrieved', records)
+      } else {
+        util.setSuccess(200, 'No Payor found')
       }
       return util.send(res)
     } catch (error) {

@@ -177,9 +177,11 @@ class ReactCalendarBase extends Component {
 
     this.state = {
       eventId: 0,
+      isShowRepeatOptionInExistingDalog: false,
       deleteDialog: false,
       deleteSuccessSnackbarOpen: false,
       deleteFailureSnackbarOpen: false,
+      isSoleDialog: false,
       cal_events: [
         //State is updated via componentDidMount
       ],
@@ -207,7 +209,6 @@ class ReactCalendarBase extends Component {
       newEndRepeat: null,
       newNumOccurences: null,
       selectedDateOccurenceEnd: null,
-      existingCustomFreq: null,
       sun: false,
       mon: false,
       tues: false,
@@ -232,13 +233,15 @@ class ReactCalendarBase extends Component {
       existingCategory: 'None',
       existingStart: '',
       existingEnd: '',
-      existingRepeat: 'Weekly',
+      existingRepeatOption: 'Weekly',
       existingEndRepeat: 'On Date',
-      existingNumOccurences: '',
+      existingCustomFreq: '',
       existingEveryNumDays: '',
       existingEveryNumWeeks: '',
-      existingNumMonths: '',
-      existingCheckedRepeat: true
+      existingEveryNumMonths: '',
+      existingCheckedRepeat: false,
+      existingNumOccurences: 0,
+      existingEndDateOccurrence: ''
     }
   }
 
@@ -389,6 +392,31 @@ class ReactCalendarBase extends Component {
       console.log(error)
     }
   }
+
+  handleIsSoleDialogClose = () => {
+    this.setState({ isSoleDialog: false })
+  }
+
+  handleIsSoleDialogOpen = () => {
+    this.setState({ isSoleDialog: true })
+  }
+
+  handleOccurence = () => {
+    this.setState({
+      isShowRepeatOptionInExistingDalog: false,
+      isSoleDialog: false,
+      openExisting: true
+    })
+  }
+
+  handleSeries = () => {
+    this.setState({
+      isShowRepeatOptionInExistingDalog: true,
+      isSoleDialog: false,
+      openExisting: true
+    })
+  }
+
   handleDeleteDialogOpen = () => {
     this.setState({ deleteDialog: true })
   }
@@ -468,22 +496,55 @@ class ReactCalendarBase extends Component {
   handleClickOpen2 = event => {
     const {
       id,
+      title,
       bill_type,
       client,
       therapist,
       location,
+      repeats,
+      repeat_option,
+      end_repeat,
+      num_occurences,
+      end_date_occurrence,
+      custom_frequency,
+      repeat_num_days,
+      mon,
+      tues,
+      wed,
+      thu,
+      fri,
+      sat,
+      sun,
       category
     } = event.resource
+
+    if (repeats) this.setState({ isSoleDialog: true })
+    else this.setState({ openExisting: true })
     this.setState({
-      openExisting: true,
       eventId: id,
-      existingBillType: bill_type,
-      existingClient: client,
-      existingTherapist: therapist,
-      existingLocation: location,
-      existingCategory: category,
-      existingStart: event.start,
-      existingEnd: event.end
+      existingBillType: bill_type || '',
+      existingClient: client || '',
+      existingTherapist: therapist || '',
+      existingLocation: location || '',
+      existingCategory: category || '',
+      existingStart: event.start || '',
+      existingEnd: event.end || '',
+      existingRepeatOption: repeat_option || '',
+      existingEveryNumDays: repeat_num_days || '',
+      existingEveryNumWeeks: '' || '',
+      existingEveryNumMonths: '' || '',
+      existingCheckedRepeat: Boolean(repeats) || false,
+      existingEndRepeat: end_repeat || '',
+      existingCustomFreq: custom_frequency || '',
+      existingNumOccurences: num_occurences || '',
+      existingEndDateOccurrence: end_date_occurrence,
+      sun: Boolean(sun),
+      mon: Boolean(mon),
+      tues: Boolean(tues),
+      wed: Boolean(wed),
+      thu: Boolean(thu),
+      fri: Boolean(fri),
+      sat: Boolean(sat)
     })
   }
 
@@ -809,32 +870,36 @@ class ReactCalendarBase extends Component {
                   </MuiThemeProvider>
                 </Grid>
               </MuiPickersUtilsProvider>
-              <Container>
-                <MuiThemeProvider theme={theme}>
-                  <FormGroup row>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={this.state.checkedRepeat}
-                          onChange={this.handleChangeCheck2('checkedRepeat')}
-                          value="checkedRepeat"
-                          color="primary"
-                        />
-                      }
-                      label="Repeat"
-                    />
-                  </FormGroup>
-                </MuiThemeProvider>
-              </Container>
-              {this.state.checkedRepeat ? (
+              {this.state.isShowRepeatOptionInExistingDalog && (
+                <Container>
+                  <MuiThemeProvider theme={theme}>
+                    <FormGroup row>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={this.state.existingCheckedRepeat}
+                            onChange={this.handleChangeCheck2(
+                              'existingCheckedRepeat'
+                            )}
+                            value="existingCheckedRepeat"
+                            color="primary"
+                          />
+                        }
+                        label="Repeat"
+                      />
+                    </FormGroup>
+                  </MuiThemeProvider>
+                </Container>
+              )}
+              {this.state.isShowRepeatOptionInExistingDalog && this.state.existingCheckedRepeat ? (
                 <TextField
                   id="standard-select-repeatOption"
                   select
                   label="Repeats"
                   variant="outlined"
                   className={classes.textField}
-                  value={this.state.repeatOption}
-                  onChange={this.handleChange('repeatOption')}
+                  value={this.state.existingRepeatOption}
+                  onChange={this.handleChange('existingRepeatOption')}
                   SelectProps={{
                     MenuProps: {
                       className: classes.menu
@@ -849,7 +914,7 @@ class ReactCalendarBase extends Component {
                 </TextField>
               ) : null}
 
-              {this.state.repeatOption === 'Custom' ? (
+              {this.state.isShowRepeatOptionInExistingDalog && this.state.existingRepeatOption === 'Custom' ? (
                 <TextField
                   id="standard-select-client"
                   select
@@ -857,8 +922,8 @@ class ReactCalendarBase extends Component {
                   variant="outlined"
                   margin="normal"
                   className={classes.textField}
-                  value={this.state.newCustomFreq}
-                  onChange={this.handleChangeCustom('newCustomFreq')}
+                  value={this.state.existingCustomFreq}
+                  onChange={this.handleChangeCustom('existingCustomFreq')}
                   SelectProps={{
                     MenuProps: {
                       className: classes.menu
@@ -873,7 +938,7 @@ class ReactCalendarBase extends Component {
                 </TextField>
               ) : null}
 
-              {this.state.newCustomFreq === 'Specific Days' ? (
+              {this.state.existingCustomFreq === 'Specific Days' ? (
                 <MuiThemeProvider theme={theme}>
                   <FormGroup row>
                     <FormLabel component="legend">Every</FormLabel>
@@ -904,7 +969,7 @@ class ReactCalendarBase extends Component {
                         <Checkbox
                           checked={this.state.tues}
                           onChange={this.handleChangeCheck('tues')}
-                          value="tues"
+                          value="Tues"
                           color="primary"
                         />
                       }
@@ -915,7 +980,7 @@ class ReactCalendarBase extends Component {
                         <Checkbox
                           checked={this.state.wed}
                           onChange={this.handleChangeCheck('wed')}
-                          value="wed"
+                          value="Wed"
                           color="primary"
                         />
                       }
@@ -958,26 +1023,30 @@ class ReactCalendarBase extends Component {
                 </MuiThemeProvider>
               ) : null}
 
-              {this.state.newCustomFreq === 'Every x days' ? (
+              {this.state.isShowRepeatOptionInExistingDalog && this.state.existingCustomFreq === 'Every x days' ? (
                 <TextField
                   id="standard-newNumOccurences"
                   label="Every Number of Days"
                   variant="outlined"
                   className={classes.textField2}
-                  value={this.state.newRepeatEveryNumDays}
-                  onChange={this.handleChangeCustom('newRepeatEveryNumDays')}
+                  value={this.state.existingEveryNumDays}
+                  onChange={this.handleChangeCustom(
+                    'existingEveryNumDays'
+                  )}
                   margin="normal"
                 />
               ) : null}
 
-              {this.state.existingCustomFreq === 'Weekly' ? (
+              {this.state.isShowRepeatOptionInExistingDalog && this.state.existingCustomFreq === 'Weekly' ? (
                 <TextField
                   id="standard-newNumOccurences"
                   label="Every Number of Weeks"
                   variant="outlined"
                   className={classes.textField2}
-                  value={this.state.newRepeatEveryNumWeeks}
-                  onChange={this.handleChangeCustom('newRepeatEveryNumWeeks')}
+                  value={this.state.existingRepeatEveryNumWeeks}
+                  onChange={this.handleChangeCustom(
+                    'existingRepeatEveryNumWeeks'
+                  )}
                   margin="normal"
                 />
               ) : null}
@@ -988,13 +1057,15 @@ class ReactCalendarBase extends Component {
                   label="Every Number of Months"
                   variant="outlined"
                   className={classes.textField2}
-                  value={this.state.newRepeatEveryNumMonths}
-                  onChange={this.handleChangeCustom('newRepeatEveryNumMonths')}
+                  value={this.state.existingRepeatEveryNumMonths}
+                  onChange={this.handleChangeCustom(
+                    'existingRepeatEveryNumMonths'
+                  )}
                   margin="normal"
                 />
               ) : null}
 
-              {this.state.checkedRepeat ? (
+              {this.state.isShowRepeatOptionInExistingDalog && this.state.existingCheckedRepeat ? (
                 <TextField
                   id="standard-select-client"
                   select
@@ -1002,8 +1073,8 @@ class ReactCalendarBase extends Component {
                   variant="outlined"
                   margin="normal"
                   className={classes.textField2}
-                  value={this.state.newEndRepeat}
-                  onChange={this.handleChange2('newEndRepeat')}
+                  value={this.state.existingEndRepeat}
+                  onChange={this.handleChange2('existingEndRepeat')}
                   SelectProps={{
                     MenuProps: {
                       className: classes.menu
@@ -1018,19 +1089,19 @@ class ReactCalendarBase extends Component {
                 </TextField>
               ) : null}
 
-              {this.state.newEndRepeat === 'After' ? (
+              {this.state.isShowRepeatOptionInExistingDalog && this.state.existingEndRepeat === 'After' ? (
                 <TextField
                   id="standard-newNumOccurences"
                   label="Occurences"
                   variant="outlined"
                   className={classes.textField2}
-                  value={this.state.newNumOccurences}
+                  value={this.state.existingNumOccurences}
                   onChange={this.handleChange2('existingNumOccurences')}
                   margin="normal"
                 />
               ) : null}
 
-              {this.state.newEndRepeat === 'On Date' ? (
+              {this.state.existingEndRepeat === 'On Date' ? (
                 <MuiPickersUtilsProvider utils={MomentUtils}>
                   <MuiThemeProvider theme={theme2}>
                     <DatePicker
@@ -1039,8 +1110,8 @@ class ReactCalendarBase extends Component {
                       margin="normal"
                       id="mui-pickers-date"
                       label="End On"
-                      value={this.state.selectedDateOccurenceEnd}
-                      onChange={this.handleDateOccurenceChange}
+                      value={this.state.existingEndDateOccurrence}
+                      onChange={this.handleChange2('existingEndDateOccurrence')}
                     />
                   </MuiThemeProvider>
                 </MuiPickersUtilsProvider>
@@ -1095,6 +1166,25 @@ class ReactCalendarBase extends Component {
               </MuiThemeProvider>
             </Grid>
           </form>
+        </Dialog>
+        {/* sole or repeating event? */}
+        <Dialog
+          open={this.state.isSoleDialog}
+          onClose={this.handleIsSoleDialogClose}
+        >
+          <DialogTitle>Recurring</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              This is a recurring event. Do you want to select the event series
+              or the event occurrence?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleOccurence}>occurrence</Button>
+            <Button onClick={this.handleSeries} autoFocus>
+              series
+            </Button>
+          </DialogActions>
         </Dialog>
 
         <Dialog open={this.state.open} onClose={this.handleClose}>
@@ -1202,7 +1292,7 @@ class ReactCalendarBase extends Component {
               </TextField>
               <MuiThemeProvider theme={theme}>
                 <MuiPickersUtilsProvider utils={MomentUtils}>
-                  <Grid container row>
+                  <Grid container>
                     <MuiThemeProvider theme={theme2}>
                       <DatePicker
                         inputVariant="outlined"
@@ -1432,7 +1522,7 @@ class ReactCalendarBase extends Component {
                 />
               ) : null}
 
-              {this.state.checkedRepeat ? (
+              {this.state.isShowRepeatOptionInExistingDalog && this.state.checkedRepeat ? (
                 <TextField
                   id="standard-select-client"
                   select

@@ -273,7 +273,7 @@ class ReactCalendarBase extends Component {
       checkedRepeat: this.state.checkedRepeat, //true,false
       repeatOption: this.state.repeatOption, //"Daily","Weekly","Monthly","Custom"
       newEndRepeat: this.state.newEndRepeat, //"After","On Date"
-      existingNumOccurences: this.state.existingNumOccurences, //"4"
+      newNumOccurences: this.state.newNumOccurences, //"4"
       selectedDateOccurenceEnd: this.state.selectedDateOccurenceEnd, //"2019-09-18 03:41:00"
       newCustomFreq: this.state.newCustomFreq, //"Specific Days","Every x days","Weekly","Montly"
       newRepeatEveryNumDays: this.state.newRepeatEveryNumDays,
@@ -296,7 +296,7 @@ class ReactCalendarBase extends Component {
         alert('Please select "Repeat Option"')
       } else if (!obj.newEndRepeat) {
         alert('Please select "End Repeat"')
-      } else if (obj.newEndRepeat === 'After' && !obj.existingNumOccurences) {
+      } else if (obj.newEndRepeat === 'After' && !obj.newNumOccurences) {
         alert('Please enter "Occurances"')
       } else if (
         obj.newEndRepeat === 'On Date' &&
@@ -344,7 +344,7 @@ class ReactCalendarBase extends Component {
       checkedRepeat: false,
       repeatOption: '',
       newEndRepeat: '',
-      existingNumOccurences: '',
+      newNumOccurences: '',
       selectedDateOccurenceEnd: moment().format('YYYY-MM-DD HH:mm:ss'),
       newCustomFreq: '',
       newRepeatEveryNumDays: '',
@@ -1555,7 +1555,7 @@ class ReactCalendarBase extends Component {
                   variant="outlined"
                   className={classes.textField2}
                   value={this.state.newNumOccurences}
-                  onChange={this.handleChange2('existingNumOccurences')}
+                  onChange={this.handleChange2('newNumOccurences')}
                   margin="normal"
                 />
               ) : null}

@@ -40,10 +40,9 @@ class EventService {
     var end_dates = []
 
     //------------------occurances-----------------------------
-    var existingNumOccurences = formdata.existingNumOccurences //"4"
+    var newNumOccurences = formdata.newNumOccurences //"4"
     var occurances_to_add = 0
-    if (existingNumOccurences)
-      occurances_to_add = parseInt(existingNumOccurences)
+    if (newNumOccurences) occurances_to_add = parseInt(newNumOccurences)
     var occurances_added = 0
     var interval = 0
     var interval_unit = 'days'
@@ -190,7 +189,6 @@ class EventService {
       if (i < start_dates.length - 1) sql += ','
     }
 
-    console.log('query: ', sql)
     try {
       return await query(sql)
     } catch (error) {

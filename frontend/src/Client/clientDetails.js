@@ -385,7 +385,7 @@ class ClientDetails extends React.Component {
     contactZip: '75023',
     contact2ndPhone: '',
     // second contact
-    checkedContact2: false,
+    checkedContact2: true,
     contactFirstName2: null,
     contactLastName2: null,
     contactEmail2: null,
@@ -398,7 +398,7 @@ class ClientDetails extends React.Component {
     contactState2: null,
     contactZip2: null,
     // third contact
-    checkedContact3: false,
+    checkedContact3: true,
     contactFirstName3: null,
     contactLastName3: null,
     contactEmail3: null,
@@ -870,80 +870,80 @@ class ClientDetails extends React.Component {
       } = client
 
       this.setState({
-        clientType: client_type,
-        clientInitials: client_initials,
+        clientType: client_type || '',
+        clientInitials: client_initials || '',
         // CLIENT INFO TAB
-        clientFirstName: client_first_name,
-        clientFacility: facility,
-        clientLastName: client_last_name,
-        clientEmail: email,
+        clientFirstName: client_first_name || '',
+        clientFacility: facility || '',
+        clientLastName: client_last_name || '',
+        clientEmail: email || '',
         clientTitle: title || '',
-        clientTherapist: assi_therapist_full_name,
-        sessionLength: session_length,
-        sessionCost: session_cost,
-        sessionType: session_type,
-        clientCurrentPassword: password,
-        clientConfirmPassword: password,
-        clientPhone: phone,
-        clientStreetAddress: street_address,
-        clientBday: bday,
-        clientCity: city,
-        clientZipCode: zip,
-        clientState: state,
-        clientNotes: notes,
-        multiline: 'Controlled',
+        clientTherapist: assi_therapist_full_name || '',
+        sessionLength: session_length || '',
+        sessionCost: session_cost || '',
+        sessionType: session_type || '',
+        clientCurrentPassword: password || '',
+        clientConfirmPassword: password || '',
+        clientPhone: phone || '',
+        clientStreetAddress: street_address || '',
+        clientBday: bday || '',
+        clientCity: city || '',
+        clientZipCode: zip || '',
+        clientState: state || '',
+        clientNotes: notes || '',
+        multiline: 'Controlled' || '',
         deleteDialog: false,
         // CONTACT TAB
-        contactFirstName: contact_first_name,
-        contactLastName: contact_last_name,
-        contactEmail: contact_email,
-        contactAddress: contact_street_address,
+        contactFirstName: contact_first_name || '',
+        contactLastName: contact_last_name || '',
+        contactEmail: contact_email || '',
+        contactAddress: contact_street_address || '',
         contactTitle: title || '',
-        contactPhone: contact_phone,
-        contactCity: contact_city,
-        contactState: contact_state,
-        contactZip: contact_zip,
+        contactPhone: contact_phone || '',
+        contactCity: contact_city || '',
+        contactState: contact_state || '',
+        contactZip: contact_zip || '',
         contact2ndPhone: contact_secondary_phone || '',
-        contactCheckedRecEmails: contact1_receive_email,
+        contactCheckedRecEmails: contact1_receive_email || '',
         // second contact
-        checkedContact2: contact2_active,
-        contactFirstName2: contact_first_name_2,
-        contactLastName2: contact_last_name_2,
-        contactEmail2: contact_email_2,
-        contactCheckedRecEmails2: contact2_receive_email,
-        contactTitle2: contact_title_2,
-        contactPhone2: contact_phone_2,
-        contact2ndPhone2: contact_secondary_phone_2,
-        contactAddress2: contact_street_address_2,
-        contactCity2: contact_city_2,
-        contactState2: contact_state_2,
-        contactZip2: contact_zip_2,
+        checkedContact2: contact2_active || false,
+        contactFirstName2: contact_first_name_2 || '',
+        contactLastName2: contact_last_name_2 || '',
+        contactEmail2: contact_email_2 || '',
+        contactCheckedRecEmails2: contact2_receive_email || false,
+        contactTitle2: contact_title_2 || '',
+        contactPhone2: contact_phone_2 || '',
+        contact2ndPhone2: contact_secondary_phone_2 || '',
+        contactAddress2: contact_street_address_2 || '',
+        contactCity2: contact_city_2 || '',
+        contactState2: contact_state_2 || '',
+        contactZip2: contact_zip_2 || '',
         // third contact
-        checkedContact3: contact3_active,
-        contactFirstName3: contact_first_name_3,
-        contactLastName3: contact_last_name_3,
-        contactEmail3: contact_email_3,
-        contactCheckedRecEmails3: contact3_receive_email,
-        contactTitle3: contact_title_3,
-        contactPhone3: contact_phone_3,
-        contact2ndPhone3: contact_secondary_phone_3,
-        contactAddress3: contact_street_address_3,
-        contactCity3: contact_city_3,
-        contactState3: contact_state_3,
-        contactZip3: contact_zip_3,
+        checkedContact3: contact3_active || false,
+        contactFirstName3: contact_first_name_3 || '',
+        contactLastName3: contact_last_name_3 || '',
+        contactEmail3: contact_email_3 || '',
+        contactCheckedRecEmails3: contact3_receive_email || false,
+        contactTitle3: contact_title_3 || '',
+        contactPhone3: contact_phone_3 || '',
+        contact2ndPhone3: contact_secondary_phone_3 || '',
+        contactAddress3: contact_street_address_3 || '',
+        contactCity3: contact_city_3 || '',
+        contactState3: contact_state_3 || '',
+        contactZip3: contact_zip_3 || '',
         // multiline: "Controlled"
         // PAYOR TAB
-        billingFirstName: billing_first_name,
-        billingLastName: billing_last_name,
+        billingFirstName: billing_first_name || '',
+        billingLastName: billing_last_name || '',
         nameOnCard: name_on_card || '',
         cardNum: card_num || '',
-        payorEmail: email,
-        paymentType: payment_type,
-        billingPhone: billing_phone,
-        billingAddress: billing_street_address,
-        billingCity: billing_city,
-        billingZip: billing_zip,
-        billingState: billing_state,
+        payorEmail: email || '',
+        paymentType: payment_type || '',
+        billingPhone: billing_phone || '',
+        billingAddress: billing_street_address || '',
+        billingCity: billing_city || '',
+        billingZip: billing_zip || '',
+        billingState: billing_state || '',
         cvv: cvv || '',
         expDate: card_exp_date || '',
         cardType: card_type || ''
@@ -1503,7 +1503,9 @@ class ClientDetails extends React.Component {
                           control={
                             <Checkbox
                               color="primary"
-                              checked={this.state.contactCheckedRecEmails}
+                              checked={Boolean(
+                                this.state.contactCheckedRecEmails
+                              )}
                               onChange={this.handleChangeChecked(
                                 'contactCheckedRecEmails'
                               )}
@@ -1511,7 +1513,7 @@ class ClientDetails extends React.Component {
                                 root: classes.checkedRoot,
                                 checked: classes.checked
                               }}
-                              value="contactCheckedRecEmails"
+                              value={this.state.contactCheckedRecEmails}
                             />
                           }
                           label="Receive email notifcations"
@@ -1525,7 +1527,7 @@ class ClientDetails extends React.Component {
                         control={
                           <Checkbox
                             color="primary"
-                            checked={this.state.checkedContact2}
+                            checked={Boolean(this.state.checkedContact2)}
                             onChange={this.handleChangeCheck2(
                               'checkedContact2'
                             )}
@@ -1533,7 +1535,7 @@ class ClientDetails extends React.Component {
                               root: classes.checkedRoot,
                               checked: classes.checked
                             }}
-                            value="checkedContact2"
+                            value={this.state.checkedContact2}
                           />
                         }
                         label="Add second contact"
@@ -1679,7 +1681,9 @@ class ClientDetails extends React.Component {
                         control={
                           <Checkbox
                             color="primary"
-                            checked={this.state.contactCheckedRecEmails2}
+                            checked={Boolean(
+                              this.state.contactCheckedRecEmails2
+                            )}
                             onChange={this.handleChangeChecked(
                               'contactCheckedRecEmails2'
                             )}
@@ -1687,7 +1691,7 @@ class ClientDetails extends React.Component {
                               root: classes.checkedRoot,
                               checked: classes.checked
                             }}
-                            value="contactCheckedRecEmails2"
+                            value={this.state.contactCheckedRecEmails2}
                           />
                         }
                         label="Receive email notifcations"
@@ -1702,7 +1706,7 @@ class ClientDetails extends React.Component {
                           control={
                             <Checkbox
                               color="primary"
-                              checked={this.state.checkedContact3}
+                              checked={Boolean(this.state.checkedContact3)}
                               onChange={this.handleChangeCheck3(
                                 'checkedContact3'
                               )}
@@ -1710,7 +1714,7 @@ class ClientDetails extends React.Component {
                                 root: classes.checkedRoot,
                                 checked: classes.checked
                               }}
-                              value="checkedContact3"
+                              value={this.state.checkedContact3}
                             />
                           }
                           label="Add third contact"
@@ -1858,7 +1862,9 @@ class ClientDetails extends React.Component {
                         control={
                           <Checkbox
                             color="primary"
-                            checked={this.state.contactCheckedRecEmails3}
+                            checked={Boolean(
+                              this.state.contactCheckedRecEmails3
+                            )}
                             onChange={this.handleChangeChecked(
                               'contactCheckedRecEmails3'
                             )}
@@ -1866,7 +1872,7 @@ class ClientDetails extends React.Component {
                               root: classes.checkedRoot,
                               checked: classes.checked
                             }}
-                            value="contactCheckedRecEmails3"
+                            value={this.state.contactCheckedRecEmails3}
                           />
                         }
                         label="Receive email notifcations"

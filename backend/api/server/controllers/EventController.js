@@ -19,6 +19,23 @@ class EventController {
     }
   }
 
+  static async insert(req, res) {
+    // if (!req.body.title || !req.body.price || !req.body.description) {
+    //   util.setError(400, 'Please provide complete details');
+    //   return util.send(res);
+    // }
+    console.log('event controller')
+    const newOne = req.body
+    try {
+      const createdOne = await EventService.insertOne(newOne)
+      util.setSuccess(201, 'Event Added!', createdOne)
+      return util.send(res)
+    } catch (error) {
+      util.setError(400, error.message)
+      return util.send(res)
+    }
+  }
+
   static async deleteOne(req, res) {
     const { id } = req.params
 

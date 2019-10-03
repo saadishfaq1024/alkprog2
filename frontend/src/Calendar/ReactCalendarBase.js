@@ -306,23 +306,25 @@ class ReactCalendarBase extends Component {
       } else if (obj.repeatOption === 'Custom' && !obj.newCustomFreq) {
         alert('Please select "Custom Frequency"')
       } else {
-        API.post('/event/insert', obj)
+        API.post('/events/insert', obj)
           // .then(res => console.log(res.data));
-          .then(response => {
+          .then(async response => {
             this.setState({
               obj,
               open: false,
-              redirect: true
+              // redirect: true
             })
+            await this.updateContent()
           })
       }
     } else {
-      API.post('/event/insert', obj).then(response => {
+      API.post('/events/insert', obj).then(async response => {
         this.setState({
           obj,
           open: false,
-          redirect: true
+          // redirect: true
         })
+        await this.updateContent()
       })
       //.then(res => console.log(res.data));
     }
@@ -1522,7 +1524,7 @@ class ReactCalendarBase extends Component {
                 />
               ) : null}
 
-              {this.state.isShowRepeatOptionInExistingDalog && this.state.checkedRepeat ? (
+              {this.state.checkedRepeat ? (
                 <TextField
                   id="standard-select-client"
                   select

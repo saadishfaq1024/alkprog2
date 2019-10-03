@@ -205,10 +205,10 @@ class ReactCalendarBase extends Component {
       information: '',
       intervalIsSet: '',
       checkedRepeat: false,
-      repeatOption: null,
-      newEndRepeat: null,
-      newNumOccurences: null,
-      selectedDateOccurenceEnd: null,
+      repeatOption: false,
+      newEndRepeat: '',
+      newNumOccurences: '',
+      selectedDateOccurenceEnd: '',
       sun: false,
       mon: false,
       tues: false,
@@ -216,9 +216,9 @@ class ReactCalendarBase extends Component {
       thu: false,
       fri: false,
       sat: false,
-      newRepeatEveryNumDays: null,
-      newRepeatEveryNumWeeks: null,
-      newRepeatEveryNumMonths: null,
+      newRepeatEveryNumDays: '',
+      newRepeatEveryNumWeeks: '',
+      newRepeatEveryNumMonths: '',
       selectedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
       endSelectedDate: moment().format('YYYY-MM-DD HH:mm:ss'),
       redirect: false,
@@ -556,7 +556,7 @@ class ReactCalendarBase extends Component {
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value,
-      newCustomFreq: null,
+      newCustomFreq: '',
       sun: false,
       mon: false,
       tues: false,
@@ -602,11 +602,11 @@ class ReactCalendarBase extends Component {
     this.setState({
       [name]: event.target.checked,
       //this will set the values to blank once the window is closed
-      repeatOption: null,
-      newEndRepeat: null,
-      newNumOccurences: null,
-      selectedDateOccurenceEnd: null,
-      existingCustomFreq: null,
+      repeatOption: '',
+      newEndRepeat: '',
+      newNumOccurences: '',
+      selectedDateOccurenceEnd: '',
+      existingCustomFreq: '',
       sun: false,
       mon: false,
       tues: false,
@@ -614,9 +614,9 @@ class ReactCalendarBase extends Component {
       thu: false,
       fri: false,
       sat: false,
-      newRepeatEveryNumDays: null,
-      newRepeatEveryNumWeeks: null,
-      newRepeatEveryNumMonths: null
+      newRepeatEveryNumDays: '',
+      newRepeatEveryNumWeeks: '',
+      newRepeatEveryNumMonths: ''
       // contact 3,
       /* checkedContact3: false,
       contactFirstName3: null,
@@ -1316,7 +1316,7 @@ class ReactCalendarBase extends Component {
                 </MuiPickersUtilsProvider>
               </MuiThemeProvider>
               <MuiPickersUtilsProvider utils={MomentUtils}>
-                <Grid container row>
+                <Grid container>
                   <MuiThemeProvider theme={theme2}>
                     <DatePicker
                       margin="normal"

@@ -58,6 +58,29 @@ class EventController {
       return util.send(res)
     }
   }
+
+  static async deleteSeries(req, res) {
+    const { id } = req.params
+
+    if (!Number(id)) {
+      util.setError(400, 'Please provide a numeric value')
+      return util.send(res)
+    }
+
+    try {
+      const onesToDelete = await EventService.deleteSeries(id)
+
+      if (onesToDelete) {
+        util.setSuccess(200, 'Event deleted')
+      } else {
+        util.setError(404, `Event with the id ${id} cannot be found`)
+      }
+      return util.send(res)
+    } catch (error) {
+      util.setError(400, error)
+      return util.send(res)
+    }
+  }
 }
 
 export default EventController

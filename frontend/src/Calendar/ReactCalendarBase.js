@@ -177,6 +177,7 @@ class ReactCalendarBase extends Component {
 
     this.state = {
       eventId: 0,
+      seriesStartId: 0,
       isShowRepeatOptionInExistingDalog: false,
       deleteDialog: false,
       deleteSuccessSnackbarOpen: false,
@@ -311,7 +312,7 @@ class ReactCalendarBase extends Component {
           .then(async response => {
             this.setState({
               obj,
-              open: false,
+              open: false
               // redirect: true
             })
             await this.updateContent()
@@ -321,7 +322,7 @@ class ReactCalendarBase extends Component {
       API.post('/events/insert', obj).then(async response => {
         this.setState({
           obj,
-          open: false,
+          open: false
           // redirect: true
         })
         await this.updateContent()
@@ -428,22 +429,32 @@ class ReactCalendarBase extends Component {
   }
 
   handleDelete = () => {
-    API.delete(`/events/${this.state.eventId}`)
-      .then(resp => {
-        this.handleCloseExisting()
-        this.setState(state => ({
-          cal_events: state.cal_events.filter(
-            event => event.resource.id !== this.state.eventId
-          )
-        }))
-      })
-      .catch(error => {
-        console.log('ee', error)
-        this.setState({
-          deleteFailureSnackbarOpen: true,
-          deleteClientErrorMsg: error
+    if (this.state.isShowRepeatOptionInExistingDalog)
+      API.delete(`/events/series/${this.state.seriesStartId}`)
+        .then(async resp => {
+          this.handleCloseExisting()
+          await this.updateContent()
         })
-      })
+        .catch(error => {
+          console.log('ee', error)
+          this.setState({
+            deleteFailureSnackbarOpen: true,
+            deleteClientErrorMsg: error
+          })
+        })
+    else
+      API.delete(`/events/${this.state.eventId}`)
+        .then(async resp => {
+          this.handleCloseExisting()
+          await this.updateContent()
+        })
+        .catch(error => {
+          console.log('ee', error)
+          this.setState({
+            deleteFailureSnackbarOpen: true,
+            deleteClientErrorMsg: error
+          })
+        })
     this.handleDeleteDialogClose()
   }
 
@@ -517,13 +528,15 @@ class ReactCalendarBase extends Component {
       fri,
       sat,
       sun,
-      category
+      category,
+      series_start_id
     } = event.resource
 
     if (repeats) this.setState({ isSoleDialog: true })
     else this.setState({ openExisting: true })
     this.setState({
       eventId: id,
+      seriesStartId: series_start_id,
       existingBillType: bill_type || '',
       existingClient: client || '',
       existingTherapist: therapist || '',
@@ -893,7 +906,8 @@ class ReactCalendarBase extends Component {
                   </MuiThemeProvider>
                 </Container>
               )}
-              {this.state.isShowRepeatOptionInExistingDalog && this.state.existingCheckedRepeat ? (
+              {this.state.isShowRepeatOptionInExistingDalog &&
+              this.state.existingCheckedRepeat ? (
                 <TextField
                   id="standard-select-repeatOption"
                   select
@@ -916,7 +930,8 @@ class ReactCalendarBase extends Component {
                 </TextField>
               ) : null}
 
-              {this.state.isShowRepeatOptionInExistingDalog && this.state.existingRepeatOption === 'Custom' ? (
+              {this.state.isShowRepeatOptionInExistingDalog &&
+              this.state.existingRepeatOption === 'Custom' ? (
                 <TextField
                   id="standard-select-client"
                   select
@@ -1025,21 +1040,21 @@ class ReactCalendarBase extends Component {
                 </MuiThemeProvider>
               ) : null}
 
-              {this.state.isShowRepeatOptionInExistingDalog && this.state.existingCustomFreq === 'Every x days' ? (
+              {this.state.isShowRepeatOptionInExistingDalog &&
+              this.state.existingCustomFreq === 'Every x days' ? (
                 <TextField
                   id="standard-newNumOccurences"
                   label="Every Number of Days"
                   variant="outlined"
                   className={classes.textField2}
                   value={this.state.existingEveryNumDays}
-                  onChange={this.handleChangeCustom(
-                    'existingEveryNumDays'
-                  )}
+                  onChange={this.handleChangeCustom('existingEveryNumDays')}
                   margin="normal"
                 />
               ) : null}
 
-              {this.state.isShowRepeatOptionInExistingDalog && this.state.existingCustomFreq === 'Weekly' ? (
+              {this.state.isShowRepeatOptionInExistingDalog &&
+              this.state.existingCustomFreq === 'Weekly' ? (
                 <TextField
                   id="standard-newNumOccurences"
                   label="Every Number of Weeks"
@@ -1067,7 +1082,8 @@ class ReactCalendarBase extends Component {
                 />
               ) : null}
 
-              {this.state.isShowRepeatOptionInExistingDalog && this.state.existingCheckedRepeat ? (
+              {this.state.isShowRepeatOptionInExistingDalog &&
+              this.state.existingCheckedRepeat ? (
                 <TextField
                   id="standard-select-client"
                   select
@@ -1091,7 +1107,8 @@ class ReactCalendarBase extends Component {
                 </TextField>
               ) : null}
 
-              {this.state.isShowRepeatOptionInExistingDalog && this.state.existingEndRepeat === 'After' ? (
+              {this.state.isShowRepeatOptionInExistingDalog &&
+              this.state.existingEndRepeat === 'After' ? (
                 <TextField
                   id="standard-newNumOccurences"
                   label="Occurences"

@@ -210,6 +210,10 @@ class TransactionsTable extends React.Component {
   }
 
   async componentDidMount() {
+    await this.updateTableContent()
+  }
+
+  async updateTableContent() {
     try {
       const transactionsResp = await API.get('/accounts/transactions')
       const invoiceData = transactionsResp.data.data
@@ -219,7 +223,6 @@ class TransactionsTable extends React.Component {
       console.log('Transaction data fetching error: ', error)
     }
   }
-
   componentWillUnmount() {}
 
   handleSelectAllClick = event => {
@@ -230,11 +233,16 @@ class TransactionsTable extends React.Component {
     this.setState({ selected: [] })
   }
 
+  async componentDidUpdate(prevProps) {
+    if (prevProps.toggleUpdated !== this.props.toggleUpdated) {
+      await this.updateTableContent()
+    }
+  }
+
   handleClick = (event, id) => {
     const { selected } = this.state
     const selectedIndex = selected.indexOf(id)
     let newSelected = []
-
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, id)
     } else if (selectedIndex === 0) {

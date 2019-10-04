@@ -23,13 +23,12 @@ import MomentUtils from '@date-io/moment'
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Container from '@material-ui/core/Container'
-import DeleteIcon from "@material-ui/icons/Delete";
+import DeleteIcon from '@material-ui/icons/Delete'
 
 import Grid from '@material-ui/core/Grid'
 import { Redirect } from 'react-router-dom'
 
 import API from '../utils/API'
-import { async } from 'q'
 
 moment().toDate()
 
@@ -210,7 +209,7 @@ class TransactionsActions extends React.Component {
       amount: this.state.amount
     }
     API.post('accounts/transactions', transObj).then(async response => {
-      await this.updateContent()
+      this.props.onUpdated()
     })
   }
 
@@ -393,10 +392,6 @@ class TransactionsActions extends React.Component {
                   </MuiThemeProvider>
                 </Dialog>
 
-                {this.state.redirect ? (
-                  <Redirect push to="/accountsandinv/n" />
-                ) : null}
-
                 {/* Date range button */}
                 <Button
                   variant="contained"
@@ -469,7 +464,11 @@ class TransactionsActions extends React.Component {
                   Search
                 </Button>
                 {/* Delete button */}
-                <Button variant="contained" className={classes.button}>
+                <Button
+                  variant="contained"
+                  className={classes.button}
+                  onClick={this.handleDelete}
+                >
                   <DeleteIcon
                     className={classNames(classes.leftIcon, classes.iconSmall)}
                   />

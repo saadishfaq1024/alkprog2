@@ -3,7 +3,7 @@ import { query } from './connection'
 class TransactionService {
   static async getAll() {
     var sql =
-      "SELECT DATE_FORMAT(date, '%m/%d/%Y') as transDate, transType, payor, amount, method, description  from transactions"
+      "SELECT id, DATE_FORMAT(date, '%m/%d/%Y') as transDate, transType, payor, amount, method, description  from transactions"
 
     try {
       return await query(sql)

@@ -24,13 +24,19 @@ const styles = theme => ({
 })
 class AccountsInvoicesTabs extends React.Component {
   state = {
-    value: 0
+    value: 0,
+    toggleTransactionsTableUpdated: false
   }
 
   handleChangeTab = (event, value) => {
     this.setState({ value })
   }
 
+  updateTransactionsTable = () => {
+    this.setState(prevState => ({
+      toggleTransactionsTableUpdated: !prevState.toggleTransactionsTableUpdated
+    }))
+  }
   render() {
     const { classes } = this.props
     const { value } = this.state
@@ -54,8 +60,14 @@ class AccountsInvoicesTabs extends React.Component {
 
         {value === 0 && <AccountsActions />}
         {/* {value === 0 && <AccountsTablev3 />} */}
-        {value === 1 && <TransactionsActions />}
-        {value === 1 && <TransactionsTablev3 />}
+        {value === 1 && (
+          <TransactionsActions onUpdated={this.updateTransactionsTable} />
+        )}
+        {value === 1 && (
+          <TransactionsTablev3
+            toggleUpdated={this.state.toggleTransactionsTableUpdated}
+          />
+        )}
         {value === 2 && <InvoiceActions />}
         {value === 2 && <InvoicesTablev3 />}
       </div>

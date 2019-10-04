@@ -467,7 +467,7 @@ class TransactionsActions extends React.Component {
                 <Button
                   variant="contained"
                   className={classes.button}
-                  onClick={this.handleDelete}
+                  onClick={this.props.onDelete}
                 >
                   <DeleteIcon
                     className={classNames(classes.leftIcon, classes.iconSmall)}

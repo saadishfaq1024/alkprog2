@@ -13,6 +13,8 @@ import Blue from '@material-ui/core/colors/blue'
 import AccountsTablev3 from '../Tables/accountsTablev3'
 import TransactionsTablev3 from '../Tables/transactionsTablev3'
 
+import API from '../utils/API'
+
 const styles = theme => ({
   root: {
     width: '100%',
@@ -25,7 +27,8 @@ const styles = theme => ({
 class AccountsInvoicesTabs extends React.Component {
   state = {
     value: 0,
-    toggleTransactionsTableUpdated: false
+    toggleTransactionsTableUpdated: false,
+    selectedTransactionIds: []
   }
 
   handleChangeTab = (event, value) => {
@@ -36,6 +39,23 @@ class AccountsInvoicesTabs extends React.Component {
     this.setState(prevState => ({
       toggleTransactionsTableUpdated: !prevState.toggleTransactionsTableUpdated
     }))
+  }
+
+  deleteTransactions = () => {
+    API.post(
+      '/accounts/transactions/deleteMany',
+      this.state.selectedTransactionIds
+    )
+      .then(resp => {
+        this.updateTransactionsTable()
+      })
+      .catch(error => {
+        console.log('Error ocurred while deleting transactions: ', error)
+      })
+  }
+
+  handleTransactionsSelected = ids => {
+    this.setState({ selectedTransactionIds: [...ids] })
   }
   render() {
     const { classes } = this.props
@@ -61,11 +81,15 @@ class AccountsInvoicesTabs extends React.Component {
         {value === 0 && <AccountsActions />}
         {/* {value === 0 && <AccountsTablev3 />} */}
         {value === 1 && (
-          <TransactionsActions onUpdated={this.updateTransactionsTable} />
+          <TransactionsActions
+            onUpdated={this.updateTransactionsTable}
+            onDelete={this.deleteTransactions}
+          />
         )}
         {value === 1 && (
           <TransactionsTablev3
             toggleUpdated={this.state.toggleTransactionsTableUpdated}
+            onSelectedUpdated={this.handleTransactionsSelected}
           />
         )}
         {value === 2 && <InvoiceActions />}

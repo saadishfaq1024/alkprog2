@@ -41,6 +41,24 @@ class TransactionService {
       throw error
     }
   }
+
+  static async deleteMany(ids) {
+    if (!ids || ids.length === 0) throw Error('ids not valid.')
+    let sql = 'DELETE FROM transactions WHERE id IN ('
+    for (const id of ids) {
+      sql += id + ', '
+    }
+
+    sql = sql.substr(0, sql.length - 2)
+    sql += ')'
+
+    try {
+      return await query(sql)
+    } catch (error) {
+      console.log('exception: ', error)
+      throw error
+    }
+  }
 }
 
 export default TransactionService

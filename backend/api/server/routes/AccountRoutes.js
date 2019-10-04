@@ -6,5 +6,6 @@ const router = Router()
 router.get('/transactions', AccountController.getAllTransaction)
 router.delete('/transactions/:id', AccountController.deleteOneTransaction)
 router.post('/transactions', AccountController.addTransaction)
+router.post('/transactions/deleteMany', AccountController.deleteMany)
 // router.post('/insert', AccountController.insertOne)
 export default router

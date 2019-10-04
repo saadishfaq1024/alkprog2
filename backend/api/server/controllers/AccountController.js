@@ -63,6 +63,17 @@ class AccountController {
       return util.send(res)
     }
   }
+
+  static async deleteMany(req, res) {
+    try {
+      const createdOne = await TransactionService.deleteMany(req.body)
+      util.setSuccess(201, 'Transaction Added!', createdOne)
+      return util.send(res)
+    } catch (error) {
+      util.setError(400, error.message)
+      return util.send(res)
+    }
+  }
 }
 
 export default AccountController

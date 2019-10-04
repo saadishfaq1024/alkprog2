@@ -23,6 +23,7 @@ import MomentUtils from '@date-io/moment'
 import { MuiPickersUtilsProvider, DatePicker } from '@material-ui/pickers'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Container from '@material-ui/core/Container'
+import DeleteIcon from "@material-ui/icons/Delete";
 
 import Grid from '@material-ui/core/Grid'
 import { Redirect } from 'react-router-dom'
@@ -466,6 +467,13 @@ class TransactionsActions extends React.Component {
                     className={classNames(classes.leftIcon, classes.iconSmall)}
                   />
                   Search
+                </Button>
+                {/* Delete button */}
+                <Button variant="contained" className={classes.button}>
+                  <DeleteIcon
+                    className={classNames(classes.leftIcon, classes.iconSmall)}
+                  />
+                  Delete
                 </Button>
               </Grid>
             </Paper>

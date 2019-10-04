@@ -211,6 +211,7 @@ class TransactionsActions extends React.Component {
     API.post('accounts/transactions', transObj).then(async response => {
       this.props.onUpdated()
     })
+    this.handleCloseTransactions()
   }
 
   handleErrorOpen = () => {

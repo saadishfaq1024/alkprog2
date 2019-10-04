@@ -164,16 +164,15 @@ class EventService {
       }
     }
 
-    let sql =
-      'INSERT INTO testevent (title, bill_type, client, therapist, location, category, start, end ) VALUES'
-    for (let i = 0; i < start_dates.length; i++) {
+    var sql =
+      'INSERT INTO testevent (title, bill_type, client, therapist, location, category, start, end, repeats, repeat_option, end_repeat, num_occurences ) VALUES'
+    for (var i = 0; i < start_dates.length; i++) {
       sql +=
         " ('" +
         newClient +
         "','" +
         newBillType +
         "','" +
-        //newClientType + "','" +
         newClient +
         "','" +
         newTherapist +
@@ -185,10 +184,17 @@ class EventService {
         start_dates[i] +
         "','" +
         end_dates[i] +
+        "','" +
+        checkedRepeat +
+        "','" +
+        repeatOption +
+        "','" +
+        newEndRepeat +
+        "','" +
+        newNumOccurences +
         "')"
       if (i < start_dates.length - 1) sql += ','
     }
-
     try {
       return await query(sql)
     } catch (error) {

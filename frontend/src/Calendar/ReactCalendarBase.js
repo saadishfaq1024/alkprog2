@@ -369,7 +369,7 @@ class ReactCalendarBase extends Component {
       const therapistsResp = await API.get('/members/getTherapists')
       const clientsResp = await API.get('/clients/all')
       const cal_events =
-        eventsResp.data.data.map(event => {
+        (eventsResp.data.data || []).map(event => {
           const { title, start, end, ...resource } = event
           return {
             title,
@@ -532,7 +532,7 @@ class ReactCalendarBase extends Component {
       series_start_id
     } = event.resource
 
-    if (repeats) this.setState({ isSoleDialog: true })
+    if (repeats === 'true') this.setState({ isSoleDialog: true })
     else this.setState({ openExisting: true })
     this.setState({
       eventId: id,

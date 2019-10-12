@@ -166,7 +166,7 @@ class EventService {
 
     try {
       let insertFirstSql =
-        'INSERT INTO testevent (title, bill_type, client, therapist, location, category, start, end, repeats, repeat_option, end_repeat, num_occurences ) VALUES' +
+        'INSERT INTO testevent (title, bill_type, client, therapist, location, category, start, end, repeats, custom_frequency, repeat_option, end_repeat, end_date_occurrence, num_occurences, repeat_num_days, sun, mon, tues, wed, thu, fri, sat) VALUES' +
         " ('" +
         newClient +
         "','" +
@@ -186,11 +186,31 @@ class EventService {
         "','" +
         checkedRepeat +
         "','" +
+        newCustomFreq +
+        "','" +
         repeatOption +
         "','" +
         newEndRepeat +
         "','" +
+        endSelectedDate +
+        "','" +
         newNumOccurences +
+        "','" +
+        newRepeatEveryNumDays +
+        "','" +
+        sun +
+        "','" +
+        mon +
+        "','" +
+        tues +
+        "','" +
+        wed +
+        "','" +
+        thu +
+        "','" +
+        fri +
+        "','" +
+        sat +
         "')"
 
       const firstQueryResult = await query(insertFirstSql)

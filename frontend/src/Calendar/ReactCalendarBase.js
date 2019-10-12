@@ -84,13 +84,20 @@ const navStyle = {
 
 const theme = createMuiTheme({
   palette: {
-    primary: { main: '#b2dfdb' }
+    primary: { main: '#b2dfdb' },
+    secondary: { main: '#f44336' }
   }
 })
 
 const theme2 = createMuiTheme({
   palette: {
     primary: { main: '#00838f' }
+  }
+})
+
+const deleteTheme = createMuiTheme({
+  palette: {
+    primary: { main: '#f44336' }
   }
 })
 
@@ -183,7 +190,7 @@ class ReactCalendarBase extends Component {
       deleteSuccessSnackbarOpen: false,
       deleteFailureSnackbarOpen: false,
       isSoleDialog: false,
-      cal_events: [
+      calEvents: [
         //State is updated via componentDidMount
       ],
       therapistData: [],
@@ -368,7 +375,7 @@ class ReactCalendarBase extends Component {
       const eventsResp = await API.get('/events')
       const therapistsResp = await API.get('/members/getTherapists')
       const clientsResp = await API.get('/clients/all')
-      const cal_events =
+      const calEvents =
         (eventsResp.data.data || []).map(event => {
           const { title, start, end, ...resource } = event
           return {
@@ -383,7 +390,7 @@ class ReactCalendarBase extends Component {
 
       this.setState(
         {
-          cal_events,
+          calEvents,
           therapistData,
           clientData
         },
@@ -507,8 +514,12 @@ class ReactCalendarBase extends Component {
 
   /* show existing event dialog box */
   handleClickOpen2 = event => {
+    const { id, series_start_id } = event.resource
+
+    const firstEvent = this.state.calEvents.find(
+      event => event.resource.series_start_id === series_start_id
+    )
     const {
-      id,
       title,
       bill_type,
       client,
@@ -528,12 +539,12 @@ class ReactCalendarBase extends Component {
       fri,
       sat,
       sun,
-      category,
-      series_start_id
-    } = event.resource
+      category
+    } = firstEvent.resource
 
     if (repeats === 'true') this.setState({ isSoleDialog: true })
     else this.setState({ openExisting: true })
+
     this.setState({
       eventId: id,
       seriesStartId: series_start_id,
@@ -683,7 +694,7 @@ class ReactCalendarBase extends Component {
     const { classes } = this.props
     //const classes = withStyles();
     const {
-      cal_events,
+      calEvents,
       therapistData,
       clientData,
       selectedDate,
@@ -701,10 +712,10 @@ class ReactCalendarBase extends Component {
           <Calendar
             className={classes.root}
             selectable
-            startAccessor={cal_events => new Date(cal_events.start)}
-            endAccessor={cal_events => new Date(cal_events.end)}
+            startAccessor={calEvents => new Date(calEvents.start)}
+            endAccessor={calEvents => new Date(calEvents.end)}
             localizer={localizer}
-            events={cal_events}
+            events={calEvents}
             views={['month', 'week', 'day']}
             defaultDate={new Date()}
             defaultView="month"
@@ -725,9 +736,15 @@ class ReactCalendarBase extends Component {
         >
           <form className={classes.container} noValidate autoComplete="off">
             <DialogContent>
-              <IconButton onClick={this.handleRedirectDocs}>
-                <NoteAddIcon color="primary" fontSize="large" />
-              </IconButton>
+              <Grid>
+                {!this.state.isShowRepeatOptionInExistingDalog && (
+                  <IconButton onClick={this.handleRedirectDocs}>
+                    <MuiThemeProvider theme={theme}>
+                      <NoteAddIcon color="primary" fontSize="large" />
+                    </MuiThemeProvider>
+                  </IconButton>
+                )}
+              </Grid>
               <TextField
                 required
                 id="bill_type"
@@ -1135,9 +1152,13 @@ class ReactCalendarBase extends Component {
                   </MuiThemeProvider>
                 </MuiPickersUtilsProvider>
               ) : null}
-              <IconButton onClick={this.handleDeleteDialogOpen}>
-                <DeleteForeverIcon color="secondary" fontSize="large" />
-              </IconButton>
+              <Grid>
+                <MuiThemeProvider theme={theme}>
+                  <IconButton onClick={this.handleDeleteDialogOpen}>
+                    <DeleteForeverIcon color="secondary" fontSize="large" />
+                  </IconButton>
+                </MuiThemeProvider>
+              </Grid>
               <Snackbar
                 anchorOrigin={{
                   vertical: 'top',

@@ -56,6 +56,7 @@ class EventService {
 
     var date_limit = moment(start_date_to_add).add(1, 'seconds')
     var selectedDateOccurenceEnd = formdata.selectedDateOccurenceEnd // repeat end date "2019-09-18 03:41:00"
+
     if (selectedDateOccurenceEnd) {
       var date_limit_str =
         selectedDateOccurenceEnd.substring(0, 10) +
@@ -63,6 +64,8 @@ class EventService {
         selectedDate.substring(11, 19)
       date_limit = moment(date_limit_str, 'YYYY-MM-DD HH:mm:ss')
     }
+
+    if (selectedDateOccurenceEnd === '') selectedDateOccurenceEnd = selectedDate
     //---------------------------------------------------------
 
     //these logs are added to response just for debugging
@@ -192,7 +195,7 @@ class EventService {
         "','" +
         newEndRepeat +
         "','" +
-        endSelectedDate +
+        selectedDateOccurenceEnd +
         "','" +
         newNumOccurences +
         "','" +

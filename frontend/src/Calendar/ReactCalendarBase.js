@@ -515,10 +515,13 @@ class ReactCalendarBase extends Component {
   /* show existing event dialog box */
   handleClickOpen2 = event => {
     const { id, series_start_id } = event.resource
-
     const firstEvent = this.state.calEvents.find(
       event => event.resource.series_start_id === series_start_id
     )
+    const currentEvent = this.state.calEvents.find(
+      event => event.resource.id === id
+    )
+
     const {
       title,
       bill_type,
@@ -711,7 +714,7 @@ class ReactCalendarBase extends Component {
         <Container style={{ height: 1000 }} maxWidth="lg">
           <Calendar
             className={classes.root}
-            selectable
+            selectable={true}
             startAccessor={calEvents => new Date(calEvents.start)}
             endAccessor={calEvents => new Date(calEvents.end)}
             localizer={localizer}
@@ -728,6 +731,18 @@ class ReactCalendarBase extends Component {
           />
         </Container>
         {this.state.redirect ? <Redirect push to="/calendar/n" /> : null}
+        {this.state.redirectDocs ? (
+          <Redirect
+            push
+            to={{
+              pathname: '/documentation',
+              state: {
+                client: this.state.existingClient,
+                sessionDate: this.state.existingStart.toString().substr(0, 10)
+              }
+            }}
+          />
+        ) : null}
 
         {/* existing dialog */}
         <Dialog

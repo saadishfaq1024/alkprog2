@@ -65,7 +65,8 @@ class EventService {
       date_limit = moment(date_limit_str, 'YYYY-MM-DD HH:mm:ss')
     }
 
-    if (selectedDateOccurenceEnd === '') selectedDateOccurenceEnd = selectedDate
+    if (selectedDateOccurenceEnd == '' || selectedDateOccurenceEnd == null)
+      selectedDateOccurenceEnd = selectedDate
     //---------------------------------------------------------
 
     //these logs are added to response just for debugging

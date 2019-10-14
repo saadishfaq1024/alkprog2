@@ -40,6 +40,7 @@ import NewTitleBarClientDetHideInact from './titleBars/titleBarNewClientDetailsH
 import TitleBarMemDet from './titleBars/titleBarMemberDetails'
 import TitleBarMemDetAct from './titleBars/titleBarMemberDetailsActive'
 import TitleBarTeamMembers from './titleBars/titleBarTeamMembers'
+import TitleBarDocumentation from "./titleBars/titleBarDocumentation";
 import AccountBalanceWallet from '@material-ui/icons/AccountBalanceWallet'
 import TeamMemberActionsHideInactive from './Actions/teamMemberActionsHideInactive'
 import TeamMemberActionsShowAll from './Actions/teamMemberActionsShowAll'
@@ -49,6 +50,7 @@ import ClientActionsHideInactive from './Actions/clientActionsHideInactive'
 import ClientDetails from './Client/clientDetails'
 import MemberDetails from './Member/memberDetails'
 import ReactCalendarBase from './Calendar/ReactCalendarBase'
+import Documentation from "./Calendar/documentation";
 import Blue from '@material-ui/core/colors/blue'
 import BackEndTeamMembersTable from './Tables/backEndTeamMembersTable'
 import BackEndTeamMembersTableActive from './Tables/backEndTeamMembersTableActive'
@@ -490,6 +492,18 @@ class MainApp extends React.Component {
                 <div>
                   <TitleBarAccountsInv />
                   <AccountsInvoicesTabs />
+                </div>
+              )}
+            />
+                
+                
+            <Route
+              exact
+              path="/documentation"
+              render={() => (
+                <div>
+                  <TitleBarDocumentation />
+                  <Documentation />
                 </div>
               )}
             />

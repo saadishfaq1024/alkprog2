@@ -342,6 +342,9 @@ class ReactCalendarBase extends Component {
       newBillType: '',
       //newClientType: "",
       newClient: '',
+      billingEmail: '',
+      sessionCost: 0.0,
+      sessionLength: 0,
       newTherapist: '',
       newLocation: '',
       newCategory: '',
@@ -583,6 +586,8 @@ class ReactCalendarBase extends Component {
   }
 
   handleChange = name => event => {
+    if (name === 'newClient' || name === 'existingClient')
+      this.updateClientInfo(event.target.value)
     this.setState({
       [name]: event.target.value,
       newCustomFreq: '',
@@ -596,6 +601,29 @@ class ReactCalendarBase extends Component {
     })
   }
 
+  updateClientInfo = clientName => {
+    const { clientData } = this.state
+    const currentClient = clientData.find(
+      client => client.client_full_name === clientName
+    )
+    if (currentClient) {
+      const { billing_email, session_length, session_cost } = currentClient
+      this.setState(
+        {
+          billingEmail: billing_email,
+          sessionCost: session_cost,
+          sessionLength: session_length
+        },
+        () => {
+          console.log(
+            this.state.billingEmail,
+            this.state.sessionCost,
+            this.state.sessionLength
+          )
+        }
+      )
+    }
+  }
   handleChange2 = name => event => {
     this.setState({
       [name]: event.target.value

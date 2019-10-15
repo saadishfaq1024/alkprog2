@@ -738,7 +738,8 @@ class ReactCalendarBase extends Component {
               pathname: '/documentation',
               state: {
                 client: this.state.existingClient,
-                sessionDate: this.state.existingStart.toString().substr(0, 10)
+                sessionDate: this.state.existingStart.toString().substr(0, 10),
+                eventId: this.state.eventId
               }
             }}
           />

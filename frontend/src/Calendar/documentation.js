@@ -16,6 +16,7 @@ import Checkbox from '@material-ui/core/Checkbox'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
+import moment from 'moment'
 
 import MySnackbarContentWrapper from '../common/MySnackbarContentWrapper'
 
@@ -141,6 +142,7 @@ class Documentation extends React.Component {
     o_note: '',
     a_note: '',
     p_note: '',
+    calID: '',
     checkedPayor: true,
     checkedFamily: false,
     checkedTherapist: false,
@@ -150,7 +152,8 @@ class Documentation extends React.Component {
   componentDidMount() {
     this.setState({
       client: this.props.location.state.client,
-      sessionDate: this.props.location.state.sessionDate
+      sessionDate: this.props.location.state.sessionDate,
+      calID: this.props.location.state.eventId
     })
   }
   handleChange = name => event => {
@@ -164,6 +167,7 @@ class Documentation extends React.Component {
   render() {
     const { classes } = this.props
 
+    //test
     // const {clientData, therapistData } = this.state;
 
     return (
@@ -189,11 +193,19 @@ class Documentation extends React.Component {
               margin="normal"
               variant="outlined"
             />
+            <TextField
+              id="client-textbox"
+              label="Calendar ID"
+              value={this.state.calID}
+              className={classes.textField}
+              margin="normal"
+              variant="outlined"
+            />
 
             <TextField
               id="session-date"
               label="Session Date"
-              value={this.state.sessionDate}
+              value={moment(this.state.sessionDate).format('MM-DD-YYYY')}
               className={classes.textField}
               margin="normal"
               variant="outlined"

@@ -35,6 +35,9 @@ class EventService {
     var thu = formdata.thu
     var fri = formdata.fri
     var sat = formdata.sat
+    var billingEmail = formdata.billingEmail || ''
+    var sessionCost = formdata.sessionCost || 0
+    var sessionLength = formdata.sessionLength || 0
     var selected_days = [sun, mon, tues, wed, thu, fri, sat]
     var start_dates = []
     var end_dates = []
@@ -170,7 +173,7 @@ class EventService {
 
     try {
       let insertFirstSql =
-        'INSERT INTO testevent (title, bill_type, client, therapist, location, category, start, end, repeats, custom_frequency, repeat_option, end_repeat, end_date_occurrence, num_occurences, repeat_num_days, sun, mon, tues, wed, thu, fri, sat) VALUES' +
+        'INSERT INTO testevent (title, bill_type, client, therapist, location, category, start, end, repeats, custom_frequency, repeat_option, end_repeat, end_date_occurrence, num_occurences, repeat_num_days, sun, mon, tues, wed, thu, fri, sat, billing_email, session_cost, session_set_length) VALUES' +
         " ('" +
         newClient +
         "','" +
@@ -215,7 +218,13 @@ class EventService {
         fri +
         "','" +
         sat +
-        "')"
+        "', '" +
+        billingEmail +
+        "', " +
+        sessionCost +
+        ',' +
+        sessionLength +
+        ')'
 
       const firstQueryResult = await query(insertFirstSql)
 
@@ -281,6 +290,17 @@ class EventService {
     try {
       return await query(sql)
     } catch (error) {
+      throw error
+    }
+  }
+
+  static async addDocNote(newOne) {
+    const sql = `UPDATE testevent SET attendance = ?,  notes = ?  WHERE id = ?`
+    const { attendanceType, regNote, calID } = newOne
+    try {
+      return await query(sql, [attendanceType, regNote, calID])
+    } catch (error) {
+      console.log('exception: ', error)
       throw error
     }
   }

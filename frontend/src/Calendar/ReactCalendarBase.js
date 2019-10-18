@@ -287,6 +287,9 @@ class ReactCalendarBase extends Component {
       newRepeatEveryNumDays: this.state.newRepeatEveryNumDays,
       newRepeatEveryNumWeeks: this.state.newRepeatEveryNumWeeks,
       newRepeatEveryNumMonths: this.state.newRepeatEveryNumMonths,
+      billingEmail: this.state.billingEmail,
+      sessionCost: this.state.sessionCost,
+      sessionLength: this.state.sessionLength,
       sun: +this.state.sun,
       mon: +this.state.mon,
       tues: +this.state.tues,
@@ -545,6 +548,9 @@ class ReactCalendarBase extends Component {
       fri,
       sat,
       sun,
+      billing_email,
+      session_cost,
+      session_length,
       category
     } = firstEvent.resource
 
@@ -576,7 +582,10 @@ class ReactCalendarBase extends Component {
       wed: Boolean(wed),
       thu: Boolean(thu),
       fri: Boolean(fri),
-      sat: Boolean(sat)
+      sat: Boolean(sat),
+      billingEmail: billing_email || '',
+      sessionCost: session_cost || 0.0,
+      sessionLength: session_length || 0
     })
   }
 

@@ -235,7 +235,7 @@ class EventService {
         return firstQueryResult
 
       var sql =
-        'INSERT INTO testevent (title, bill_type, client, therapist, location, category, start, end, repeats, repeat_option, end_repeat, num_occurences,  series_start_id) VALUES'
+        'INSERT INTO testevent (title, bill_type, client, therapist, location, category, start, end, repeats, repeat_option, end_repeat, num_occurences,  series_start_id, billing_email, session_cost, session_set_length) VALUES'
 
       for (let i = 1; i < start_dates.length; i++) {
         sql +=
@@ -265,6 +265,12 @@ class EventService {
           newNumOccurences +
           "'," +
           firstQueryResult.insertId +
+          ", '" +
+          billingEmail +
+          "', " +
+          sessionCost +
+          ', ' +
+          sessionLength +
           ')'
         if (i < start_dates.length - 1) sql += ','
       }
